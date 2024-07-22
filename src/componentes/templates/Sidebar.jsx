@@ -3,7 +3,7 @@ import {FiHome} from "react-icons/fi";
 import {FiArchive} from "react-icons/fi";
 import {AiOutlineDollarCircle} from "react-icons/ai";
 import {HiMiniArrowPathRoundedSquare} from "react-icons/hi2";
-
+ 
 export default function SideBar(){
     return<>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-[100vh]">
