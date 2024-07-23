@@ -4,7 +4,8 @@
 import './App.css'
 import { BrowserRouter as Router, Route, Routes, /*Navigate*/ } from 'react-router-dom';
 import Inicio from './Inicio';
-import SideBar from './componentes/templates/Sidebar';
+import SideBar from './componentes/admin/templates/Sidebar';
+import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
 
 
 function App() {
@@ -14,7 +15,8 @@ function App() {
       <div className="app-container">
         <Routes>
           <Route path="/" element={<Inicio/>} />      
-          <Route path="/menu" element={<SideBar/>} />    
+          <Route path="/menu" element={<SideBar/>} />   
+          <Route path="/menu_vendedor" element={<SideBarVendedor/>}/> 
         </Routes>
       </div>
     </Router>

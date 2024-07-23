@@ -12,7 +12,7 @@ export default function SideBar(){
 
     return<>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen">
-            <div className="flex flex-row h-[70px] w-full mx-6 items-center my-3">
+            <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">
                 <img className="bg-white h-14 w-14 rounded-full mr-2" src="" alt="" />
                 <div className="flex flex-col">
                     <h5 className="font-semibold">Drogería</h5>
@@ -22,14 +22,14 @@ export default function SideBar(){
             <hr className="mb-1 border-[#1e1e1e63]" />
             <div className="flex-1 overflow-y-auto">
                 <ul className="list-none py-[1rem] px-[2rem]">
-                    <li className="mb-[10px] p-2 rounded-md">
+                    <li className="mb-[10px] p-2 rounded-md hover:bg-[#8DB600] transition-colors duration-300">
                         <Link className="flex flex-row items-center" to=""><FiHome className="mr-4 text-xl"/> Inicio</Link>
                     </li>
-                    <li className="mb-[10px] p-2 rounded-md">
+                    <li className="mb-[10px] p-2 rounded-md hover:bg-[#8DB600] transition-colors duration-300">
                         <Link className="flex flex-row items-center" to=""><TbReceiptDollar className="mr-4 text-xl"/>Ventas</Link>
                     </li>
                     <li className="flex flex-col">
-                        <div className="flex flex-row mb-[10px] p-2 rounded-md">
+                        <div className="flex flex-row mb-[10px] p-2 rounded-md hover:bg-[#8DB600] transition-colors duration-300">
                             <Link onClick={() => setIsOpen(!isOpen)} className="flex flex-row items-center  w-full" to="">
                                 <div className="flex-1 flex-row flex">
                                     <FiArchive className="mr-4 text-xl"/>Inventario
@@ -37,14 +37,14 @@ export default function SideBar(){
                                 <IoIosArrowForward className={`mr-4 text-xl transition-transform duration-300 ${isOpen ? "rotate-90" : ""}`} />
                             </Link>
                         </div>
-                        <ul className={`py-[10px] px-[20px] mx-2 ml-2 bg-[#fffcfca8] rounded-md transition-max-height duration-500 ease-in-out overflow-hidden ${isOpen ? "max-h-96" : "max-h-0 px-0 py-0"}`}>
-                                <li className="mb-[1rem] flex flex-row">
+                        <ul className={`mx-2 ml-2 bg-[#fffcfca8] rounded-md transition-max-height duration-500 ease-in-out overflow-hidden ${isOpen ? "max-h-96" : "max-h-0"}`}>
+                            <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
                                 <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl"/>Categorías</Link>
                             </li >
-                                <li className="mb-[1rem] flex flex-row">
+                            <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
                                 <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl"/>Proveedores</Link>
                             </li>
-                                <li className="flex flex-row">
+                            <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
                                 <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl"/>Productos</Link>
                             </li>
                         </ul>
@@ -52,7 +52,7 @@ export default function SideBar(){
                 </ul>
             </div>
             <hr className="mb-4 border-[#1e1e1e63]" />
-            <div className="flex flex-row h-[70px] w-full mx-6 items-center mb-3 ">
+            <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center mb-3 ">
                 <div className="bg-white h-14 w-14 rounded-full mr-2 flex justify-center items-center">
                     <LiaUserTieSolid className="text-6xl"/>
                 </div>
