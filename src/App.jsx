@@ -25,6 +25,7 @@ function App() {
           <Route path="/menu" element={<SideBar />} />
           <Route path="/menu_vendedor" element={<SideBarVendedor />} />
           <Route path="/CrearCategoria" element={<CrearCategoria />} />
+          <Route path="/ver_ventas" element={<VerVentas />}/>
         </Routes>
       </div>
     </Router>
