@@ -4,14 +4,12 @@ import SideBarVendedor from "./SidebarVendedor";
 const TemplateVendedor = ({children}) => {
     return(
         <>
-        <div className="flex flex-row h-full">
-            <div className="flex">
+            <div className="flex flex-row h-screen overflow-hidden">
                 <SideBarVendedor/>
                 <div className="flex-1">
                     {children}
                 </div>
             </div>
-        </div>
         </>
                 
     );

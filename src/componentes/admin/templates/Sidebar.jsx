@@ -11,7 +11,7 @@ export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return <>
-        <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen">
+        <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">
                 <img className="bg-white h-14 w-14 rounded-full mr-2 object-contain" src="/public/img/logo.png" alt="" />
                 <div className="flex flex-col">

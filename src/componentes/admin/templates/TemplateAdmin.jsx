@@ -4,14 +4,12 @@ import SideBar from "./Sidebar";
 const TemplateAdmin = ({children}) => {
     return(
         <>
-        <div className="flex flex-row h-full">
-            <div className="flex">
+            <div className="flex flex-row h-screen overflow-hidden">
                 <SideBar/>
-                <div className="flex-1">
+                <div className="flex-1 overflow-auto">
                     {children}
                 </div>
             </div>
-        </div>
         </>
                 
     );
