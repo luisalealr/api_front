@@ -3,9 +3,39 @@ const InicioSesion = () => {
 
     return(
         <>
-        <div className="bg-[#D0F25E] max-w-fit max-h-fit">
-
+        <div className="bg-[#D0F25E] h-[100vh] w-[100%] flex flex-row">
+            <div className="w-[30%] flex-1 flex flex-col justify-center items-center">
+                <div className="w-[70%] flex flex-col h-[20%] justify-evenly">
+                    <h3 className="text-2xl">Droguería</h3>
+                    <h1 className="text-3xl">La Nueva Esperanza</h1>
+                </div>
+                <div className="w-[60%] mt-4 flex flex-col justify-center items-center">
+                    <img className="rounded-full h-auto w-[100%]" src="../../public/img/logo.png" alt="" />
+                </div>
+            </div>
+            <div className="bg-white w-[60%] rounded-l-[40px] overflow-hidden flex flex-col justify-center items-center">
+                <div className="p-6 flex flex-col h-[70%] w-[60%] justify-evenly items-center">
+                    <div className="flex flex-col h-[20%] w-full justify-between items-center">
+                        <h3 className="text-3xl">Iniciar Sesión</h3>
+                        <hr className="mb-1 border-[#1e1e1e63] w-full" />
+                    </div>
+                    <form action="" className="flex flex-col h-full w-full justify-evenly items-center">
+                        <label className="w-[90%] text-xl" htmlFor="">Usuario</label>
+                        <select  className="text-gray-500 text-lg rounded-lg bg-[#EBEBEB] border-none w-[90%]" name="" id="" required>
+                            <option  value="">Seleccione un usuario</option>
+                            <option value="">Administrador</option>
+                            <option value="">Vendedor</option>
+                        </select>
+                        <label className="w-[90%] text-xl" htmlFor="">Contraseña</label>
+                        <input placeholder="Introduzca su contraseña aquí" className="text-lg rounded-lg bg-[#EBEBEB] border-none w-[90%]" type="password" required/>
+                        <hr className="mb-1 border-[#1e1e1e63] w-full" />
+                        <button className="bg-[#D0F25E] py-2 px-10 rounded-lg text-lg">Iniciar Sesión</button>
+                    </form>
+                </div>
+                    
+            </div>
         </div>
+
         </>
     );
 };
