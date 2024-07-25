@@ -32,7 +32,7 @@ export default function SideBarVendedor(){
                 </div>
                 <div className="flex flex-col">
                     <h5 className="font-semibold">Vendedor</h5>
-                    <Link to=""><HiMiniArrowPathRoundedSquare className="text-2xl"/></Link>
+                    <Link to="/login"><HiMiniArrowPathRoundedSquare className="text-2xl"/></Link>
                 </div>
             </div>
         </div>

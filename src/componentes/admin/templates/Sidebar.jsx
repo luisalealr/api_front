@@ -48,7 +48,7 @@ export default function SideBar() {
                                 <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl" />Productos</Link>
                             </li>
                         </ul>
-                    </li>
+                    </li> 
                 </ul>
             </div>
             <hr className="mb-4 border-[#1e1e1e63]" />
@@ -58,7 +58,7 @@ export default function SideBar() {
                 </div>
                 <div className="flex flex-col">
                     <h5 className="font-semibold">Administrador</h5>
-                    <Link to=""><HiMiniArrowPathRoundedSquare className="text-2xl" /></Link>
+                    <Link to="/login"><HiMiniArrowPathRoundedSquare className="text-2xl" /></Link>
                 </div>
             </div>
         </div>
