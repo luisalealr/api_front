@@ -8,7 +8,7 @@ const TablaVentas = ({ numeroFactura, fecha, cantidadProductos, precioTotal, pro
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
-  };
+  }; 
     return<>
         <tr className='text-left h-8 align-middle'>
             <td onClick={handleToggle} className="cursor-pointer ">

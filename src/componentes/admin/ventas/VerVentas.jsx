@@ -137,7 +137,7 @@ const VerVentas = () => {
                     <h5>Filtro</h5>
                   </div>
                   {isFilterVisible && (
-                  <div className="absolute left-80 top-24 mt-2 w-auto flex flex-col text-sm bg-gray-200 py-2 px-6 rounded-md shadow-xl">
+                  <div className="border border-[#999999] absolute left-80 top-24 mt-2 w-auto flex flex-col text-sm bg-gray-200 py-2 px-6 rounded-md shadow-xl">
                       <div className="flex flex-col">
                         <h5>Fecha</h5>
                         <label htmlFor="">Primera Fecha</label>
@@ -154,8 +154,7 @@ const VerVentas = () => {
                   <input type="text" placeholder="Buscar venta" className="h-8 border-none rounded-md" />
                 </div>
               </div>
-              <div className="bg-[#D0F25E] h-6 w-full">
-              </div>
+              <div className="bg-[#D0F25E] h-6 w-full"></div>
               <table>
                 <thead className="bg-[#95A09D] text-left">
                   <tr >
@@ -167,7 +166,6 @@ const VerVentas = () => {
                     <th>Acciones</th>
                   </tr>
                 </thead>
-              
               <tbody>
                   {facturas.map((factura, index) => (
                       <TablaVentas

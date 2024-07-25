@@ -10,6 +10,7 @@ import InicioSesion from './componentes/InicioSesion';
 import VerVentas from './componentes/admin/ventas/VerVentas';
 
 import CrearCategoria from './componentes/admin/CrearCategoria';
+import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
 
 function App() {
   //const { user } = useUser();
@@ -23,9 +24,10 @@ function App() {
           <Route path="/menu_vendedor" element={<SideBarVendedor />} />
           <Route path="/CrearCategoria" element={<CrearCategoria />} />
           <Route path="/ver_ventas" element={<VerVentas />}/>
+          <Route path="/registrar_venta" element={<RegistrarVentas/>}/>
         </Routes>
       </div>
     </Router>
   );
 }
-export default App
+export default App;
