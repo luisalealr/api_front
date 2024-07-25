@@ -11,7 +11,7 @@ export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
 
     return <>
-        <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen">
+        <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">
                 <img className="bg-white h-14 w-14 rounded-full mr-2 object-contain" src="/public/img/logo.png" alt="" />
                 <div className="flex flex-col">
@@ -48,7 +48,7 @@ export default function SideBar() {
                                 <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl" />Productos</Link>
                             </li>
                         </ul>
-                    </li>
+                    </li> 
                 </ul>
             </div>
             <hr className="mb-4 border-[#1e1e1e63]" />
@@ -58,7 +58,7 @@ export default function SideBar() {
                 </div>
                 <div className="flex flex-col">
                     <h5 className="font-semibold">Administrador</h5>
-                    <Link to=""><HiMiniArrowPathRoundedSquare className="text-2xl" /></Link>
+                    <Link to="/login"><HiMiniArrowPathRoundedSquare className="text-2xl" /></Link>
                 </div>
             </div>
         </div>

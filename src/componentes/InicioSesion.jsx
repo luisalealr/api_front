@@ -21,15 +21,15 @@ const InicioSesion = () => {
                     </div>
                     <form action="" className="flex flex-col h-full w-full justify-evenly items-center">
                         <label className="w-[90%] text-xl" htmlFor="">Usuario</label>
-                        <select  className="text-gray-500 text-lg rounded-lg bg-[#EBEBEB] border-none w-[90%]" name="" id="" required>
+                        <select  className="text-gray-500 text-lg rounded-lg bg-[#EBEBEB] border-none w-[90%] shadow" name="" id="" required>
                             <option  value="">Seleccione un usuario</option>
                             <option value="">Administrador</option>
                             <option value="">Vendedor</option>
                         </select>
                         <label className="w-[90%] text-xl" htmlFor="">Contraseña</label>
-                        <input placeholder="Introduzca su contraseña aquí" className="text-lg rounded-lg bg-[#EBEBEB] border-none w-[90%]" type="password" required/>
+                        <input placeholder="Introduzca su contraseña aquí" className="shadow text-lg rounded-lg bg-[#EBEBEB] border-none w-[90%]" type="password" required/>
                         <hr className="mb-1 border-[#1e1e1e63] w-full" />
-                        <button className="bg-[#D0F25E] py-2 px-10 rounded-lg text-lg">Iniciar Sesión</button>
+                        <button className="bg-[#D0F25E] py-2 px-10 rounded-lg text-lg hover:bg-[#97b33c] shadow">Iniciar Sesión</button>
                     </form>
                 </div>
                     
