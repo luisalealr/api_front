@@ -21,9 +21,6 @@ function App() {
           <Route path="/login" element={<InicioSesion />} />
           <Route path="/menu" element={<SideBar />} />
           <Route path="/menu_vendedor" element={<SideBarVendedor />} />
-          <Route path="/" element={<Inicio />} />
-          <Route path="/menu" element={<SideBar />} />
-          <Route path="/menu_vendedor" element={<SideBarVendedor />} />
           <Route path="/CrearCategoria" element={<CrearCategoria />} />
           <Route path="/ver_ventas" element={<VerVentas />}/>
         </Routes>

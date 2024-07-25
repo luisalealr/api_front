@@ -1,6 +1,7 @@
 import TemplateAdmin from "../templates/TemplateAdmin";
 import TablaVentas from "./TablaVentas";
 import { HiFilter } from "react-icons/hi";
+import { IoSearch } from "react-icons/io5";
 
 const facturas = [
     {
@@ -124,13 +125,31 @@ const VerVentas = () => {
               <div className="bg-[#D0F25E]">
                   <h2 className="py-2 px-6 font-semibold text-xl">Ventas</h2>
               </div>
-              <div className="w-full h-">
-                <div className="flex flex-row w-[90px] border border-black justify-center items-center rounded-md">
+              <div className="w-full h-16 flex items-center">
+                <div className="flex flex-row w-[90px] mx-9 py-1 border border-black justify-center items-center rounded-md cursor-pointer">
                   <HiFilter color="rgba(141, 182, 0, 0.79)" fontSize={25}/>
                   <h5>Filtrar</h5>
                 </div>
+                <div className="border border-black rounded-md flex flex-row items-center">
+                  <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1"/>
+                  <input type="text" placeholder="Buscar venta" className="h-8 border-none rounded-md" />
+                </div>
               </div>
-              <div className="">
+              <div className="bg-[#D0F25E] h-6 w-full">
+              </div>
+              <table>
+                <thead className="bg-[#95A09D]">
+                  <tr>
+                    <th></th>
+                    <th>N° de la venta</th>
+                    <th>Fecha</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+              
+              <tbody>
                   {facturas.map((factura, index) => (
                       <TablaVentas
                           key={index}
@@ -142,7 +161,8 @@ const VerVentas = () => {
                           productos={factura.productos}
                       />
                   ))}
-              </div>
+                </tbody>
+              </table>
             </div>
         </TemplateAdmin>
     </>
