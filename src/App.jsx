@@ -8,9 +8,9 @@ import SideBar from './componentes/admin/templates/Sidebar';
 import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
 import InicioSesion from './componentes/InicioSesion';
 import VerVentas from './componentes/admin/ventas/VerVentas';
-
 import CrearCategoria from './componentes/admin/CrearCategoria';
 import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
+import GuardarProve from './componentes/admin/GuardarProve';
 
 function App() {
   //const { user } = useUser();
@@ -23,8 +23,9 @@ function App() {
           <Route path="/menu" element={<SideBar />} />
           <Route path="/menu_vendedor" element={<SideBarVendedor />} />
           <Route path="/CrearCategoria" element={<CrearCategoria />} />
-          <Route path="/ver_ventas" element={<VerVentas />}/>
-          <Route path="/registrar_venta" element={<RegistrarVentas/>}/>
+          <Route path="/ver_ventas" element={<VerVentas />} />
+          <Route path="/registrar_venta" element={<RegistrarVentas />} />
+          <Route path="/GuardarProve" element={<GuardarProve />} />
         </Routes>
       </div>
     </Router>
