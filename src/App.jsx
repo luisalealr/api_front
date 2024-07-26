@@ -11,6 +11,7 @@ import VerVentas from './componentes/admin/ventas/VerVentas';
 import CrearCategoria from './componentes/admin/CrearCategoria';
 import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
 import GuardarProve from './componentes/admin/GuardarProve';
+import EditarProve from './componentes/admin/EditarProve';
 
 function App() {
   //const { user } = useUser();
@@ -26,6 +27,7 @@ function App() {
           <Route path="/ver_ventas" element={<VerVentas />} />
           <Route path="/registrar_venta" element={<RegistrarVentas />} />
           <Route path="/GuardarProve" element={<GuardarProve />} />
+          <Route path="/EditarProve" element={<EditarProve />} />
         </Routes>
       </div>
     </Router>

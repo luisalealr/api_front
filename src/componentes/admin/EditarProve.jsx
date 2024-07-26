@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import TemplateAdmin from "./templates/TemplateAdmin";
 import axios from 'axios';
 
-const GuardarProve = () => {
+const EditarProve = () => {
     const [categoryName, setCategoryName] = useState('');
-    const [contact, setContact] = useState(''); // Campo avckadicional para contacto
+    const [contact, setContact] = useState(''); // Campo adicional para contacto
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -12,8 +12,8 @@ const GuardarProve = () => {
             await axios.post('/api/categories', { name: categoryName, contact });
             // Manejar la respuesta exitosa
             console.log('Proveedor guardado');
-            setCategoryName(''); // Limpiar el campo avckdespués de guardar
-            setContact(''); // Limpiar el campo de contactoavck
+            setCategoryName(''); // Limpiar el campo después de guardar
+            setContact(''); // Limpiar el campo de contacto
         } catch (error) {
             // Manejar errores
             console.error('Error al guardar el proveedor:', error);
@@ -22,14 +22,14 @@ const GuardarProve = () => {
 
     const handleCancel = () => {
         setCategoryName('');
-        setContact(''); // Limpiar el campo de contacto también avck
+        setContact(''); // Limpiar el campo de contacto también
     };
 
     return (
         <TemplateAdmin>
             <div className="bg-[#D0F25E]">
                 <h1 className="ml-5 py-3 font-bold text-black text-xl w-full">
-                    Registrar proveedor
+                    Editar proveedor
                 </h1>
             </div>
             <div className="flex flex-col mt-4 ml-10 w-full">
@@ -43,7 +43,7 @@ const GuardarProve = () => {
                             type="text"
                             value={categoryName}
                             onChange={(e) => setCategoryName(e.target.value)}
-                            placeholder="Escriba el nombre del nuevo proveedor"
+                            placeholder="Nombre del proveedor"
                             className="border border-gray-300 p-2 w-[35%] rounded-md"
                         />
                     </div>
@@ -56,7 +56,7 @@ const GuardarProve = () => {
                             type="text"
                             value={contact}
                             onChange={(e) => setContact(e.target.value)}
-                            placeholder="Escriba el contacto del nuevo proveedor"
+                            placeholder="contacto del proveedor"
                             className="border border-gray-300 w-[35%] p-2 rounded-md"
                         />
                     </div>
@@ -65,7 +65,7 @@ const GuardarProve = () => {
                             type="submit"
                             className="bg-[#8DB600] text-black py-2 px-4 rounded-full"
                         >
-                            Registrar
+                            Guardar
                         </button>
                         <button
                             type="button"
@@ -81,4 +81,4 @@ const GuardarProve = () => {
     );
 };
 
-export default GuardarProve;
+export default EditarProve;
