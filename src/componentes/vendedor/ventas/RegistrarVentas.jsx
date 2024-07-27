@@ -2,7 +2,10 @@ import TemplateVendedor from "../templates/TemplateVendedor";
 import { IoSearch } from "react-icons/io5";
 import TablaRegistroProductos from "./TablaRegistroProductos";
 import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
 import { getProduct } from "../../../services/ProductService";
+import 'react-toastify/dist/ReactToastify.css';
+import { crearVenta } from "../../../services/VentasService";
 
 const RegistrarVentas = () => {
 
@@ -13,6 +16,8 @@ const RegistrarVentas = () => {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [cantidadAEliminar, setCantidadAEliminar] = useState(1);
   const [productoEliminar, setProductoEliminar] = useState('');
+  const [nombreCliente, setNombreCliente] = useState('');
+  //const [errors, setErrors] = useState({});
   
   useEffect(
     ()=>{
@@ -76,26 +81,84 @@ const RegistrarVentas = () => {
   }
 
   const eliminarProducto = () => {
-    if (productoEliminar.cantidad > 1 && cantidadAEliminar < productoEliminar.cantidad) {
-      let aux = products;
-      aux.forEach((p) => {
-        if(productoEliminar.id_producto == p.id_producto){
+    let aux = [...products];
+    let productoEncontrado = false;
+    aux = aux.map((p) => {
+      if (p.id_producto === selectedProductId) {
+        productoEncontrado = true;
+        if (p.cantidad > cantidadAEliminar) {
           p.cantidad -= Number(cantidadAEliminar);
-          p.precioT = (p.cantidad*p.precio_unitario);
-          setBuscarId('');
-          calcularValorTotal()
-          setCantidad(1);
-          
+          p.precioT = p.cantidad * p.precio_unitario;
+        } else {
+          return null; // Marca el producto para eliminar
         }
-      });
-      setProducts(aux);
-    } else {
-      const productosRestantes = products.filter(p => p.id_producto !== selectedProductId);
-      setProducts(productosRestantes);
+      }
+      return p;
+    }).filter(p => p !== null); // Filtra productos marcados para eliminar
+  
+    if (!productoEncontrado) {
+      alert('Producto no encontrado en la lista');
+      return;
     }
+    setProducts(aux);
+    setBuscarId('');
+    calcularValorTotal();
+    setCantidad(1);
     setSelectedProductId(null);
     setCantidadAEliminar(1);
   };
+
+  const validarFormulario = () => {
+    let formErrors = {};
+    let isValid = true;
+    if (!nombreCliente.trim()) {
+      formErrors.nombre = 'Debe escribir el nombre del cliente';
+      isValid = false;
+    }
+    if (products.length == 0) {
+      formErrors.imagenes = 'Debe registrar almenos un producto';
+      toast.error('Tienes que registrar al menos una producto a la compra');
+      isValid = false;
+    }
+    return isValid;
+
+  }
+
+  const registrarCompra = async (event) => {
+    console.log("AAAAAAAA");
+    event.preventDefault();
+    
+    if(validarFormulario()) {
+      const formData = new FormData();
+      formData.append('nombre_cliente', nombreCliente);
+      const fecha = new Date();
+      formData.append('fecha', fecha.toISOString()); // Convertir la fecha a una cadena ISO
+      formData.append('total', precioTotal);
+  
+      // Asegúrate de que los productos se agregan correctamente al formData
+      products.forEach((product) => {
+        formData.append('productos', JSON.stringify(product)); // Convierte cada producto a una cadena JSON
+      });
+  
+      try {
+        const response = await crearVenta(formData);
+        if (response && response.success) {
+          toast.success('Venta registrada exitosamente');
+        } else {
+          toast.error('Error al registrar la venta.');
+          console.error('Error al registrar la venta.', response);
+        }
+      } catch (error) {
+        toast.error('Error al registrar la venta.');
+        console.error('Error al registrar la venta.', error);
+      }
+    } else {
+      toast.error('Error al registrar la venta. Formulario inválido.');
+      console.error('Error al registrar la venta. Formulario inválido.');
+    }
+  };
+  
+
 
     return<>
         <TemplateVendedor>
@@ -162,13 +225,18 @@ const RegistrarVentas = () => {
               <div className="h-44">
                 <hr className="h-[2px] opacity-45" color="#1E1E1E"/>
                 <div className="text-sm mx-4 my-6 w-[35%] flex flex-row justify-evenly items-center">
-                  <label htmlFor="">Nombre del cliente</label>
-                  <input type="text" className="w-[60%] text-sm h-8 border border-[#999999] shadow rounded-md" />
+                  <label htmlFor="">Nombre del cliente:</label>
+                  <input
+                    value={nombreCliente} 
+                    type="text" 
+                    onChange={(e) => setNombreCliente(e.target.value)}
+                    className="w-[60%] text-sm h-8 border border-[#999999] shadow rounded-md"
+                  />
                 </div>
                 <div className="flex mt-4 flex-row w-full justify-around text-sm">
                   <button onClick={cancelarVenta} className="w-48 py-1 h-fit rounded-md shadow hover:bg-[#b0d144] bg-[#8DB600]">Cancelar Venta</button>
                   <button onClick={cancelarProducto} className="w-48 py-1 h-fit rounded-md shadow hover:bg-[#b0d144] bg-[#8DB600]">Cancelar Producto</button>
-                  <button className="w-32 py-1 h-fit rounded-md shadow hover:bg-[#b0d144] bg-[#8DB600]">Cobrar</button>
+                  <button onClick={registrarCompra} className="w-32 py-1 h-fit rounded-md shadow hover:bg-[#b0d144] bg-[#8DB600]">Cobrar</button>
                   <div className="w-64 bg-[#D9D9D9] p-4 text-3xl">${precioTotal}</div>
                 </div>
               </div>

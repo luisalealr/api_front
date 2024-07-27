@@ -1,11 +1,11 @@
-import { API_URL } from "../config";
 import axios from "axios";
+import { API_URL } from "../config";
 
-export async function getProducts() {
+export async function getAllCategorias() {
     try {
-        const result = await axios.get(`${API_URL}/products/`, {
+        const result = await axios.get(`${API_URL}/categories/`, {
             method: 'GET',
-            headers: {
+            headers: { 
                 'Content-Type': 'aplication/json'
             }
         });
@@ -18,9 +18,9 @@ export async function getProducts() {
     }
 }
 
-export async function getProduct(id) {
+export async function getCategoria(descripcion) {
     try {
-        const result = await axios.get(`${API_URL}/products/product/` + id, {
+        const result = await axios.get(`${API_URL}/categories/` + descripcion, {
             method: 'GET',
             headers: {
                 'Content-Type': 'aplication/json'
@@ -29,21 +29,6 @@ export async function getProduct(id) {
         const data = await result.data;
         console.log(data)
         return data
-    } catch (error) {
-        console.error('Error:', error);
-        return null
-    }
-}
-
-export async function crearProduct(){
-    try{
-        const result = await axios.post(`${API_URL}/products/`, {
-            method: 'POST',
-            body: data,
-        });
-    const data = await result.data;
-    console.log(data)
-    return data
     } catch (error) {
         console.error('Error:', error);
         return null

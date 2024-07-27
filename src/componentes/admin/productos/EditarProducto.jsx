@@ -1,14 +1,34 @@
-import React, { useState } from 'react';
-import TemplateAdmin from "./templates/TemplateAdmin";
+import { useParams } from 'react-router-dom';
+import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-const RegistrarProducto = () => {
+const EditarProducto = () => {
+    const { id } = useParams(); // Obtener el ID del producto de la URL
     const [nombre, setNombre] = useState('');
     const [precioUnitario, setPrecioUnitario] = useState('');
     const [cantidad, setCantidad] = useState('');
     const [peso, setPeso] = useState('');
     const [categoria, setCategoria] = useState('');
     const [proveedor, setProveedor] = useState('');
+
+    useEffect(() => {
+        const fetchProducto = async () => {
+            try {
+                const response = await axios.get(`https://backendfarmacia-production.up.railway.app/api/products/product/${id}`);
+                const producto = response.data;
+                setNombre(producto.nombre);
+                setPrecioUnitario(producto.precio);
+                setCantidad(producto.cantidad);
+                setPeso(producto.peso);
+                setCategoria(producto.categoria.id_categoria);
+                setProveedor(producto.proveedor.id_proveedor);
+            } catch (error) {
+                console.error('Error al cargar el producto:', error);
+            }
+        };
+        fetchProducto();
+    }, [id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,16 +42,10 @@ const RegistrarProducto = () => {
                 proveedor,
                 isActive: 1,
             };
-            await axios.post('https://backendfarmacia-production.up.railway.app/api/products', producto);
-            console.log('Producto guardado');
-            setNombre('');
-            setPrecioUnitario('');
-            setCantidad('');
-            setPeso('');
-            setCategoria('');
-            setProveedor('');
+            await axios.post(`https://backendfarmacia-production.up.railway.app/api/products/product/${id}`, producto);
+            console.log('Producto actualizado');
         } catch (error) {
-            console.error('Error al guardar el producto:', error);
+            console.error('Error al actualizar el producto:', error);
         }
     };
 
@@ -48,7 +62,7 @@ const RegistrarProducto = () => {
         <TemplateAdmin>
             <div className="bg-[#D0F25E]">
                 <h1 className="ml-5 py-3 font-bold text-black text-xl w-full">
-                    Registrar producto
+                    Editar producto
                 </h1>
             </div>
             <div className="flex flex-col mt-4 ml-10 w-full">
@@ -138,7 +152,7 @@ const RegistrarProducto = () => {
                             type="submit"
                             className="bg-[#8DB600] text-black py-2 px-4 rounded-full"
                         >
-                            Registrar
+                            Guardar
                         </button>
                         <button
                             type="button"
@@ -154,4 +168,4 @@ const RegistrarProducto = () => {
     );
 };
 
-export default RegistrarProducto;
+export default EditarProducto;

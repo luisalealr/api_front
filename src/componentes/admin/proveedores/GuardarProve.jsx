@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import TemplateAdmin from "./templates/TemplateAdmin";
+import { useState } from "react";
 import axios from 'axios';
+import TemplateAdmin from "../templates/TemplateAdmin";
 
 const GuardarProve = () => {
     const [nombre, setNombre] = useState(''); // Cambiado a "nombre"

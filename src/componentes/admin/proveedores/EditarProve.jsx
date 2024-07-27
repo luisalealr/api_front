@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import TemplateAdmin from "./templates/TemplateAdmin";
+import { useState } from "react";
+import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
 
 const EditarProve = () => {
