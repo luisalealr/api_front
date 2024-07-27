@@ -34,3 +34,18 @@ export async function getProduct(id) {
         return null
     }
 }
+
+export async function crearProduct(){
+    try{
+        const result = await axios.post(`${API_URL}/products/`, {
+            method: 'POST',
+            body: data,
+        });
+    const data = await result.data;
+    console.log(data)
+    return data
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    }
+}
