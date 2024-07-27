@@ -8,12 +8,12 @@ import SideBar from './componentes/admin/templates/Sidebar';
 import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
 import InicioSesion from './componentes/InicioSesion';
 import VerVentas from './componentes/admin/ventas/VerVentas';
-import CrearCategoria from './componentes/admin/CrearCategoria';
 import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
-import GuardarProve from './componentes/admin/GuardarProve';
-import EditarProve from './componentes/admin/EditarProve';
-import RegistrarProducto from './componentes/admin/RegistrarProducto';
-import EditarProducto from './componentes/admin/EditarProducto';
+import CrearCategoria from './componentes/admin/categorias/CrearCategoria';
+import GuardarProve from './componentes/proveedores/GuardarProve';
+import EditarProve from './componentes/proveedores/EditarProve';
+import EditarProducto from './componentes/admin/productos/EditarProducto';
+import RegistrarProducto from './componentes/admin/productos/RegistrarProducto';
 
 function App() {
   //const { user } = useUser();
