@@ -39,7 +39,7 @@ export default function SideBar() {
                         </div>
                         <ul className={`mx-2 ml-2 bg-[#fffcfca8] rounded-md transition-max-height duration-500 ease-in-out overflow-hidden ${isOpen ? "max-h-96" : "max-h-0"}`}>
                             <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
-                                <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl" />Categorías</Link>
+                                <Link className="flex flex-row items-center" to="/ver_categorias"><IoIosArrowForward className="mr-4 text-xl" />Categorías</Link>
                             </li >
                             <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
                                 <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl" />Proveedores</Link>
