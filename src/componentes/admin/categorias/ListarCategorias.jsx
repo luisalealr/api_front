@@ -8,25 +8,37 @@ import { useNavigate } from "react-router-dom";
  const ListarCategorias = () =>{
     const [categorias, setCategorias] = useState([]);
     const [buscarDesc, setBuscarDec] = useState('');
-
     const navigate = useNavigate();
 
     const crearCategoria = () => {
-        navigate('/registrar_categoria'); // Redirige a la ruta "/about"
+        navigate('/registrar_categoria'); 
     };
 
     useEffect(() => {
-        getAllCategorias().then(data => {
-          if (data && Array.isArray(data)) {
-            const filteredData = data.filter(categoria => categoria.isActive == 1);
-            setCategorias(filteredData);
-          } else {
-            console.error('Data no es un array');
-          }
-        }).catch(error => {
-          console.error('Error al obtener las categorías:', error);
-        });
-      }, []);
+      getAllCategorias().then(data => {
+        if (data && Array.isArray(data)) {
+          const filteredData = data.filter(categoria => categoria.isActive == 1);
+          setCategorias(filteredData);
+        } else {
+          console.error('Data no es un array');
+        }
+      }).catch(error => {
+        console.error('Error al obtener las categorías:', error);
+      });
+    }, []);
+
+    const buscador = (e) =>{
+      setBuscarDec(e.target.value);
+    }
+
+    let results = []
+    if(!buscarDesc){
+      results=categorias;
+    }else{
+      results=categorias.filter((dato)=>
+      dato.descripcion.toLowerCase().includes(buscarDesc.toLocaleLowerCase())
+      )
+    }
     
     return<>
         <TemplateAdmin>
@@ -39,7 +51,7 @@ import { useNavigate } from "react-router-dom";
                         <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1"/>
                         <input 
                             value={buscarDesc} 
-                            onChange={(e) => setBuscarDec(e.target.value)} 
+                            onChange={buscador} 
                             type="text" placeholder="Buscar categoría" 
                             className="w-full text-sm h-8 border-none rounded-md"
                         />
@@ -48,22 +60,22 @@ import { useNavigate } from "react-router-dom";
                 </div>
                 <div className="bg-[#D0F25E] h-6 w-full"></div>
                 <table>
-                <thead className="bg-[#95A09D] text-left">
-                  <tr >
-                    <th>N° de la categoría</th>
-                    <th>Descripcion</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-              <tbody>
-                  {categorias.map((categoria, index) => (
-                      <TablaCategorias
-                          key={index}
-                          categoriaId={categoria.id_categoria}
-                          descripcion={categoria.descripcion}
-                      />
-                  ))}
-                </tbody>
+                    <thead className="bg-[#95A09D] text-left ">
+                        <tr>
+                            <th>N° de la categoría</th>
+                            <th>Descripcion</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {results.map((categoria, index) => (
+                            <TablaCategorias
+                                key={index}
+                                categoriaId={categoria.id_categoria}
+                                descripcion={categoria.descripcion}
+                            />
+                    ))}
+                    </tbody>
               </table>
             </div>
         </TemplateAdmin>
