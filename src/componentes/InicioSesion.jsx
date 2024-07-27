@@ -26,7 +26,7 @@ const InicioSesion = () => {
             localStorage.setItem('authToken', response.token);
             toast.success('Inicio de sesión exitoso');
             if(usuario == 'Administrador'){
-                navigate('/');   
+                navigate('/inicio');   
             }else if(usuario == 'Vendedor'){
                 navigate('/menu_vendedor'); 
             }
