@@ -13,6 +13,7 @@ import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
 import GuardarProve from './componentes/admin/GuardarProve';
 import EditarProve from './componentes/admin/EditarProve';
 import RegistrarProducto from './componentes/admin/RegistrarProducto';
+import EditarProducto from './componentes/admin/EditarProducto';
 
 function App() {
   //const { user } = useUser();
@@ -29,6 +30,7 @@ function App() {
           <Route path="/registrar_venta" element={<RegistrarVentas />} />
           <Route path="/GuardarProve" element={<GuardarProve />} />
           <Route path="/EditarProve" element={<EditarProve />} />
+          <Route path="/EditarProducto" element={<EditarProducto />} />
           <Route path="/RegistrarProducto" element={<RegistrarProducto />} />
 
         </Routes>
