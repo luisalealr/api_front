@@ -21,7 +21,7 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-        <Routes>
+        <Routes> 
           <Route path="/" element={<Inicio />} />
           <Route path="/login" element={<InicioSesion />} />
           <Route path="/menu" element={<SideBar />} />

@@ -1,10 +1,21 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {FaRegEdit} from "react-icons/fa";
 import {TbReceiptDollar} from "react-icons/tb";
 import {HiMiniArrowPathRoundedSquare} from "react-icons/hi2";
 import {LiaUserAltSolid} from "react-icons/lia";
+import { logout } from "../../../services/UsuarioService";
+import { toast } from "react-toastify";
  
 export default function SideBarVendedor(){
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        toast.success('Sesión cerrada exitosamente');
+        window.history.replaceState(null, '', '/login');
+        navigate('/login');
+      };
+
     return<>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen">
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">
@@ -32,7 +43,7 @@ export default function SideBarVendedor(){
                 </div>
                 <div className="flex flex-col">
                     <h5 className="font-semibold">Vendedor</h5>
-                    <Link to="/login"><HiMiniArrowPathRoundedSquare className="text-2xl"/></Link>
+                    <button onClick={handleLogout}><HiMiniArrowPathRoundedSquare className="text-2xl"/></button>
                 </div>
             </div>
         </div>

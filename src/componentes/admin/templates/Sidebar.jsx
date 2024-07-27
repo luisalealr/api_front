@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FiHome } from "react-icons/fi";
 import { FiArchive } from "react-icons/fi";
 import { TbReceiptDollar } from "react-icons/tb";
@@ -6,9 +6,19 @@ import { HiMiniArrowPathRoundedSquare } from "react-icons/hi2";
 import { LiaUserTieSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
 import { useState } from "react";
+import { logout } from "../../../services/UsuarioService";
+import { toast } from "react-toastify";
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        toast.success('Sesión cerrada exitosamente');
+        window.history.replaceState(null, '', '/login');
+        navigate('/login'); 
+      };
 
     return <>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">
@@ -58,7 +68,7 @@ export default function SideBar() {
                 </div>
                 <div className="flex flex-col">
                     <h5 className="font-semibold">Administrador</h5>
-                    <Link to="/login"><HiMiniArrowPathRoundedSquare className="text-2xl" /></Link>
+                    <button onClick={handleLogout}><HiMiniArrowPathRoundedSquare className="text-2xl" /></button>
                 </div>
             </div>
         </div>
