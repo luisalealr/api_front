@@ -14,6 +14,7 @@ import EditarProducto from './componentes/admin/productos/EditarProducto';
 import RegistrarProducto from './componentes/admin/productos/RegistrarProducto';
 import GuardarProve from './componentes/admin/proveedores/GuardarProve';
 import EditarProve from './componentes/admin/proveedores/EditarProve';
+import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
 
 function App() {
   //const { user } = useUser();
@@ -25,14 +26,14 @@ function App() {
           <Route path="/login" element={<InicioSesion />} />
           <Route path="/menu" element={<SideBar />} />
           <Route path="/menu_vendedor" element={<SideBarVendedor />} />
-          <Route path="/CrearCategoria" element={<CrearCategoria />} />
+          <Route path="/registrar_categoria" element={<CrearCategoria />} />
           <Route path="/ver_ventas" element={<VerVentas />} />
           <Route path="/registrar_venta" element={<RegistrarVentas />} />
-          <Route path="/GuardarProve" element={<GuardarProve />} />
-          <Route path="/EditarProve" element={<EditarProve />} />
-          <Route path="/EditarProducto" element={<EditarProducto />} />
-          <Route path="/RegistrarProducto" element={<RegistrarProducto />} />
-
+          <Route path="/guardar_proveedor" element={<GuardarProve />} />
+          <Route path="/editar_proveedor" element={<EditarProve />} />
+          <Route path="/editar_producto" element={<EditarProducto />} />
+          <Route path="/registrar_producto" element={<RegistrarProducto />} />
+          <Route path="/ver_categorias" element={<ListarCategorias />} />
         </Routes>
       </div>
     </Router>

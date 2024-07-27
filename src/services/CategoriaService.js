@@ -3,7 +3,7 @@ import { API_URL } from "../config";
 
 export async function getAllCategorias() {
     try {
-        const result = await axios.get(`${API_URL}/products/`, {
+        const result = await axios.get(`${API_URL}/categories/`, {
             method: 'GET',
             headers: { 
                 'Content-Type': 'aplication/json'
@@ -18,9 +18,9 @@ export async function getAllCategorias() {
     }
 }
 
-export async function getCategoria(id) {
+export async function getCategoria(descripcion) {
     try {
-        const result = await axios.get(`${API_URL}/products/product/` + id, {
+        const result = await axios.get(`${API_URL}/categories/` + descripcion, {
             method: 'GET',
             headers: {
                 'Content-Type': 'aplication/json'
