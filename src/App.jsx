@@ -1,8 +1,5 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
 import './App.css'
-import { BrowserRouter as Router, Route, Routes, /*Navigate*/ } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Inicio from './Inicio';
 import SideBar from './componentes/admin/templates/Sidebar';
 import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
@@ -17,12 +14,12 @@ import EditarProve from './componentes/admin/proveedores/EditarProve';
 import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
 
 function App() {
-  //const { user } = useUser();
+
   return (
     <Router>
       <div className="app-container">
         <Routes> 
-          <Route path="/" element={<Inicio />} />
+          <Route path="/inicio" element={<Inicio />} />
           <Route path="/login" element={<InicioSesion />} />
           <Route path="/menu" element={<SideBar />} />
           <Route path="/menu_vendedor" element={<SideBarVendedor />} />
@@ -34,6 +31,8 @@ function App() {
           <Route path="/editar_producto" element={<EditarProducto />} />
           <Route path="/registrar_producto" element={<RegistrarProducto />} />
           <Route path="/ver_categorias" element={<ListarCategorias />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </div>
     </Router>
