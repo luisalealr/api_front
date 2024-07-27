@@ -10,10 +10,10 @@ import InicioSesion from './componentes/InicioSesion';
 import VerVentas from './componentes/admin/ventas/VerVentas';
 import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
 import CrearCategoria from './componentes/admin/categorias/CrearCategoria';
-import GuardarProve from './componentes/proveedores/GuardarProve';
-import EditarProve from './componentes/proveedores/EditarProve';
 import EditarProducto from './componentes/admin/productos/EditarProducto';
 import RegistrarProducto from './componentes/admin/productos/RegistrarProducto';
+import GuardarProve from './componentes/admin/proveedores/GuardarProve';
+import EditarProve from './componentes/admin/proveedores/EditarProve';
 
 function App() {
   //const { user } = useUser();
