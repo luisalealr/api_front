@@ -5,7 +5,7 @@ export async function getAllCategorias() {
     try {
         const result = await axios.get(`${API_URL}/products/`, {
             method: 'GET',
-            headers: {
+            headers: { 
                 'Content-Type': 'aplication/json'
             }
         });

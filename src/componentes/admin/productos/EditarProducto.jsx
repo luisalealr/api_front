@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import TemplateAdmin from "./templates/TemplateAdmin";
+import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 const EditarProducto = () => {
     const { id } = useParams(); // Obtener el ID del producto de la URL

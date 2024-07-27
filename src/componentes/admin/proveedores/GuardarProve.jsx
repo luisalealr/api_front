@@ -1,6 +1,6 @@
 import { useState } from "react";
-import TemplateAdmin from "./templates/TemplateAdmin";
 import axios from 'axios';
+import TemplateAdmin from "../templates/TemplateAdmin";
 
 const GuardarProve = () => {
     const [categoryName, setCategoryName] = useState('');
