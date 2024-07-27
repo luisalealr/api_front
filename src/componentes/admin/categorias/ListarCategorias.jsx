@@ -3,12 +3,14 @@ import TemplateAdmin from "../templates/TemplateAdmin";
 import { IoSearch } from "react-icons/io5";
 import { getAllCategorias } from "../../../services/CategoriaService";
 import TablaCategorias from "./TablaCategorias";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ListarCategorias = () => {
   const [categorias, setCategorias] = useState([]);
   const [buscarDesc, setBuscarDec] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
+  const message = location.state?.message;
 
   const crearCategoria = () => {
     navigate('/registrar_categoria');
@@ -40,12 +42,17 @@ const ListarCategorias = () => {
     )
   }
 
-  return <>
+  return (
     <TemplateAdmin>
       <div className="flex flex-col">
         <div className="bg-[#D0F25E]">
           <h2 className="py-2 px-6 font-semibold text-xl">Categorías</h2>
         </div>
+        {message && (
+          <div className="bg-green-200 text-green-800 p-2 rounded mb-4">
+            {message}
+          </div>
+        )}
         <div className="w-full h-16 flex items-center justify-between">
           <div className="w-[30%] shadow-sm border border-[#999999] rounded-md flex flex-row items-center ml-6">
             <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1" />
@@ -79,7 +86,7 @@ const ListarCategorias = () => {
         </table>
       </div>
     </TemplateAdmin>
-  </>
+  );
 }
 
 export default ListarCategorias;

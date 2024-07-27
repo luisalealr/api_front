@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CrearCategoria = () => {
     const [categoryName, setCategoryName] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Obtener todas las categorías existentes
@@ -51,8 +53,8 @@ const CrearCategoria = () => {
             setMessage('Categoría guardada correctamente');
             setError('');
             setCategoryName('');
-            // Actualizar la lista de categorías
-            setCategories([...categories, { descripcion: trimmedCategoryName }]);
+            // Redireccionar a la lista de categorías con mensaje de éxito
+            navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
         } catch (error) {
             setMessage('');
             setError('Error al guardar la categoría: ' + (error.response?.data?.message || error.message));
@@ -114,7 +116,6 @@ const CrearCategoria = () => {
                     </div>
                 </form>
             </div>
-
         </TemplateAdmin>
     );
 };
