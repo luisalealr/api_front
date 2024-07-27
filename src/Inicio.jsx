@@ -1,10 +1,10 @@
 import TemplateAdmin from "./componentes/admin/templates/TemplateAdmin";
 
-export default function Inicio(){
-    return<>
+export default function Inicio() {
+    return <>
         <TemplateAdmin>
             <div>
-                <h1>Hola</h1>
+                <h1>arremangala arrepujala</h1>
             </div>
         </TemplateAdmin>
     </>
