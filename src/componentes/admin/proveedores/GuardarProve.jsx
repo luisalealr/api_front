@@ -1,35 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import TemplateAdmin from "../templates/TemplateAdmin";
 
 const GuardarProve = () => {
-    const [nombre, setNombre] = useState(''); // Cambiado a "nombre"
-    const [telefono, setTelefono] = useState(''); // Cambiado a "telefono"
-    const [message, setMessage] = useState(''); // Estado para el mensaje
+    const [nombre, setNombre] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const [proveedores, setProveedores] = useState([]);
+
+    useEffect(() => {
+        // Obtener todos los proveedores existentes
+        const fetchProveedores = async () => {
+            try {
+                const response = await axios.get('https://backendfarmacia-production.up.railway.app/api/providers');
+                setProveedores(response.data);
+            } catch (error) {
+                console.error('Error al obtener los proveedores:', error);
+            }
+        };
+
+        fetchProveedores();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const trimmedNombre = nombre.trim(); // Trim espacios en blanco
+
+        // Verificar si el proveedor ya existe
+        const proveedorExists = proveedores.some(proveedor => proveedor.nombre.toLowerCase() === trimmedNombre.toLowerCase());
+
+        if (proveedorExists) {
+            setError('El proveedor ya existe');
+            setMessage('');
+            return;
+        }
+
         try {
             const proveedor = {
-                nombre,
+                nombre: trimmedNombre,
                 telefono,
                 isActive: 0, // Valor por defecto
             };
             await axios.post('https://backendfarmacia-production.up.railway.app/api/provider', proveedor);
-            setMessage('Proveedor guardado correctamente'); // Mensaje de éxito
-            setNombre(''); // Limpiar el campo de nombre
-            setTelefono(''); // Limpiar el campo de teléfono
+            setMessage('Proveedor guardado correctamente');
+            setError('');
+            setNombre('');
+            setTelefono('');
+            // Actualizar la lista de proveedores
+            setProveedores([...proveedores, { nombre: trimmedNombre, telefono }]);
         } catch (error) {
-            // Manejar errores
             console.error('Error al guardar el proveedor:', error);
-            setMessage('Error al guardar el proveedor'); // Mensaje de error
+            setMessage('');
+            setError('Error al guardar el proveedor');
         }
     };
 
     const handleCancel = () => {
         setNombre('');
-        setTelefono(''); // Limpiar el campo de teléfono también
-        setMessage(''); // Limpiar el mensaje
+        setTelefono('');
+        setMessage('');
+        setError('');
     };
 
     return (
@@ -44,6 +75,12 @@ const GuardarProve = () => {
                 {message && (
                     <div className="bg-[#C7F2AF] text-green-800 p-2 rounded mb-4">
                         {message}
+                    </div>
+                )}
+                {/* Mensaje de error */}
+                {error && (
+                    <div className="bg-red-200 text-red-800 p-2 rounded mb-4">
+                        {error}
                     </div>
                 )}
                 <form onSubmit={handleSubmit} className="w-full mt-10">
