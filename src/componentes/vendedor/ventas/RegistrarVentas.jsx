@@ -2,14 +2,12 @@ import TemplateVendedor from "../templates/TemplateVendedor";
 import { IoSearch } from "react-icons/io5";
 import TablaRegistroProductos from "./TablaRegistroProductos";
 import { useEffect, useState } from "react";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import { getProduct } from "../../../services/ProductService";
 import 'react-toastify/dist/ReactToastify.css';
 import { crearVenta } from "../../../services/VentasService";
 
 const RegistrarVentas = () => {
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
   const [products, setProducts] = useState([]);
   const [buscarId, setBuscarId] = useState('');
   const [cantidad, setCantidad] = useState(1); 
@@ -65,6 +63,7 @@ const RegistrarVentas = () => {
 
   const cancelarVenta = () => {
     setProducts([]);
+    setNombreCliente('');
   };
 
   const handleProductSelect = (productId) => {
@@ -109,49 +108,40 @@ const RegistrarVentas = () => {
   };
 
   const validarFormulario = () => {
-    let formErrors = {};
     let isValid = true;
-    if (!nombreCliente.trim()) {
-      formErrors.nombre = 'Debe escribir el nombre del cliente';
-      isValid = false;
+    if (products.length === 0) {
+        toast.error('Tienes que registrar al menos un producto a la compra');
+        isValid = false;
     }
-    if (products.length == 0) {
-      formErrors.products = 'Debe registrar almenos un producto';
-      toast.error('Tienes que registrar al menos una producto a la compra');
-      isValid = false;
+    if (!nombreCliente) {
+        toast.error('Debe escribir el nombre del cliente');
+        isValid = false;
     }
     return isValid;
+};
 
-  }
-
-  const registrarCompra = async (event) => {
+  const registrarCompra =  (event) => {
     event.preventDefault();
     if (validarFormulario()) {
-        const fecha = new Date().toISOString().split('T')[0]; 
-        const data = {
-          nombre_cliente: nombreCliente,
-          fecha: fecha, 
-          total: precioTotal,
-          productos: products.map((product) => ({
-              id_producto: product.id_producto,
-              cantidad_producto: product.cantidad
-          }))
-        };
-        //console.log('Datos a enviar:', JSON.stringify(data, null, 2));
-        try {
-          crearVenta(data);
-          setMessage('Venta Registrada correctamente');
-          console.log(message);
-          setError('');
-        } catch (error) {
-          setMessage('');
-          setError('Error al registrar la venta: ' + (error.response?.data?.message || error.message));
-          console.log(error);
-        }
-      } else {
-        setError('Error al registrar la venta. Formulario inválido.');
-        console.error(error);
+      const fecha = new Date().toISOString().split('T')[0]; 
+      const data = {
+        nombre_cliente: nombreCliente,
+        fecha: fecha, 
+        total: precioTotal,
+        productos: products.map((product) => ({
+            id_producto: product.id_producto,
+            cantidad_producto: product.cantidad
+        }))
+      };
+      //console.log('Datos a enviar:', JSON.stringify(data, null, 2));
+      try {
+        crearVenta(data);
+        toast.success('Venta Registrada correctamente');
+      } catch (error) {
+        toast.error('Error al registrar la venta: ' + (error.response?.data?.message || error.message));
       }
+      cancelarVenta();
+    } 
   };
 
   return<>
