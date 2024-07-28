@@ -1,28 +1,41 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosArrowDropright, IoIosArrowDropdown } from 'react-icons/io';
-import { FaRegTrashCan } from "react-icons/fa6";
 
-const TablaVentas = ({ numeroFactura, fecha, cantidadProductos, precioTotal, productos }) => {
+const TablaVentas = ({ facturaId, cliente,  fecha, precioTotal, productos }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  let fechaFormato = fecha.split('T')[0];
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
   }; 
-    return<>
+
+    const [cantidad, setCantidad] = useState('');
+
+    useEffect(
+        ()=>{
+            getCantidad()
+        },[productos]
+      )
+
+    const getCantidad = ()=>{
+        let cont = 0;
+        productos.forEach(producto =>{
+            cont += Number(producto.cantidad)
+        })
+        setCantidad(cont);
+    };
+
+    return<> 
         <tr className='text-left h-8 align-middle'>
             <td onClick={handleToggle} className="cursor-pointer ">
                 {isExpanded ? <IoIosArrowDropdown color="#8DB600" /> : <IoIosArrowDropright color="#8DB600" />}
             </td>
-            <td>{numeroFactura}</td>
-            <td>{fecha}</td>
-            <td>{cantidadProductos}</td>
+            <td>{facturaId}</td>
+            <td>{cliente}</td>
+            <td>{fechaFormato}</td>
+            <td>{cantidad}</td>
             <td>${precioTotal}</td>
-            <td >
-                <div className='flex flex-row items-center cursor-pointer hover:bg-[#d13737] w-fit m-[1px] px-[3px] rounded-sm'>
-                    <FaRegTrashCan size={16} className='mr-2'/>Eliminar
-                </div>
-            </td>
         </tr>
         <tr>
             <td colSpan="6">
@@ -45,9 +58,9 @@ const TablaVentas = ({ numeroFactura, fecha, cantidadProductos, precioTotal, pro
                         <tbody>
                             {productos.map((producto, index) => (
                             <tr className='text-gray-500 text-left' key={index}>
-                                <td>{producto.numeroProducto}</td>
+                                <td>{index+1}</td>
                                 <td>{producto.nombre}</td>
-                                <td>{producto.codigoProducto}</td>
+                                <td>{producto.id_producto}</td>
                                 <td>{producto.cantidad}</td>
                                 <td>${producto.precioUnitario}</td>
                             </tr>

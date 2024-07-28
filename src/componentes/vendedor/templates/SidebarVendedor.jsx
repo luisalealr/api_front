@@ -14,8 +14,8 @@ export default function SideBarVendedor(){
         toast.success('Sesión cerrada exitosamente');
         window.history.replaceState(null, '', '/login');
         navigate('/login');
-      };
-
+    };
+ 
     return<>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen">
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">

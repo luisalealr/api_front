@@ -19,7 +19,6 @@ const InicioSesion = () => {
             toast.error('Por favor, complete todos los campos');
             return;
         }
-
         try {
             const response = await login(usuario, password);
             if (response && response.token) {
