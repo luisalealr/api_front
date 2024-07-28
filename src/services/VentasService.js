@@ -24,3 +24,37 @@ export async function crearVenta(data) {
         return null
     }
 }
+
+export async function getAllVentas(){
+    try {
+        const result = await axios.get(`${API_URL}/buys/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'aplication/json'
+            }
+        });
+        const data = await result.data;
+        console.log(data)
+        return data
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    }    
+}
+
+export async function getVentasPorFecha(fechas){
+    try {
+        const result = await axios.get(`${API_URL}/buys/date/`,fechas, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'aplication/json'
+            }
+        });
+        const data = await result.data;
+        console.log(data)
+        return data
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    }    
+}
