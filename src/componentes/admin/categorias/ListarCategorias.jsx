@@ -4,6 +4,8 @@ import { IoSearch } from "react-icons/io5";
 import { getAllCategorias } from "../../../services/CategoriaService";
 import TablaCategorias from "./TablaCategorias";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ListarCategorias = () => {
   const [categorias, setCategorias] = useState([]);
@@ -17,6 +19,10 @@ const ListarCategorias = () => {
   };
 
   useEffect(() => {
+    if (message) {
+      toast.success(message, { autoClose: 3000 });
+    }
+
     getAllCategorias().then(data => {
       if (data && Array.isArray(data)) {
         const filteredData = data.filter(categoria => categoria.isActive == 1);
@@ -27,7 +33,7 @@ const ListarCategorias = () => {
     }).catch(error => {
       console.error('Error al obtener las categorías:', error);
     });
-  }, []);
+  }, [message]);
 
   const buscador = (e) => {
     setBuscarDec(e.target.value);
@@ -48,11 +54,6 @@ const ListarCategorias = () => {
         <div className="bg-[#D0F25E]">
           <h2 className="py-2 px-6 font-semibold text-xl">Categorías</h2>
         </div>
-        {message && (
-          <div className="bg-green-200 text-green-800 p-2 rounded mb-4">
-            {message}
-          </div>
-        )}
         <div className="w-full h-16 flex items-center justify-between">
           <div className="w-[30%] shadow-sm border border-[#999999] rounded-md flex flex-row items-center ml-6">
             <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1" />
@@ -64,7 +65,7 @@ const ListarCategorias = () => {
             />
           </div>
           <button onClick={crearCategoria} className="mr-6 py-1 rounded-md px-6 shadow hover:bg-[#b0d144] bg-[#8DB600]">Registrar Categoría</button>
-        </div> 
+        </div>
         <div className="bg-[#D0F25E] h-6 w-full"></div>
         <table>
           <thead className="bg-[#95A09D] text-left ">

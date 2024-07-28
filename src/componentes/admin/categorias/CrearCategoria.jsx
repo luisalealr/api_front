@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CrearCategoria = () => {
     const [categoryName, setCategoryName] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
     const [categories, setCategories] = useState([]);
     const navigate = useNavigate();
 
@@ -18,6 +18,7 @@ const CrearCategoria = () => {
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error al obtener las categorías:', error);
+                toast.error(`Error al obtener las categorías: ${error.message}`, { autoClose: 4000 });
             }
         };
 
@@ -32,8 +33,7 @@ const CrearCategoria = () => {
         const categoryExists = categories.some(category => category.descripcion.toLowerCase() === trimmedCategoryName.toLowerCase());
 
         if (categoryExists) {
-            setError('La categoría ya existe');
-            setMessage('');
+            toast.error('La categoría ya existe', { autoClose: 4000 });
             return;
         }
 
@@ -50,41 +50,30 @@ const CrearCategoria = () => {
                     }
                 }
             );
-            setMessage('Categoría guardada correctamente');
-            setError('');
+            toast.success('Categoría guardada correctamente', { autoClose: 4000 });
             setCategoryName('');
             // Redireccionar a la lista de categorías con mensaje de éxito
-            navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
+            setTimeout(() => {
+                navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
+            }, 4000); // Redirigir después de 4 segundos
         } catch (error) {
-            setMessage('');
-            setError('Error al guardar la categoría: ' + (error.response?.data?.message || error.message));
+            toast.error('Error al guardar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 4000 });
         }
     };
 
     const handleCancel = () => {
         setCategoryName('');
-        setMessage('');
-        setError('');
     };
 
     return (
         <TemplateAdmin>
+            <ToastContainer />
             <div className="bg-[#D0F25E]">
                 <h1 className="ml-5 py-3 font-bold text-black text-xl w-full">
                     Crear Categoría
                 </h1>
             </div>
             <div className="flex flex-col mt-4 ml-5">
-                {message && (
-                    <div className="bg-green-200 text-green-800 p-2 rounded mb-4">
-                        {message}
-                    </div>
-                )}
-                {error && (
-                    <div className="bg-red-200 text-red-800 p-2 rounded mb-4">
-                        {error}
-                    </div>
-                )}
                 <form onSubmit={handleSubmit} className="w-full max-w-lg mt-10">
                     <div className="mb-4 flex items-center">
                         <label htmlFor="categoryName" className="ml-10 mr-2 font-bold w-40">
