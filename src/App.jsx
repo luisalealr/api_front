@@ -1,6 +1,5 @@
 import './App.css'
 import {  BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Inicio from './Inicio';
 import SideBar from './componentes/admin/templates/Sidebar';
 import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
 import InicioSesion from './componentes/InicioSesion';
@@ -12,6 +11,7 @@ import RegistrarProducto from './componentes/admin/productos/RegistrarProducto';
 import GuardarProve from './componentes/admin/proveedores/GuardarProve';
 import EditarProve from './componentes/admin/proveedores/EditarProve';
 import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
+import Inicio from './componentes/admin/Inicio';
 
 
 function App() {

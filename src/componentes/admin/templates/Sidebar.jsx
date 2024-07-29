@@ -33,7 +33,7 @@ export default function SideBar() {
             <div className="flex-1 overflow-y-auto">
                 <ul className="list-none py-[1rem] px-[2rem]">
                     <li className="mb-[10px] p-2 rounded-md hover:bg-[#8DB600] transition-colors duration-300">
-                        <Link className="flex flex-row items-center" to=""><FiHome className="mr-4 text-xl" /> Inicio</Link>
+                        <Link className="flex flex-row items-center" to="/Inicio"><FiHome className="mr-4 text-xl" /> Inicio</Link>
                     </li>
                     <li className="mb-[10px] p-2 rounded-md hover:bg-[#8DB600] transition-colors duration-300">
                         <Link className="flex flex-row items-center" to="/ver_ventas"><TbReceiptDollar className="mr-4 text-xl" />Ventas</Link>

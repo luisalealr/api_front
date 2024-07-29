@@ -3,7 +3,7 @@ import TemplateAdmin from "../templates/TemplateAdmin";
 import TablaVentas from "./TablaVentas";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";
-import { getAllVentas, getVentasPorFecha } from "../../../services/VentasService";
+import { getAllVentas } from "../../../services/VentasService";
 import { toast } from "react-toastify";
 
 const VerVentas = () => {
@@ -12,7 +12,7 @@ const VerVentas = () => {
   const [buscarDesc, setBuscarDec] = useState('');
   const [fechaInicio, setFechaInicio] = useState('');
   const [fechaFin, setFechaFin] = useState('');
-  const [resultsPorFecha, setResultsPorFecha] = useState([]);
+  const [results, setResults] = useState([]);
 
   const filtrar = () => {
     setIsFilterVisible(!isFilterVisible);
@@ -22,6 +22,7 @@ const VerVentas = () => {
     getAllVentas().then(data => {
       if (data && Array.isArray(data)) {
         setFacturas(data);
+        setResults(data); // Inicialmente muestra todas las ventas
       } else {
         console.error('Data no es un array');
       }
@@ -32,82 +33,33 @@ const VerVentas = () => {
 
   const buscador = (e) => {
     setBuscarDec(e.target.value);
-  }
+  };
 
-  let results = []
-  if (!buscarDesc) {
-    results = facturas;
-  } else {
-    results = facturas.filter((dato) => dato.id_compra == buscarDesc)
-  }
-  
-  //Búsqueda por fecha
-    // if (resultsPorFecha.length != 0) {
-    //     results = results.filter((factura) =>
-    //     resultsPorFecha.some((result) => result.id_compra === factura.id_compra)
-    //   )
-    // }
-
-  // const buscarPorFecha = async () => {
-  //     const dataa = {
-  //       fecha_inicio: fechaInicio,
-  //       fecha_fin: fechaFin, 
-  //     };
-  //     console.log('Datos a enviar:', JSON.stringify(dataa, null, 2));
-  //     try {
-  //       const response = await getVentasPorFecha(dataa);
-  //       setResultsPorFecha(response.data);
-  //       console.log(JSON.stringify(response.data, null, 2))
-  //       toast.success('Venta Registrada correctamente');
-  //     } catch (error) {
-  //       toast.error('Error al registrar la venta: ' + (error.response?.data?.message || error.message));
-  //     }
-  //     setIsFilterVisible(!isFilterVisible);
-  //     //setFechaFin('');
-  //     //setFechaInicio('');
-  // }
-
-  const buscarPorFecha = async () => {
-    const dataa = {
-        fecha_inicio: fechaInicio,
-        fecha_fin: fechaFin, 
-    };
-    
-    console.log('Datos a enviar:', JSON.stringify(dataa, null, 2));
-    
-    // Comprobar que las fechas sean válidas
-    if (!fechaInicio || !fechaFin) {
-        toast.error('Por favor, selecciona ambas fechas.');
-        return;
-    }
-    
-    try {
-        const response = await getVentasPorFecha(dataa);
-        
-        if (response && response.length > 0) {
-            setResultsPorFecha(response);
-            console.log('Datos recibidos:', JSON.stringify(response, null, 2));
-            toast.success('Ventas filtradas correctamente');
-        } else {
-            toast.info('No se encontraron ventas en este rango de fechas');
-            setResultsPorFecha([]);
-        }
-    } catch (error) {
-        toast.error('Error al filtrar las ventas: ' + (error.response?.data?.message || error.message));
-    }
-    
+  const filtrarPorFecha = () => {
     setIsFilterVisible(!isFilterVisible);
-    //setFechaFin('');
-    //setFechaInicio('');
+    if (!fechaInicio || !fechaFin) {
+      setResults(facturas);
+      return;
+    }
+    const fecha_1 = new Date(fechaInicio);
+    const fecha_2 = new Date(fechaFin);
+    const filteredResults = facturas.filter(venta => {
+        const fechaVenta = new Date(venta.fecha);
+        return fechaVenta >= fecha_1 && fechaVenta <= fecha_2;
+    });
+    setResults(filteredResults);
+  };
+
+  let displayedResults = results;
+  if (buscarDesc) {
+    displayedResults = results.filter(dato => dato.id_compra == buscarDesc);
   }
 
-
-
-  return<>
+  return (
     <TemplateAdmin>
       <div className="flex flex-col">
         <div className="bg-[#D0F25E]">
-            <h2 className="py-2 px-6 font-semibold text-xl">Ventas</h2>
+          <h2 className="py-2 px-6 font-semibold text-xl">Ventas</h2>
         </div>
         <div className="w-full h-16 flex items-center">
           <div className="flex flex-col ">
@@ -116,7 +68,7 @@ const VerVentas = () => {
               <h5>Filtro</h5>
             </div>
             {isFilterVisible && (
-            <div className="border border-[#999999] absolute left-80 top-24 mt-2 w-auto flex flex-col text-sm bg-gray-200 py-2 px-6 rounded-md shadow-xl">
+              <div className="border border-[#999999] absolute left-80 top-24 mt-2 w-auto flex flex-col text-sm bg-gray-200 py-2 px-6 rounded-md shadow-xl">
                 <div className="flex flex-col">
                   <h5>Fecha</h5>
                   <label htmlFor="">Primera Fecha</label>
@@ -135,7 +87,7 @@ const VerVentas = () => {
                   />
                 </div>
                 <button 
-                  onClick={buscarPorFecha} 
+                  onClick={filtrarPorFecha}
                   className="w-fit shadow-sm rounded-md py-[2px] border mt-2 border-[#999999] bg-white px-2"
                 >Aceptar</button>
               </div>
@@ -164,23 +116,23 @@ const VerVentas = () => {
               <th>Total</th>
             </tr>
           </thead>
-        <tbody> 
-            {results.map((factura, index) => (
-                <TablaVentas
-                    key={index}
-                    facturaId={factura.id_compra}
-                    cliente={factura.nombre_cliente}
-                    fecha={factura.fecha}
-                    cantidadProductos={factura.cantidadProductos}
-                    precioTotal={factura.total}
-                    productos={factura.productos}
-                />
+          <tbody> 
+            {displayedResults.map((factura, index) => (
+              <TablaVentas
+                key={index}
+                facturaId={factura.id_compra}
+                cliente={factura.nombre_cliente}
+                fecha={factura.fecha}
+                cantidadProductos={factura.cantidadProductos}
+                precioTotal={factura.total}
+                productos={factura.productos}
+              />
             ))}
           </tbody>
         </table>
       </div>
     </TemplateAdmin>
-  </>
+  );
 }
 
 export default VerVentas;

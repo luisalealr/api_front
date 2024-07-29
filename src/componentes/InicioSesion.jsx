@@ -81,7 +81,7 @@ const InicioSesion = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <hr className="mb-1 border-[#1e1e1e63] w-full" />
-                        <button type="submit" className="bg-[#D0F25E] py-2 px-10 rounded-lg text-lg hover:bg-[#97b33c] shadow">Iniciar Sesión</button>
+                        <button onClick={handleSubmit} type="submit" className="bg-[#D0F25E] py-2 px-10 rounded-lg text-lg hover:bg-[#97b33c] shadow">Iniciar Sesión</button>
                     </form>
                 </div>
             </div>

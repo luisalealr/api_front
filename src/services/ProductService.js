@@ -49,3 +49,23 @@ export async function crearProduct(){
         return null
     }
 }
+
+export async function getCountProducts() {
+    try {
+        const response = await axios.get(`${API_URL}/products/count`);
+        return response.data; // Devuelve el arreglo completo
+    } catch (error) {
+        console.error('Error al obtener la cantidad de productos:', error);
+        throw error;
+    }
+}
+
+export async function getProductosPorCategoria() {
+    try {
+        const response = await axios.get(`${API_URL}/products/categories`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener los productos por categorías:', error);
+        throw error;
+    }
+}

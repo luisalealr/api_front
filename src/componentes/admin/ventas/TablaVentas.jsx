@@ -12,7 +12,7 @@ const TablaVentas = ({ facturaId, cliente,  fecha, precioTotal, productos }) => 
 
     const [cantidad, setCantidad] = useState('');
 
-    useEffect(
+    useEffect( 
         ()=>{
             getCantidad()
         },[productos]
