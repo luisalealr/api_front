@@ -25,11 +25,15 @@ export default function SideBar() {
         navigate('/login'); 
     };
 
+    const mostrarProductosFaltantes = () => {
+        setProductosOpen(!productosOpen);
+    }
+
     useEffect(() => {
         mostrarAlerta();
       }, []);
 
-      const mostrarAlerta = async () => {
+    const mostrarAlerta = async () => {
         const productosArray = await getProducts();
         const productosFaltantes = [];
         if (productosArray) {
@@ -42,8 +46,6 @@ export default function SideBar() {
         }
         setProductos(productosFaltantes);
     };
-
-
 
     return <>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">
@@ -87,7 +89,7 @@ export default function SideBar() {
                 </ul>
             </div>
             {alertaOpen && (
-                <div className="w-full h-auto">
+                <div onClick={mostrarProductosFaltantes} className="cursor-pointer w-full h-auto">
                     <Alerta></Alerta>
                 </div>
             )}
