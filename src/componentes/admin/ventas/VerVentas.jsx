@@ -48,23 +48,60 @@ const VerVentas = () => {
     //   )
     // }
 
+  // const buscarPorFecha = async () => {
+  //     const dataa = {
+  //       fecha_inicio: fechaInicio,
+  //       fecha_fin: fechaFin, 
+  //     };
+  //     console.log('Datos a enviar:', JSON.stringify(dataa, null, 2));
+  //     try {
+  //       const response = await getVentasPorFecha(dataa);
+  //       setResultsPorFecha(response.data);
+  //       console.log(JSON.stringify(response.data, null, 2))
+  //       toast.success('Venta Registrada correctamente');
+  //     } catch (error) {
+  //       toast.error('Error al registrar la venta: ' + (error.response?.data?.message || error.message));
+  //     }
+  //     setIsFilterVisible(!isFilterVisible);
+  //     //setFechaFin('');
+  //     //setFechaInicio('');
+  // }
+
   const buscarPorFecha = async () => {
-      const data = {
+    const dataa = {
         fecha_inicio: fechaInicio,
         fecha_fin: fechaFin, 
-      };
-      console.log('Datos a enviar:', JSON.stringify(data, null, 2));
-      try {
-        const response = await getVentasPorFecha(data);
-        setResultsPorFecha(response.data);
-        toast.success('Venta Registrada correctamente');
-      } catch (error) {
-        toast.error('Error al registrar la venta: ' + (error.response?.data?.message || error.message));
-      }
-      setIsFilterVisible(!isFilterVisible);
-      //setFechaFin('');
-      //setFechaInicio('');
+    };
+    
+    console.log('Datos a enviar:', JSON.stringify(dataa, null, 2));
+    
+    // Comprobar que las fechas sean válidas
+    if (!fechaInicio || !fechaFin) {
+        toast.error('Por favor, selecciona ambas fechas.');
+        return;
+    }
+    
+    try {
+        const response = await getVentasPorFecha(dataa);
+        
+        if (response && response.length > 0) {
+            setResultsPorFecha(response);
+            console.log('Datos recibidos:', JSON.stringify(response, null, 2));
+            toast.success('Ventas filtradas correctamente');
+        } else {
+            toast.info('No se encontraron ventas en este rango de fechas');
+            setResultsPorFecha([]);
+        }
+    } catch (error) {
+        toast.error('Error al filtrar las ventas: ' + (error.response?.data?.message || error.message));
+    }
+    
+    setIsFilterVisible(!isFilterVisible);
+    //setFechaFin('');
+    //setFechaInicio('');
   }
+
+
 
   return<>
     <TemplateAdmin>
@@ -89,7 +126,7 @@ const VerVentas = () => {
                     className="rounded-md border-none shadow  h-5 text-sm w-32" 
                     type="date" 
                   />
-                  <label htmlFor="">Primera Fecha</label>
+                  <label htmlFor="">Segunda Fecha</label>
                   <input 
                     value={fechaFin}
                     onChange={(e) => setFechaFin(e.target.value)} 

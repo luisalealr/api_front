@@ -53,6 +53,7 @@ const TablaVentas = ({ facturaId, cliente,  fecha, precioTotal, productos }) => 
                                 <th>Código del Producto</th>
                                 <th>Cantidad</th>
                                 <th>Precio Unitario</th>
+                                <th>Precio Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +63,8 @@ const TablaVentas = ({ facturaId, cliente,  fecha, precioTotal, productos }) => 
                                 <td>{producto.nombre}</td>
                                 <td>{producto.id_producto}</td>
                                 <td>{producto.cantidad}</td>
-                                <td>${producto.precioUnitario}</td>
+                                <td>${producto.precio}</td>
+                                <td>${producto.precio * producto.cantidad}</td>
                             </tr>
                             ))}
                         </tbody>

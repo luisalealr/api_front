@@ -28,7 +28,6 @@ export async function crearVenta(data) {
 export async function getAllVentas(){
     try {
         const result = await axios.get(`${API_URL}/buys/`, {
-            method: 'GET',
             headers: {
                 'Content-Type': 'aplication/json'
             }
@@ -43,8 +42,9 @@ export async function getAllVentas(){
 }
 
 export async function getVentasPorFecha(fechas){
-    try {
-        const result = await axios.get(`${API_URL}/buys/date/`,fechas, {
+    try { 
+        const result = await axios.get(`${API_URL}/buys/date/`, {
+            params: fechas,
             method: 'GET',
             headers: {
                 'Content-Type': 'aplication/json'
