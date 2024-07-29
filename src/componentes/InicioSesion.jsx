@@ -27,7 +27,7 @@ const InicioSesion = () => {
                 if (usuario === 'Administrador') {
                     navigate('/inicio');
                 } else if (usuario === 'Vendedor') {
-                    navigate('/menu_vendedor');
+                    navigate('/inicio_vendedor');
                 }
             } else {
                 throw new Error('Invalid credentials');

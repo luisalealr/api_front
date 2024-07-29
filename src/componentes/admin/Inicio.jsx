@@ -59,19 +59,19 @@ export default function Inicio() {
     return <>
         <TemplateAdmin>
             <div className="flex flex-col h-full">
-                <div className="grid grid-cols-2 h-[700px] justify-center w-[80%] mt-10">
+                <div className="grid grid-cols-2 min-h-[600px] max-h-fit justify-center w-[80%] mt-10">
                     <div className="flex flex-col h-[60%] justify-between items-center">
-                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[45%] p-6 rounded-lg shadow">
+                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[160px] p-6 rounded-lg shadow">
                             <span className="text-xl font-bold mb-6">Productos existentes</span>
                             <span className="text-4xl font-bold">{productos}</span>
                         </div>
-                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[45%] p-6 rounded-lg shadow">
+                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[160px] p-6 rounded-lg shadow">
                             <span className="text-xl font-bold mb-6">Ventas</span>
                             <span className="text-4xl font-bold">{ventas}</span>
                         </div>
                     </div>
                     <div className="flex flex-col w-full items-center">
-                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[60%] p-6 rounded-lg shadow">
+                        <div className="flex flex-col bg-[#D0F25E] w-[70%] max-h-fit min-h-[360px] p-6 rounded-lg shadow">
                             <span className="text-xl font-bold mb-6">Productos por categoría</span>
                             <div className="flex flex-row">
                                 {categorias.map((categoria, index) => (

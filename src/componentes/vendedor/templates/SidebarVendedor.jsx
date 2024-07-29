@@ -32,7 +32,7 @@ export default function SideBarVendedor(){
                         <Link className="flex flex-row items-center" to="/registrar_venta"><FaRegEdit className="mr-4 text-xl"/>Registrar venta</Link>
                     </li>
                     <li className="mb-[10px] p-2 rounded-md hover:bg-[#8DB600] transition-colors duration-300">
-                        <Link className="flex flex-row items-center" to=""><TbReceiptDollar className="mr-4 text-xl"/>Ventas</Link>
+                        <Link className="flex flex-row items-center" to="/ver_ventas_ven"><TbReceiptDollar className="mr-4 text-xl"/>Ventas</Link>
                     </li>
                 </ul>
             </div>

@@ -6,7 +6,7 @@ const TemplateAdmin = ({ children }) => {
         <>
             <div className="flex flex-row h-screen overflow-hidden">
                 <SideBar/>
-                <div className="flex-1 overflow-auto">
+                <div className="flex-1 overflow-auto"> 
                     {children}
                 </div>
             </div>
