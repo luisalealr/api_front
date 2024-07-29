@@ -4,6 +4,7 @@ import TemplateAdmin from "../templates/TemplateAdmin";
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from "../../../config";
 
 const GuardarProve = () => {
     const [nombre, setNombre] = useState('');
@@ -15,7 +16,7 @@ const GuardarProve = () => {
     useEffect(() => {
         const fetchProveedores = async () => {
             try {
-                const response = await axios.get('https://backendfarmacia-production.up.railway.app/api/provider', {
+                const response = await axios.get(`${API_URL}/provider`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -48,7 +49,7 @@ const GuardarProve = () => {
 
         try {
             const response = await axios.post(
-                'https://backendfarmacia-production.up.railway.app/api/provider',
+                `${API_URL}/provider`,
                 {
                     nombre: trimmedNombre,
                     telefono,

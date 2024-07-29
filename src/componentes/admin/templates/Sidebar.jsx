@@ -16,6 +16,7 @@ export default function SideBar() {
     const [alertaOpen, setAlertaOpen] = useState(false);
     const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
+    const [productosOpen, setProductosOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -41,6 +42,8 @@ export default function SideBar() {
         }
         setProductos(productosFaltantes);
     };
+
+
 
     return <>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">

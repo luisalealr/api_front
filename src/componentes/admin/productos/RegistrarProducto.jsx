@@ -3,6 +3,7 @@ import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from "../../../config";
 
 const RegistrarProducto = () => {
     const [nombre, setNombre] = useState('');
@@ -19,9 +20,9 @@ const RegistrarProducto = () => {
         const fetchInitialData = async () => {
             try {
                 const [categoriasRes, proveedoresRes, productosRes] = await Promise.all([
-                    axios.get('https://backendfarmacia-production.up.railway.app/nueva_esperanza/api/categories'),
-                    axios.get('https://backendfarmacia-production.up.railway.app/nueva_esperanza/api/provider'),
-                    axios.get('https://backendfarmacia-production.up.railway.app/api/products'),
+                    axios.get(`${API_URL}/categories`),
+                    axios.get(`${API_URL}/provider`),
+                    axios.get(`${API_URL}/products`),
                 ]);
 
                 setCategorias(categoriasRes.data);
@@ -69,7 +70,7 @@ const RegistrarProducto = () => {
         console.log('Datos enviados:', producto);
 
         try {
-            const response = await axios.post('https://backendfarmacia-production.up.railway.app/nueva_esperanza/api/products', producto);
+            const response = await axios.post(`${API_URL}/products`, producto);
             console.log('Respuesta del servidor:', response);
             toast.success('Producto guardado correctamente', { autoClose: 3000 });
 
