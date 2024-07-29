@@ -4,7 +4,9 @@ import { IoSearch } from "react-icons/io5";
 import { getAllCategorias } from "../../../services/CategoriaService";
 import TablaCategorias from "./TablaCategorias";
 import { useNavigate, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios';
+import { API_URL } from "../../../config"; // Ajusta la ruta según tu estructura de archivos
 import 'react-toastify/dist/ReactToastify.css';
 
 const ListarCategorias = () => {
@@ -21,6 +23,7 @@ const ListarCategorias = () => {
   useEffect(() => {
     if (message) {
       toast.success(message, { autoClose: 3000 });
+      navigate(location.pathname, { replace: true, state: {} });
     }
 
     getAllCategorias().then(data => {
@@ -48,8 +51,22 @@ const ListarCategorias = () => {
     )
   }
 
+  const handleDisable = async (id_categoria) => {
+    try {
+      await axios.put(`${API_URL}/categories/${id_categoria}`, {
+        isActive: 0
+      });
+      toast.success('Categoría deshabilitada con éxito', { autoClose: 3000 });
+      setCategorias(categorias.filter(categoria => categoria.id_categoria !== id_categoria));
+    } catch (error) {
+      console.error('Error al deshabilitar la categoría:', error);
+      toast.error('Error al deshabilitar la categoría', { autoClose: 3000 });
+    }
+  };
+
   return (
     <TemplateAdmin>
+      <ToastContainer />
       <div className="flex flex-col">
         <div className="bg-[#D0F25E]">
           <h2 className="py-2 px-6 font-semibold text-xl">Categorías</h2>
@@ -81,6 +98,7 @@ const ListarCategorias = () => {
                 key={index}
                 categoriaId={categoria.id_categoria}
                 descripcion={categoria.descripcion}
+                onDisable={handleDisable} // Pasa la función al componente TablaCategorias
               />
             ))}
           </tbody>

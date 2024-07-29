@@ -50,12 +50,8 @@ const CrearCategoria = () => {
                     }
                 }
             );
-            toast.success('Categoría guardada correctamente', { autoClose: 4000 });
-            setCategoryName('');
-            // Redireccionar a la lista de categorías con mensaje de éxito
-            setTimeout(() => {
-                navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
-            }, 4000); // Redirigir después de 4 segundos
+            // Redirigir a la lista de categorías con mensaje de éxito
+            navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
         } catch (error) {
             toast.error('Error al guardar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 4000 });
         }

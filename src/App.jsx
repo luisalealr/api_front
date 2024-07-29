@@ -1,5 +1,5 @@
 import './App.css'
-import {  HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import SideBar from './componentes/admin/templates/Sidebar';
 import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
 import InicioSesion from './componentes/InicioSesion';
@@ -11,15 +11,15 @@ import RegistrarProducto from './componentes/admin/productos/RegistrarProducto';
 import GuardarProve from './componentes/admin/proveedores/GuardarProve';
 import EditarProve from './componentes/admin/proveedores/EditarProve';
 import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
+import EditarCategoria from './componentes/admin/categorias/EditarCategoria';
 import Inicio from './componentes/admin/Inicio';
 import VerVentasVen from './componentes/vendedor/ventas/VerVentas';
 
 function App() {
-
   return (
     <Router>
       <div className="app-container">
-        <Routes> 
+        <Routes>
           <Route path="/inicio" element={<Inicio />} />
           <Route path="/login" element={<InicioSesion />} />
           <Route path="/menu" element={<SideBar />} />
@@ -32,12 +32,14 @@ function App() {
           <Route path="/editar_producto" element={<EditarProducto />} />
           <Route path="/registrar_producto" element={<RegistrarProducto />} />
           <Route path="/ver_categorias" element={<ListarCategorias />} />
+          <Route path="/editar_categoria/:id" element={<EditarCategoria />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
-          <Route path='/ver_ventas_ven' element={<VerVentasVen/>}/>
+          <Route path='/ver_ventas_ven' element={<VerVentasVen />} />
         </Routes>
       </div>
     </Router>
   );
 }
+
 export default App;

@@ -1,29 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import TemplateAdmin from "../templates/TemplateAdmin";
+import { getCategoriaPorId } from "../../../services/CategoriaService";
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify'; // Importar Toast
 
 const EditarCategoria = () => {
+    const { id } = useParams(); // Obtener el ID de la URL
     const [categoryName, setCategoryName] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCategoria = async () => {
+            try {
+                const data = await getCategoriaPorId(id); // Obtener categoría usando el ID
+                if (data && data.descripcion) {
+                    setCategoryName(data.descripcion); // Establecer la descripción en el estado
+                } else {
+                    console.error('Categoría no encontrada');
+                }
+            } catch (error) {
+                console.error('Error al obtener la categoría:', error);
+            }
+        };
+
+        fetchCategoria();
+    }, [id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validar si el campo está vacío
+        if (categoryName.trim() === '') {
+            toast.error('No se puede guardar una categoría vacía'); // Mostrar mensaje de error
+            return; // No continuar si el campo está vacío
+        }
+
         try {
-            await axios.post('/api/categories', { name: categoryName });
-            // Manejar la respuesta exitosa
-            console.log('Categoría guardada');
-            setCategoryName(''); // Limpiar el campo después de guardar
+            await axios.put(`https://backendfarmacia-production.up.railway.app/api/categories/description/${id}`, { descripcion: categoryName });
+            console.log('Categoría actualizada');
+            navigate('/ver_categorias', { state: { message: 'Categoría actualizada correctamente' } }); // Redirigir y mostrar mensaje
         } catch (error) {
-            // Manejar errores
-            console.error('Error al guardar la categoría:', error);
+            console.error('Error al actualizar la categoría:', error);
         }
     };
 
     const handleCancel = () => {
-        setCategoryName('');
+        navigate('/ver_categorias'); // Redirigir sin guardar
     };
 
     return (
         <TemplateAdmin>
+            <ToastContainer /> {/* Agregar ToastContainer para las notificaciones */}
             <div className="bg-[#D0F25E]">
                 <h1 className="ml-5 py-3 font-bold text-black text-xl w-full">
                     Editar Categoría
@@ -40,7 +68,7 @@ const EditarCategoria = () => {
                             type="text"
                             value={categoryName}
                             onChange={(e) => setCategoryName(e.target.value)}
-                            placeholder="Escriba el nombre de la nueva categoría"
+                            placeholder="Escriba el nombre de la categoría"
                             className="border border-gray-300 p-2 rounded-md flex-grow"
                         />
                     </div>
