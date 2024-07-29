@@ -1,5 +1,5 @@
 import './App.css'
-import { HashRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {  BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Inicio from './Inicio';
 import SideBar from './componentes/admin/templates/Sidebar';
 import SideBarVendedor from './componentes/vendedor/templates/SidebarVendedor';
