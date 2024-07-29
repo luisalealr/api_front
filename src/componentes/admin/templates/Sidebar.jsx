@@ -16,6 +16,7 @@ export default function SideBar() {
     const [alertaOpen, setAlertaOpen] = useState(false);
     const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
+    const [productosOpen, setProductosOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -24,11 +25,15 @@ export default function SideBar() {
         navigate('/login'); 
     };
 
+    const mostrarProductosFaltantes = () => {
+        setProductosOpen(!productosOpen);
+    }
+
     useEffect(() => {
         mostrarAlerta();
       }, []);
 
-      const mostrarAlerta = async () => {
+    const mostrarAlerta = async () => {
         const productosArray = await getProducts();
         const productosFaltantes = [];
         if (productosArray) {
@@ -84,7 +89,7 @@ export default function SideBar() {
                 </ul>
             </div>
             {alertaOpen && (
-                <div className="w-full h-auto">
+                <div onClick={mostrarProductosFaltantes} className="cursor-pointer w-full h-auto">
                     <Alerta></Alerta>
                 </div>
             )}

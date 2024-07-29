@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import TemplateAdmin from "./admin/templates/TemplateAdmin";
 import TablaVentas from "./admin/ventas/TablaVentas";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";

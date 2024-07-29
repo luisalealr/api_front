@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from "../../../config";
 
 const CrearCategoria = () => {
     const [categoryName, setCategoryName] = useState('');
@@ -14,7 +15,7 @@ const CrearCategoria = () => {
         // Obtener todas las categorías existentes
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('https://backendfarmacia-production.up.railway.app/api/categories');
+                const response = await axios.get(`${API_URL}/categories`);
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error al obtener las categorías:', error);
@@ -39,7 +40,7 @@ const CrearCategoria = () => {
 
         try {
             await axios.post(
-                'https://backendfarmacia-production.up.railway.app/api/categories',
+                `${API_URL}/categories`,
                 {
                     descripcion: trimmedCategoryName,
                     isActive: 1
@@ -58,6 +59,7 @@ const CrearCategoria = () => {
     };
 
     const handleCancel = () => {
+        navigate('/ver_categorias');
         setCategoryName('');
     };
 

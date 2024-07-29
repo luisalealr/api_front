@@ -22,20 +22,26 @@ export default function Inicio() {
         }
     };
 
-    const cantidadVentas = async () => {
+    const cantidadVentasDelDia = async () => {
         try {
-            const resultado = await getAllVentas(); 
-            let canti = 0;
-            if (resultado && resultado.length > 0) {
-                canti = resultado.length;
-                setVentas(canti); 
-            } else {
-                setVentas(0);
-            }
+          const resultado = await getAllVentas();
+          let canti = 0;
+          if (resultado && resultado.length > 0) {
+            const fechaActual = new Date().toISOString().split('T')[0];
+            const filteredResults = resultado.filter(venta => {
+              const fechaVenta = new Date(venta.fecha).toISOString().split('T')[0];
+              return fechaActual == fechaVenta;
+            });
+            canti = filteredResults.length;
+            setVentas(canti);
+          } else {
+            setVentas(0);
+          }
         } catch (error) {
-            console.error(error);
+          console.error('Error:', error);
         }
-    }
+    };
+      
 
     const productoPorCategoria = async () => {
         try {
@@ -52,28 +58,18 @@ export default function Inicio() {
 
     useEffect(() => {
         cantidadProductos();
-        cantidadVentas();
+        cantidadVentasDelDia();
         productoPorCategoria();
     }, []);
 
     return <>
         <TemplateAdmin>
             <div className="flex flex-col h-full">
-                <div className="grid grid-cols-2 min-h-[600px] max-h-fit justify-center w-[80%] mt-10">
-                    <div className="flex flex-col h-[60%] justify-between items-center">
-                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[160px] p-6 rounded-lg shadow">
-                            <span className="text-xl font-bold mb-6">Productos existentes</span>
-                            <span className="text-4xl font-bold">{productos}</span>
-                        </div>
-                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[160px] p-6 rounded-lg shadow">
-                            <span className="text-xl font-bold mb-6">Ventas</span>
-                            <span className="text-4xl font-bold">{ventas}</span>
-                        </div>
-                    </div>
+                <div className="grid grid-cols-2 min-h-[600px] max-h-fit justify-center w-[90%] mt-10 ml-10">
                     <div className="flex flex-col w-full items-center">
-                        <div className="flex flex-col bg-[#D0F25E] w-[70%] max-h-fit min-h-[360px] p-6 rounded-lg shadow">
+                        <div className="flex flex-col bg-[#D0F25E] w-[70%] max-h-fit min-h-[360px] p-6 rounded-lg shadow mb-10">
                             <span className="text-xl font-bold mb-6">Productos por categoría</span>
-                            <div className="flex flex-row">
+                            <div className="flex flex-col">
                                 {categorias.map((categoria, index) => (
                                     <ProductoPorCategoria
                                         key={index}
@@ -82,6 +78,16 @@ export default function Inicio() {
                                     />
                                 ))}
                             </div>
+                        </div>
+                    </div>
+                    <div className="flex flex-col h-[360px] justify-between items-center">
+                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[160px] p-6 rounded-lg shadow">
+                            <span className="text-xl font-bold mb-6">Productos existentes</span>
+                            <span className="text-4xl font-bold">{productos}</span>
+                        </div>
+                        <div className="flex flex-col bg-[#D0F25E] w-[70%] h-[160px] p-6 rounded-lg shadow">
+                            <span className="text-xl font-bold mb-6">Ventas del día</span>
+                            <span className="text-4xl font-bold">{ventas}</span>
                         </div>
                     </div>
                 </div>
