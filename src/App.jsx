@@ -12,7 +12,7 @@ import GuardarProve from './componentes/admin/proveedores/GuardarProve';
 import EditarProve from './componentes/admin/proveedores/EditarProve';
 import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
 import Inicio from './componentes/admin/Inicio';
-
+import VerVentasVen from './componentes/vendedor/ventas/VerVentas';
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
           <Route path="/inicio" element={<Inicio />} />
           <Route path="/login" element={<InicioSesion />} />
           <Route path="/menu" element={<SideBar />} />
-          <Route path="/menu_vendedor" element={<SideBarVendedor />} />
+          <Route path="/inicio_vendedor" element={<SideBarVendedor />} />
           <Route path="/registrar_categoria" element={<CrearCategoria />} />
           <Route path="/ver_ventas" element={<VerVentas />} />
           <Route path="/registrar_venta" element={<RegistrarVentas />} />
@@ -34,6 +34,7 @@ function App() {
           <Route path="/ver_categorias" element={<ListarCategorias />} />
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path='/ver_ventas_ven' element={<VerVentasVen/>}/>
         </Routes>
       </div>
     </Router>

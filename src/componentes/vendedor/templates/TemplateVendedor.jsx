@@ -5,8 +5,8 @@ const TemplateVendedor = ({children}) => {
     return(
         <>
             <div className="flex flex-row h-screen overflow-hidden">
-                <SideBarVendedor/>
-                <div className="flex-1">
+                <SideBarVendedor/> 
+                <div className="flex-1 overflow-auto">
                     {children}
                 </div>
             </div>

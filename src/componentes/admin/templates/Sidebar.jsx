@@ -5,20 +5,42 @@ import { TbReceiptDollar } from "react-icons/tb";
 import { HiMiniArrowPathRoundedSquare } from "react-icons/hi2";
 import { LiaUserTieSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logout } from "../../../services/UsuarioService";
 import { toast } from "react-toastify";
+import Alerta from "../../Alerta";
+import { getProducts } from "../../../services/ProductService";
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [alertaOpen, setAlertaOpen] = useState(false);
     const navigate = useNavigate();
+    const [productos, setProductos] = useState([]);
 
     const handleLogout = () => {
         logout();
         toast.success('Sesión cerrada exitosamente');
         window.history.replaceState(null, '', '/login');
         navigate('/login'); 
-      };
+    };
+
+    useEffect(() => {
+        mostrarAlerta();
+      }, []);
+
+      const mostrarAlerta = async () => {
+        const productosArray = await getProducts();
+        const productosFaltantes = [];
+        if (productosArray) {
+            for (const producto of productosArray) {
+                if (producto.cantidad < 5) {
+                    setAlertaOpen(true);
+                    productosFaltantes.push(producto);
+                }
+            }
+        }
+        setProductos(productosFaltantes);
+    };
 
     return <>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">
@@ -61,6 +83,11 @@ export default function SideBar() {
                     </li> 
                 </ul>
             </div>
+            {alertaOpen && (
+                <div className="w-full h-auto">
+                    <Alerta></Alerta>
+                </div>
+            )}
             <hr className="mb-4 border-[#1e1e1e63]" />
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center mb-3 ">
                 <div className="bg-white h-14 w-14 rounded-full mr-2 flex justify-center items-center">

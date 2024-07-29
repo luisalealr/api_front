@@ -3,19 +3,13 @@ import axios from "axios";
 
 export async function getProducts() {
     try {
-        const result = await axios.get(`${API_URL}/products/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'aplication/json'
-            }
-        });
-        const data = await result.data;
-        console.log(data)
-        return data
+        const result = await axios.get(`${API_URL}/products/`);
+        console.log(result.data)
+        return result.data;
     } catch (error) {
         console.error('Error:', error);
         return null
-    }
+    } 
 }
 
 export async function getProduct(id) {
