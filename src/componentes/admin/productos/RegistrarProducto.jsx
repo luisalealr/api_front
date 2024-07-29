@@ -6,9 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const RegistrarProducto = () => {
     const [nombre, setNombre] = useState('');
-    const [precio_unitario, setPrecio_unitario] = useState('');
+    const [precioUnitario, setPrecioUnitario] = useState('');
     const [cantidad, setCantidad] = useState('');
-    const [fecha_vencimiento, setFecha_vencimiento] = useState('');
+    const [fechaVencimiento, setFechaVencimiento] = useState('');
     const [categoria, setCategoria] = useState('');
     const [proveedor, setProveedor] = useState('');
     const [categorias, setCategorias] = useState([]);
@@ -19,8 +19,8 @@ const RegistrarProducto = () => {
         const fetchInitialData = async () => {
             try {
                 const [categoriasRes, proveedoresRes, productosRes] = await Promise.all([
-                    axios.get('https://backendfarmacia-production.up.railway.app/api/categories'),
-                    axios.get('https://backendfarmacia-production.up.railway.app/api/provider'),
+                    axios.get('https://backendfarmacia-production.up.railway.app/nueva_esperanza/api/categories'),
+                    axios.get('https://backendfarmacia-production.up.railway.app/nueva_esperanza/api/provider'),
                     axios.get('https://backendfarmacia-production.up.railway.app/api/products'),
                 ]);
 
@@ -46,24 +46,37 @@ const RegistrarProducto = () => {
             return;
         }
 
-        try {
-            const producto = {
-                nombre: trimmedNombre,
-                precio_unitario: parseFloat(precio_unitario),
-                cantidad: parseInt(cantidad, 10),
-                fecha_vencimiento: fecha_vencimiento,
-                categoria: parseInt(categoria, 10),
-                proveedor: parseInt(proveedor, 10),
-                isActive: 1,
-            };
+        if (!nombre || !precioUnitario || !cantidad || !fechaVencimiento || !categoria || !proveedor) {
+            toast.error('Todos los campos son obligatorios', { autoClose: 3000 });
+            return;
+        }
 
-            await axios.post('https://backendfarmacia-production.up.railway.app/api/products', producto);
+        if (isNaN(precioUnitario) || isNaN(cantidad) || isNaN(categoria) || isNaN(proveedor)) {
+            toast.error('Precio unitario, cantidad, categoría y proveedor deben ser números', { autoClose: 3000 });
+            return;
+        }
+
+        const producto = {
+            nombre: trimmedNombre,
+            precio_unitario: parseFloat(precioUnitario),
+            cantidad: parseInt(cantidad, 10),
+            fecha_vencimiento: fechaVencimiento,
+            categoria: parseInt(categoria, 10),
+            proveedor: parseInt(proveedor, 10),
+            isActive: 1,
+        };
+
+        console.log('Datos enviados:', producto);
+
+        try {
+            const response = await axios.post('https://backendfarmacia-production.up.railway.app/nueva_esperanza/api/products', producto);
+            console.log('Respuesta del servidor:', response);
             toast.success('Producto guardado correctamente', { autoClose: 3000 });
 
             setNombre('');
-            setPrecio_unitario('');
+            setPrecioUnitario('');
             setCantidad('');
-            setFecha_vencimiento('');
+            setFechaVencimiento('');
             setCategoria('');
             setProveedor('');
         } catch (error) {
@@ -74,9 +87,9 @@ const RegistrarProducto = () => {
 
     const handleCancel = () => {
         setNombre('');
-        setPrecio_unitario('');
+        setPrecioUnitario('');
         setCantidad('');
-        setFecha_vencimiento('');
+        setFechaVencimiento('');
         setCategoria('');
         setProveedor('');
     };
@@ -111,8 +124,8 @@ const RegistrarProducto = () => {
                             <input
                                 id="precioUnitario"
                                 type="text"
-                                value={precio_unitario}
-                                onChange={(e) => setPrecio_unitario(e.target.value)}
+                                value={precioUnitario}
+                                onChange={(e) => setPrecioUnitario(e.target.value)}
                                 placeholder="Escriba el precio unitario"
                                 className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
@@ -137,8 +150,8 @@ const RegistrarProducto = () => {
                             <input
                                 id="fechaVencimiento"
                                 type="date"
-                                value={fecha_vencimiento}
-                                onChange={(e) => setFecha_vencimiento(e.target.value)}
+                                value={fechaVencimiento}
+                                onChange={(e) => setFechaVencimiento(e.target.value)}
                                 placeholder="Seleccione la fecha de vencimiento"
                                 className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
