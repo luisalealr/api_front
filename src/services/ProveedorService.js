@@ -17,22 +17,28 @@ export async function getAllProveedores() {
         return null
     }
 }
-export async function getProveedorPorId(id) {
+
+export const getProveedorPorId = async (id) => {
     try {
-        const result = await axios.get(`${API_URL}/provider/` + id, {
-            headers: {
-                'Content-Type': 'aplication/json'
-            }
-        });
+        const result = await axios.get(`${API_URL}/provider/`);
         const data = await result.data;
-        console.log(data)
-        return data
+        // Buscar el proveedor por ID
+        const proveedor = data.find(p => p.id_proveedor === parseInt(id));
+        return proveedor ? proveedor : null; // Retornar el proveedor si existe
     } catch (error) {
-        console.error('Error al obtener la categoría:', error);
+        console.error('Error al obtener el proveedor:', error);
         return null;
     }
-}
+};
 
+export async function updateProveedorTelefono(id, telefono) {
+    try {
+        await axios.put(`${API_URL}/provider/${id}`, { telefono });
+    } catch (error) {
+        console.error('Error al actualizar el teléfono del proveedor:', error);
+        throw error;
+    }
+}
 
 export async function disableProveedor(id) {
     try {

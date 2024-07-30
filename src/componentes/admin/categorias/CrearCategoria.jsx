@@ -24,7 +24,7 @@ const CrearCategoria = () => {
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error al obtener las categorías:', error);
-                toast.error(`Error al obtener las categorías: ${error.message}`, { autoClose: 4000 });
+                toast.error(`Error al obtener las categorías: ${error.message}`, { autoClose: 1500 });
             }
         };
 
@@ -46,7 +46,7 @@ const CrearCategoria = () => {
                     await axios.put(`${API_URL}/categories/${existingCategory.id_categoria}`, {
                         isActive: 1
                     });
-                    toast.success('Categoría habilitada correctamente', { autoClose: 4000 });
+                    toast.success('Categoría habilitada correctamente', { autoClose: 1500 });
                     // Actualizar la lista de categorías
                     const updatedCategories = categories.map(category =>
                         category.id_categoria === existingCategory.id_categoria
@@ -56,10 +56,10 @@ const CrearCategoria = () => {
                     setCategories(updatedCategories);
                     navigate('/ver_categorias', { state: { message: 'Categoría habilitada correctamente' } });
                 } catch (error) {
-                    toast.error('Error al habilitar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 4000 });
+                    toast.error('Error al habilitar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
                 }
             } else {
-                toast.error('La categoría ya existe', { autoClose: 4000 });
+                toast.error('La categoría ya existe', { autoClose: 1500 });
             }
             return;
         }
@@ -79,7 +79,7 @@ const CrearCategoria = () => {
             );
             navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
         } catch (error) {
-            toast.error('Error al guardar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 4000 });
+            toast.error('Error al guardar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
         }
     };
 
