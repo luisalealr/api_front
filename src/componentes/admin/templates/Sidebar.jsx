@@ -10,6 +10,8 @@ import { logout } from "../../../services/UsuarioService";
 import { toast } from "react-toastify";
 import Alerta from "../../Alerta";
 import { getProducts } from "../../../services/ProductService";
+import ProductosFaltantes from "../productos/ProductosFaltantes";
+import { IoClose } from "react-icons/io5";
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +40,7 @@ export default function SideBar() {
         const productosFaltantes = [];
         if (productosArray) {
             for (const producto of productosArray) {
-                if (producto.cantidad < 5) {
+                if (producto.cantidad <= 5) {
                     setAlertaOpen(true);
                     productosFaltantes.push(producto);
                 }
@@ -50,9 +52,9 @@ export default function SideBar() {
     return <>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen ">
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">
-                <img className="bg-white h-14 w-14 rounded-full mr-2 object-contain" src="/public/img/logo.png" alt="" />
+                <img className="bg-white h-14 w-14 rounded-full mr-2 object-contain" src="/img/logo.png" alt="" />
                 <div className="flex flex-col">
-                    <h5 className="font-semibold">Drogería</h5>
+                    <h5 className="font-semibold">Droguería</h5>
                     <h5 className="font-semibold">La Nueva Esperanza</h5>
                 </div>
             </div>
@@ -103,6 +105,47 @@ export default function SideBar() {
                     <button onClick={handleLogout}><HiMiniArrowPathRoundedSquare className="text-2xl" /></button>
                 </div>
             </div>
+            {productosOpen && (
+                <div className="fixed inset-0 z-50">
+                    <div className="absolute inset-0 bg-black opacity-50"></div> 
+                    <div className="fixed inset-0 flex items-center justify-center z-50">
+                        <div className="flex flex-col w-[800px]">
+                            <div className="bg-yellow-900 p-1 flex flex-row justify-between">
+                                <div className="flex flex-row items-center">
+                                    <div className="bg-[#F2C94C] p-4 h-6 w-6 rounded-full flex justify-center items-center mr-3">
+                                        <span className="text-xl text-white font-bold">!</span>
+                                    </div>
+                                    <span className="text-lg text-white">Los siguientes productos se encuentran en stock mínimo: </span>   
+                                </div>
+                                <div>
+                                    <button  onClick={mostrarProductosFaltantes} className="text-white text-xl"><IoClose/></button>
+                                </div>
+                            </div>
+                            <table>
+                                <thead className="bg-[#F2C94C] text-left">
+                                    <tr >
+                                        <th>N° del producto</th>
+                                        <th>Nombre</th>
+                                        <th>Categoría</th>
+                                        <th>Proveedor</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white"> 
+                                    {productos.map((producto, index) => (
+                                    <ProductosFaltantes
+                                        key={index}
+                                        productoId={producto.id_producto}
+                                        nombre={producto.nombre}
+                                        categoria={producto.categoria.descripcion}
+                                        proveedor={producto.proveedor.nombre}
+                                    />
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     </>
 }

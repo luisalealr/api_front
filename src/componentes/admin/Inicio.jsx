@@ -8,6 +8,7 @@ export default function Inicio() {
     const [productos, setProductos] = useState('');
     const [ventas, setVentas] = useState('');
     const [categorias, setCategorias] = useState([]);
+    const [facturas, setFacturas] = useState([]);
 
     const cantidadProductos = async () => {
         try {
@@ -22,26 +23,25 @@ export default function Inicio() {
         }
     };
 
-    const cantidadVentasDelDia = async () => {
-        try {
-          const resultado = await getAllVentas();
-          let canti = 0;
-          if (resultado && resultado.length > 0) {
-            const fechaActual = new Date().toISOString().split('T')[0];
-            const filteredResults = resultado.filter(venta => {
-              const fechaVenta = new Date(venta.fecha).toISOString().split('T')[0];
-              return fechaActual == fechaVenta;
+    const cantidadVentasDelDia = () => {
+        let canti = 0;
+        if (facturas && facturas.length > 0) {
+            const fechaActual = new Date();
+            const fechaActualLocal = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate()); 
+            const fechaFormato = fechaActualLocal.toISOString().slice(0, 10); 
+            console.log(fechaFormato)   
+            const filteredResults = facturas.filter(venta => {
+                const fechaVentaFormato = new Date(venta.fecha).toISOString().slice(0, 10);
+                console.log(fechaVentaFormato)
+                return fechaFormato === fechaVentaFormato;
             });
             canti = filteredResults.length;
             setVentas(canti);
-          } else {
+        } else {
             setVentas(0);
-          }
-        } catch (error) {
-          console.error('Error:', error);
         }
+        console.log('Cantidad de Ventas:', canti);
     };
-      
 
     const productoPorCategoria = async () => {
         try {
@@ -56,10 +56,19 @@ export default function Inicio() {
         }
     }
 
-    useEffect(() => {
+    useEffect(() => { 
         cantidadProductos();
         cantidadVentasDelDia();
         productoPorCategoria();
+        getAllVentas().then(data => {
+            if (data && Array.isArray(data)) {
+              setFacturas(data);// Inicialmente muestra todas las ventas
+            } else {
+              console.error('Data no es un array');
+            }
+          }).catch(error => {
+            console.error('Error al obtener las ventas:', error);
+          });
     }, []);
 
     return <>

@@ -21,7 +21,6 @@ export async function getCategoriaPorId(id) {
     try {
         const result = await axios.get(`${API_URL}/categories/`);
         const data = await result.data;
-
         // Buscar la categoría por ID
         const categoria = data.find(c => c.id_categoria === parseInt(id));
         return categoria ? categoria : null; // Retornar la categoría si existe

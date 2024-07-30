@@ -9,7 +9,7 @@ const Alerta = () => {
             </div>
             <div className="flex flex-col p-2 w-[80%]">
                 <span className="font-semibold text-md text-[#2F3032]">¡ALERTA!</span>
-                <span className="text-sm text-[#2F3032]">Hay productos en inventario en stock mínimo.</span>
+                <span className="text-sm text-[#2F3032]">Hay productos en stock mínimo.</span>
             </div>
         </div>
     </div>

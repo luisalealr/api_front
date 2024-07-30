@@ -3,7 +3,6 @@ import TablaVentas from "./admin/ventas/TablaVentas";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";
 import { getAllVentas } from "../services/VentasService";
-import { toast } from "react-toastify";
 
 const Ventas = () => {
   const [facturas, setFacturas] = useState([]);

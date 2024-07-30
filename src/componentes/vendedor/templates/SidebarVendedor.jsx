@@ -19,9 +19,9 @@ export default function SideBarVendedor(){
     return<>
         <div className="flex flex-col bg-[#D9D9D9] w-[16rem] h-screen">
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center my-3">
-                <img className="bg-white h-14 w-14 rounded-full mr-2" src="/public/img/logo.png" alt="" />
+                <img className="bg-white h-14 w-14 rounded-full mr-2" src="/img/logo.png" alt="" />
                 <div className="flex flex-col">
-                    <h5 className="font-semibold">Drogería</h5>
+                    <h5 className="font-semibold">Droguería</h5>
                     <h5 className="font-semibold">La Nueva Esperanza</h5>
                 </div>
             </div>
