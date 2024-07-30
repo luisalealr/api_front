@@ -43,17 +43,17 @@ const RegistrarProducto = () => {
         const productoExists = productos.some(producto => producto.nombre.toLowerCase() === trimmedNombre.toLowerCase());
 
         if (productoExists) {
-            toast.error('El producto ya existe', { autoClose: 3000 });
+            toast.error('El producto ya existe', { autoClose: 1500 });
             return;
         }
 
         if (!nombre || !precioUnitario || !cantidad || !fechaVencimiento || !categoria || !proveedor) {
-            toast.error('Todos los campos son obligatorios', { autoClose: 3000 });
+            toast.error('Todos los campos son obligatorios', { autoClose: 1500 });
             return;
         }
 
         if (isNaN(precioUnitario) || isNaN(cantidad) || isNaN(categoria) || isNaN(proveedor)) {
-            toast.error('Precio unitario, cantidad, categoría y proveedor deben ser números', { autoClose: 3000 });
+            toast.error('Precio unitario, cantidad, categoría y proveedor deben ser números', { autoClose: 1500 });
             return;
         }
 
@@ -72,7 +72,7 @@ const RegistrarProducto = () => {
         try {
             const response = await axios.post(`${API_URL}/products`, producto);
             console.log('Respuesta del servidor:', response);
-            toast.success('Producto guardado correctamente', { autoClose: 3000 });
+            toast.success('Producto guardado correctamente', { autoClose: 1500 });
 
             setNombre('');
             setPrecioUnitario('');
@@ -82,7 +82,7 @@ const RegistrarProducto = () => {
             setProveedor('');
         } catch (error) {
             console.error('Error al guardar el producto:', error.response || error.message);
-            toast.error('Error al guardar el producto: ' + (error.response?.data?.message || error.message), { autoClose: 3000 });
+            toast.error('Error al guardar el producto: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
         }
     };
 

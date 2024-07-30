@@ -13,22 +13,7 @@ const normalizeString = (str) => {
 const CrearProveedor = () => {
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
-    const [proveedores, setProveedores] = useState([]);
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchProveedores = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/provider`);
-                setProveedores(response.data);
-            } catch (error) {
-                console.error('Error al obtener los proveedores:', error);
-                toast.error(`Error al obtener los proveedores: ${error.message}`, { autoClose: 1500 });
-            }
-        };
-
-        fetchProveedores();
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -42,48 +27,61 @@ const CrearProveedor = () => {
 
         const normalizedNombre = normalizeString(trimmedNombre);
 
-        const existingProveedor = proveedores.find(proveedor => normalizeString(proveedor.nombre) === normalizedNombre);
+        try {
+            // Buscar proveedor por nombre
+            const response = await axios.get(`${API_URL}/provider/${normalizedNombre}`);
+            const existingProveedor = response.data;
 
-        if (existingProveedor) {
-            if (existingProveedor.isActive === 0) {
-                try {
-                    await axios.put(`${API_URL}/provider/${existingProveedor.id_proveedor}`, {
-                        isActive: 1
-                    });
-                    toast.success('Proveedor habilitado correctamente', { autoClose: 1500 });
-                    const updatedProveedores = proveedores.map(proveedor =>
-                        proveedor.id_proveedor === existingProveedor.id_proveedor
-                            ? { ...proveedor, isActive: 1 }
-                            : proveedor
-                    );
-                    setProveedores(updatedProveedores);
-                    navigate('/listar_proveedores', { state: { message: 'Proveedor habilitado correctamente' } });
-                } catch (error) {
-                    toast.error('Error al habilitar el proveedor: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
+            if (existingProveedor) {
+                if (existingProveedor.isActive === 0) {
+                    if (existingProveedor.telefono === trimmedTelefono) {
+                        // Habilitar proveedor
+                        await axios.put(`${API_URL}/provider/${existingProveedor.id_proveedor}`, {
+                            isActive: 1
+                        });
+                        toast.success('Proveedor habilitado correctamente', { autoClose: 1500 });
+                        navigate('/listar_proveedores', { state: { message: 'Proveedor habilitado correctamente' } });
+                    } else {
+                        // Crear nuevo proveedor con el mismo nombre pero diferente teléfono
+                        await axios.post(
+                            `${API_URL}/provider`,
+                            {
+                                nombre: trimmedNombre,
+                                telefono: trimmedTelefono,
+                                isActive: 1
+                            },
+                            {
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            }
+                        );
+                        toast.success('Proveedor creado correctamente', { autoClose: 1500 });
+                        navigate('/listar_proveedores', { state: { message: 'Proveedor creado correctamente' } });
+                    }
+                } else {
+                    toast.error('El proveedor ya existe', { autoClose: 1500 });
                 }
             } else {
-                toast.error('El proveedor ya existe', { autoClose: 1500 });
-            }
-            return;
-        }
-
-        try {
-            await axios.post(
-                `${API_URL}/provider`,
-                {
-                    nombre: trimmedNombre,
-                    telefono: trimmedTelefono,
-                    isActive: 1
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
+                // Crear nuevo proveedor
+                await axios.post(
+                    `${API_URL}/provider`,
+                    {
+                        nombre: trimmedNombre,
+                        telefono: trimmedTelefono,
+                        isActive: 1
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
                     }
-                }
-            );
-            navigate('/listar_proveedores', { state: { message: 'Proveedor guardado correctamente' } });
+                );
+                toast.success('Proveedor creado correctamente', { autoClose: 1500 });
+                navigate('/listar_proveedores', { state: { message: 'Proveedor creado correctamente' } });
+            }
         } catch (error) {
-            toast.error('Error al guardar el proveedor: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
+            toast.error('Error al procesar la solicitud: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
         }
     };
 

@@ -22,7 +22,7 @@ const ListarCategorias = () => {
 
   useEffect(() => {
     if (message) {
-      toast.success(message, { autoClose: 3000 });
+      toast.success(message, { autoClose: 1500 });
       navigate(location.pathname, { replace: true, state: {} });
     }
 
@@ -56,11 +56,11 @@ const ListarCategorias = () => {
       await axios.put(`${API_URL}/categories/${id_categoria}`, {
         isActive: 0
       });
-      toast.success('Categoría deshabilitada con éxito', { autoClose: 3000 });
+      toast.success('Categoría deshabilitada con éxito', { autoClose: 1500 });
       setCategorias(categorias.filter(categoria => categoria.id_categoria !== id_categoria));
     } catch (error) {
       console.error('Error al deshabilitar la categoría:', error);
-      toast.error('Error al deshabilitar la categoría', { autoClose: 3000 });
+      toast.error('Error al deshabilitar la categoría', { autoClose: 1500 });
     }
   };
 

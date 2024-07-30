@@ -22,7 +22,7 @@ const ListarProveedores = () => {
 
     useEffect(() => {
         if (message) {
-            toast.success(message, { autoClose: 3000 });
+            toast.success(message, { autoClose: 1500 });
             navigate(location.pathname, { replace: true, state: {} });
         }
 
@@ -56,11 +56,11 @@ const ListarProveedores = () => {
             await axios.put(`${API_URL}/provider/isActive/${id_proveedor}`, {
                 isActive: 0
             });
-            toast.success('Proveedor deshabilitado con éxito', { autoClose: 3000 });
+            toast.success('Proveedor deshabilitado con éxito', { autoClose: 1500 });
             setProveedores(proveedores.filter(proveedor => proveedor.id_proveedor !== id_proveedor));
         } catch (error) {
             console.error('Error al deshabilitar el proveedor:', error);
-            toast.error('Error al deshabilitar el proveedor', { autoClose: 3000 });
+            toast.error('Error al deshabilitar el proveedor', { autoClose: 1500 });
         }
     };
 

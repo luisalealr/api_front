@@ -54,7 +54,7 @@ const EditarProveedor = () => {
             <ToastContainer />
             <div className="bg-[#D0F25E]">
                 <h1 className="ml-5 py-3 font-bold text-black text-xl w-full">
-                    Editar Teléfono del Proveedor
+                    Editar proveedor
                 </h1>
             </div>
             <div className="flex flex-col mt-4 ml-10 w-full">
