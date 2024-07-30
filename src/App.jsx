@@ -14,6 +14,7 @@ import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
 import EditarCategoria from './componentes/admin/categorias/EditarCategoria';
 import Inicio from './componentes/admin/Inicio';
 import VerVentasVen from './componentes/vendedor/ventas/VerVentas';
+import ListarProductos from './componentes/admin/productos/ListarProductos';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
           <Route path='/ver_ventas_ven' element={<VerVentasVen />} />
+          <Route path='/listar_productos' element={<ListarProductos />} />
         </Routes>
       </div>
     </Router>
