@@ -51,7 +51,7 @@ const InicioSesion = () => {
                     <h1 className="text-3xl">La Nueva Esperanza</h1>
                 </div>
                 <div className="w-[60%] mt-4 flex flex-col justify-center items-center">
-                    <img className="rounded-full h-auto w-[100%]" src="/img/logo.png" alt="" />
+                    <img className="rounded-full h-auto w-[100%]" src="/nueva_esperanza/img/logo.png" alt="" />
                 </div>
             </div>
             <div className="bg-white w-[60%] rounded-l-[40px] overflow-hidden flex flex-col justify-center items-center">
