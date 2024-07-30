@@ -5,15 +5,44 @@ import {HiMiniArrowPathRoundedSquare} from "react-icons/hi2";
 import {LiaUserAltSolid} from "react-icons/lia";
 import { logout } from "../../../services/UsuarioService";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { getProducts } from "../../../services/ProductService";
+import Alerta from "../../Alerta";
+import TablaAlerta from "../../TablaAlerta";
  
 export default function SideBarVendedor(){
+    const [alertaOpen, setAlertaOpen] = useState(false);
     const navigate = useNavigate();
+    const [productos, setProductos] = useState([]);
+    const [productosOpen, setProductosOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
         toast.success('Sesión cerrada exitosamente');
         window.history.replaceState(null, '', '/login');
         navigate('/login');
+    };
+
+    const mostrarProductosFaltantes = () => {
+        setProductosOpen(!productosOpen);
+    }
+
+    useEffect(() => {
+        mostrarAlerta();
+      }, []);
+
+    const mostrarAlerta = async () => {
+        const productosArray = await getProducts();
+        const productosFaltantes = [];
+        if (productosArray) {
+            for (const producto of productosArray) {
+                if (producto.cantidad <= 5) {
+                    setAlertaOpen(true);
+                    productosFaltantes.push(producto);
+                }
+            }
+        }
+        setProductos(productosFaltantes);
     };
  
     return<>
@@ -36,6 +65,11 @@ export default function SideBarVendedor(){
                     </li>
                 </ul>
             </div>
+            {alertaOpen && (
+                <div onClick={mostrarProductosFaltantes} className="cursor-pointer w-full h-auto">
+                    <Alerta></Alerta>
+                </div>
+            )}
             <hr className="mb-4 border-[#1e1e1e63]" />
             <div className="flex flex-row h-[70px] max-w-fit mx-3 items-center mb-3 ">
                 <div className="bg-white h-14 w-14 rounded-full mr-2 flex justify-center items-center">
@@ -46,6 +80,12 @@ export default function SideBarVendedor(){
                     <button onClick={handleLogout}><HiMiniArrowPathRoundedSquare className="text-2xl"/></button>
                 </div>
             </div>
+            {productosOpen && (
+                <TablaAlerta
+                    mostrar={mostrarProductosFaltantes}
+                    productos={productos}
+                />
+            )}
         </div>
     </>
 }

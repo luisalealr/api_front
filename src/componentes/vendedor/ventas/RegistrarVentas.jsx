@@ -27,29 +27,42 @@ const RegistrarVentas = () => {
   const agregarProducto = async () => {
     const producto = await getProduct(buscarId);
     if (producto) {
-      let flag = false;
-      let aux = products;
-      aux.forEach((p) => {
-        if(producto.id_producto == p.id_producto){
-          flag = true;
-          p.cantidad += Number(cantidad);
-          p.precioT = (p.cantidad*p.precio_unitario);
-          setBuscarId('');
-          calcularValorTotal()
-          setCantidad(1);
+      if(producto.cantidad > 0){
+        let existe = false;
+        let aux = products;
+        aux.forEach((p) => {
+          if(producto.id_producto == p.id_producto){
+            existe = true;
+            const canti = Number(p.cantidad) + Number(cantidad);
+            if(canti <= producto.cantidad){
+              p.cantidad = canti;
+              p.precioT = (p.cantidad*p.precio_unitario);
+              setBuscarId('');
+              calcularValorTotal();
+              setCantidad(1);
+            }else{
+              toast.warn('No hay suficientes existencias de este producto');
+            }
+          }
+        });
+        if(existe == false){
+          if(cantidad <= producto.cantidad){
+            const precioT = (cantidad*producto.precio_unitario);
+            const productoConCantidad = { ...producto, cantidad, precioT }; 
+            setProducts([...products, productoConCantidad]);
+            setBuscarId('');
+            setCantidad(1);
+          }else{
+            toast.warn('No hay suficientes existencias de este producto');
+          }
+        }else{
+          setProducts(aux);
         }
-      });
-      if(flag == false){
-        const precioT = (cantidad*producto.precio_unitario);
-        const productoConCantidad = { ...producto, cantidad, precioT }; 
-        setProducts([...products, productoConCantidad]);
-        setBuscarId('');
-        setCantidad(1);
       }else{
-        setProducts(aux);
+        toast.warn('No hay existencias de este producto');
       }
-    } else {
-      alert('Producto no encontrado');
+    }else {
+      toast.warn('Producto no encontrado');
     }
   };
 
@@ -105,6 +118,7 @@ const RegistrarVentas = () => {
     setCantidad(1);
     setSelectedProductId(null);
     setCantidadAEliminar(1);
+    setProductoEliminar(null);
   };
 
   const validarFormulario = () => {
@@ -112,8 +126,7 @@ const RegistrarVentas = () => {
     if (products.length === 0) {
         toast.error('Tienes que registrar al menos un producto a la compra');
         isValid = false;
-    }
-    if (!nombreCliente) {
+    }else if (!nombreCliente) {
         toast.error('Debe escribir el nombre del cliente');
         isValid = false;
     }
@@ -169,6 +182,7 @@ const RegistrarVentas = () => {
                   <label htmlFor="">Cantidad:</label>
                   <input
                     type="number" 
+                    min="1"
                     value={cantidad}
                     onChange={(e) => setCantidad(e.target.value)}
                     className="w-24 text-sm h-8 shadow-sm border border-[#999999] rounded-md" />
@@ -226,27 +240,40 @@ const RegistrarVentas = () => {
             </div>
           </div>
           {productoEliminar && (
-            <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-              <div className="bg-white p-4 rounded-md shadow-md">
-                <h2 className="text-lg font-semibold">Eliminar Producto</h2>
-                <p>¿Cuántos productos quieres eliminar?</p>
-                <input
-                  type="number"
-                  min="1"
-                  max={products.find(p => p.id_producto === selectedProductId)?.cantidad || 1}
-                  value={cantidadAEliminar}
-                  onChange={(e) => setCantidadAEliminar(Number(e.target.value))}
-                  className="border p-2 rounded-md"
-                />
-                <div className="flex justify-end mt-4">
-                  <button onClick={() => setProductoEliminar(null)} className="mr-2">Cancelar</button>
-                  <button onClick={eliminarProducto}>Eliminar</button>
+            <div className="fixed inset-0 z-50 flex items-center justify-center ">
+              <div className="absolute inset-0 bg-black opacity-50"></div> 
+              <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className="flex flex-col  bg-white h-[200px] w-[310px] px-4 py-3 rounded-lg shadow-md justify-evenly">
+                  <div className="flex flex-col h-[70%] justify-around">
+                    <h2 className="text-lg font-semibold">Eliminar Producto</h2>
+                    <p>¿Cuántos productos quieres eliminar?</p>
+                    <input
+                      type="number"
+                      min="1"
+                      max={products.find(p => p.id_producto === selectedProductId)?.cantidad || 1}
+                      value={cantidadAEliminar}
+                      onChange={(e) => setCantidadAEliminar(Number(e.target.value))}
+                      className="border-none bg-gray-200 w-20 p-2 rounded-md shadow"
+                    />
+                  </div>
+                  <div className="w-full flex flex-row justify-end mt-2">
+                    <button 
+                      onClick={() => setProductoEliminar(null)} 
+                      className="w-24 hover:bg-[#b0d144] bg-[#8DB600] rounded-md py-1 mr-4 shadow"
+                      >Cancelar
+                    </button>
+                    <button 
+                      onClick={eliminarProducto} 
+                      className="w-24 hover:bg-[#b0d144] bg-[#8DB600] rounded-md py-1 shadow"
+                      >Eliminar
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           )}
       </TemplateVendedor>
-  </>
+  </> 
 }
 
 export default RegistrarVentas;
