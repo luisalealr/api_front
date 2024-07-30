@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
 import TemplateVendedor from "../templates/TemplateVendedor";
 import { IoSearch } from "react-icons/io5";
 import TablaRegistroProductos from "./TablaRegistroProductos";
@@ -37,20 +36,16 @@ const RegistrarVentas = () => {
 
   const agregarProducto = async () => {
     let producto = null;
-
     if (!isNaN(buscar)) {
       producto = await getProduct(buscar);
     }
-
     if (!producto) {
       producto = await getProductName(buscar);
     }
-
     if (producto) {
       if (producto.cantidad > 0) {
         let existe = false;
         let aux = [...products];
-
         aux.forEach((p) => {
           if (producto.id_producto === p.id_producto) {
             existe = true;
@@ -66,7 +61,6 @@ const RegistrarVentas = () => {
             }
           }
         });
-
         if (!existe) {
           if (cantidad <= producto.cantidad) {
             const precioT = cantidad * producto.precio_unitario;
