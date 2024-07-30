@@ -6,6 +6,11 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../../config";
 
+// Función para normalizar cadenas de texto eliminando signos diacríticos
+const normalizeString = (str) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+};
+
 const CrearCategoria = () => {
     const [categoryName, setCategoryName] = useState('');
     const [categories, setCategories] = useState([]);
@@ -29,12 +34,33 @@ const CrearCategoria = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const trimmedCategoryName = categoryName.trim(); // Trim espacios en blanco
+        const normalizedCategoryName = normalizeString(trimmedCategoryName); // Normalizar el nombre de la categoría
 
         // Verificar si la categoría ya existe
-        const categoryExists = categories.some(category => category.descripcion.toLowerCase() === trimmedCategoryName.toLowerCase());
+        const existingCategory = categories.find(category => normalizeString(category.descripcion) === normalizedCategoryName);
 
-        if (categoryExists) {
-            toast.error('La categoría ya existe', { autoClose: 4000 });
+        if (existingCategory) {
+            if (existingCategory.isActive === 0) {
+                // Habilitar la categoría si está deshabilitada
+                try {
+                    await axios.put(`${API_URL}/categories/${existingCategory.id_categoria}`, {
+                        isActive: 1
+                    });
+                    toast.success('Categoría habilitada correctamente', { autoClose: 4000 });
+                    // Actualizar la lista de categorías
+                    const updatedCategories = categories.map(category =>
+                        category.id_categoria === existingCategory.id_categoria
+                            ? { ...category, isActive: 1 }
+                            : category
+                    );
+                    setCategories(updatedCategories);
+                    navigate('/ver_categorias', { state: { message: 'Categoría habilitada correctamente' } });
+                } catch (error) {
+                    toast.error('Error al habilitar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 4000 });
+                }
+            } else {
+                toast.error('La categoría ya existe', { autoClose: 4000 });
+            }
             return;
         }
 
@@ -51,7 +77,6 @@ const CrearCategoria = () => {
                     }
                 }
             );
-            // Redirigir a la lista de categorías con mensaje de éxito
             navigate('/ver_categorias', { state: { message: 'Categoría guardada correctamente' } });
         } catch (error) {
             toast.error('Error al guardar la categoría: ' + (error.response?.data?.message || error.message), { autoClose: 4000 });
