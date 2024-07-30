@@ -8,12 +8,14 @@ import RegistrarVentas from './componentes/vendedor/ventas/RegistrarVentas';
 import CrearCategoria from './componentes/admin/categorias/CrearCategoria';
 import EditarProducto from './componentes/admin/productos/EditarProducto';
 import RegistrarProducto from './componentes/admin/productos/RegistrarProducto';
-import GuardarProve from './componentes/admin/proveedores/GuardarProve';
+import CrearProve from './componentes/admin/proveedores/CrearProve';
 import EditarProve from './componentes/admin/proveedores/EditarProve';
 import ListarCategorias from './componentes/admin/categorias/ListarCategorias';
 import EditarCategoria from './componentes/admin/categorias/EditarCategoria';
 import Inicio from './componentes/admin/Inicio';
 import VerVentasVen from './componentes/vendedor/ventas/VerVentas';
+import ListarProveedores from './componentes/admin/proveedores/ListarProve';
+import TablaProve from './componentes/admin/proveedores/TablaProve';
 import ListarProductos from './componentes/admin/productos/ListarProductos';
 
 function App() {
@@ -28,8 +30,8 @@ function App() {
           <Route path="/registrar_categoria" element={<CrearCategoria />} />
           <Route path="/ver_ventas" element={<VerVentas />} />
           <Route path="/registrar_venta" element={<RegistrarVentas />} />
-          <Route path="/guardar_proveedor" element={<GuardarProve />} />
-          <Route path="/editar_proveedor" element={<EditarProve />} />
+          <Route path="/crear_proveedor" element={<CrearProve />} />
+          <Route path="/editar_proveedor/:id" element={<EditarProve />} />
           <Route path="/editar_producto" element={<EditarProducto />} />
           <Route path="/registrar_producto" element={<RegistrarProducto />} />
           <Route path="/ver_categorias" element={<ListarCategorias />} />
@@ -37,6 +39,8 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
           <Route path='/ver_ventas_ven' element={<VerVentasVen />} />
+          <Route path='/listar_proveedores' element={<ListarProveedores />} />
+          <Route path='/tabla_proveedores' element={<TablaProve />} />
           <Route path='/listar_productos' element={<ListarProductos />} />
         </Routes>
       </div>
