@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import TemplateAdmin from "../templates/TemplateAdmin";
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { API_URL } from "../../../config";
 import { getProveedorPorId, updateProveedorTelefono } from '../../../services/ProveedorService.js'
 
 const EditarProveedor = () => {

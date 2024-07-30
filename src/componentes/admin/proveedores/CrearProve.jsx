@@ -5,38 +5,47 @@ import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../../config";
+import { getAllProveedores } from "../../../services/ProveedorService";
 
 const normalizeString = (str) => {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-};
+}; 
 
 const CrearProveedor = () => {
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
+    const [proveedores, setProveedores] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(()=>{
+        const fetchProveedores = async () => {
+            const result = await getAllProveedores();
+            if (result) {
+              setProveedores(result); // Asigna directamente los datos devueltos
+            }
+          };
+      
+          fetchProveedores();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const trimmedNombre = nombre.trim();
         const trimmedTelefono = telefono.trim();
-
         if (!trimmedNombre || !trimmedTelefono) {
             toast.error('El nombre y el teléfono del proveedor son obligatorios', { autoClose: 1500 });
             return;
         }
-
         const normalizedNombre = normalizeString(trimmedNombre);
-
         try {
             // Buscar proveedor por nombre
-            const response = await axios.get(`${API_URL}/provider/${normalizedNombre}`);
-            const existingProveedor = response.data;
-
+            const existingProveedor = proveedores.find(proveedor => normalizeString(proveedor.nombre) === normalizedNombre);
+            
             if (existingProveedor) {
                 if (existingProveedor.isActive === 0) {
-                    if (existingProveedor.telefono === trimmedTelefono) {
+                        if (existingProveedor.telefono === trimmedTelefono) {
                         // Habilitar proveedor
-                        await axios.put(`${API_URL}/provider/${existingProveedor.id_proveedor}`, {
+                        await axios.put(`${API_URL}/provider/isActive/${existingProveedor.id_proveedor}`, {
                             isActive: 1
                         });
                         toast.success('Proveedor habilitado correctamente', { autoClose: 1500 });

@@ -4,7 +4,6 @@ import { API_URL } from "../config";
 export async function getAllProveedores() {
     try {
         const result = await axios.get(`${API_URL}/provider/`, {
-            method: 'GET',
             headers: {
                 'Content-Type': 'aplication/json'
             }
@@ -42,15 +41,13 @@ export async function updateProveedorTelefono(id, telefono) {
 
 export async function disableProveedor(id) {
     try {
-        await axios.put(`${API_URL}/categories/${id}`, {
-            isActive: 0
-        }, {
+        await axios.put(`${API_URL}/provider/isActive/${id}`,{
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'aplication/json'
             }
         });
     } catch (error) {
-        console.error('Error al deshabilitar la categoría:', error);
+        console.error('Error al deshabilitar el proveedor:', error);
         throw error; // Lanzar el error para manejarlo en el componente
     }
 }

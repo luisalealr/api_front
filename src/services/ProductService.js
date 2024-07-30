@@ -39,6 +39,7 @@ export async function getProductSuggest(id) {
         return [];
     }
 }
+
 export async function getProductName(id) {
     try {
         const result = await axios.get(`${API_URL}/products/search/` + id, {
