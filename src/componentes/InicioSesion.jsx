@@ -23,12 +23,14 @@ const InicioSesion = () => {
             const response = await login(usuario, password);
             if (response && response.token) {
                 localStorage.setItem('authToken', response.token);
+                localStorage.setItem('userRole', usuario); // Guarda el rol del usuario
                 toast.success('Inicio de sesión exitoso');
-                if (usuario === 'Administrador') {
+                // Redirige según el rol
+                if (usuario == 'Administrador') {
                     navigate('/inicio');
-                } else if (usuario === 'Vendedor') {
+                } else if (usuario == 'Vendedor') {
                     navigate('/inicio_vendedor');
-                }
+                }            
             } else {
                 throw new Error('Invalid credentials');
             }

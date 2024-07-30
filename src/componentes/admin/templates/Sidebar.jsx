@@ -123,7 +123,7 @@ export default function SideBar() {
                             </div>
                             <div className="flex-grow overflow-auto">
                                 <table className="min-w-full">
-                                    <thead className="bg-[#F2C94C] sticky top-0 z-10">
+                                    <thead className="bg-[#F2C94C] sticky text-left">
                                         <tr >
                                             <th className="w-[18%]">N° del producto</th>
                                             <th className="w-[35%]">Nombre</th>

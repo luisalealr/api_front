@@ -6,7 +6,7 @@ const ProductosFaltantes = ({ productoId, nombre,  categoria, proveedor }) => {
     };
 
     return<>
-        <tr className='text-left h-8 align-middle'>
+        <tr className='text-left h-8'>
             <td>{productoId}</td>
             <td>{capitalizarPrimeraLetra(nombre)}</td>
             <td>{capitalizarPrimeraLetra(categoria)}</td>
