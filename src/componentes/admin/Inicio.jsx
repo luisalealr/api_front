@@ -10,6 +10,29 @@ export default function Inicio() {
     const [categorias, setCategorias] = useState([]);
     const [facturas, setFacturas] = useState([]);
 
+    useEffect(() => { 
+        obtenerDatosIniciales();
+    }, []);
+
+    useEffect(() => {
+        cantidadVentasDelDia();
+    }, [facturas]);
+
+    const obtenerDatosIniciales = async () => {
+        try {
+            const ventasData = await getAllVentas();
+            if (ventasData && Array.isArray(ventasData)) {
+                setFacturas(ventasData);
+            } else {
+                console.error('Data no es un array');
+            }
+            await cantidadProductos();
+            await productoPorCategoria();
+        } catch (error) {
+            console.error('Error al obtener los datos iniciales:', error);
+        }
+    };
+
     const cantidadProductos = async () => {
         try {
             const resultado = await getCountProducts();
@@ -55,22 +78,7 @@ export default function Inicio() {
             console.error(error);
         }
     }
-
-    useEffect(() => { 
-        cantidadProductos();
-        cantidadVentasDelDia();
-        productoPorCategoria();
-        getAllVentas().then(data => {
-            if (data && Array.isArray(data)) {
-              setFacturas(data);// Inicialmente muestra todas las ventas
-            } else {
-              console.error('Data no es un array');
-            }
-          }).catch(error => {
-            console.error('Error al obtener las ventas:', error);
-          });
-    }, []);
-
+    
     return <>
         <TemplateAdmin>
             <div className="flex flex-col h-full">
@@ -86,7 +94,7 @@ export default function Inicio() {
                                         cantidadProductos={categoria.cantidad}
                                     />
                                 ))}
-                            </div>
+                            </div> 
                         </div>
                     </div>
                     <div className="flex flex-col h-[360px] justify-between items-center">

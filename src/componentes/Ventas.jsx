@@ -3,34 +3,37 @@ import TablaVentas from "./admin/ventas/TablaVentas";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";
 import { getAllVentas } from "../services/VentasService";
+import { toast } from "react-toastify";
 
 const Ventas = () => {
   const [facturas, setFacturas] = useState([]);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [buscarDesc, setBuscarDec] = useState('');
+  const [buscarDesc, setBuscarDesc] = useState('');
   const [fechaInicio, setFechaInicio] = useState('');
   const [fechaFin, setFechaFin] = useState('');
   const [results, setResults] = useState([]);
+
+  const obtenerFacturas = () => {
+    getAllVentas()
+      .then(data => {
+        if (data && Array.isArray(data)) {
+          setFacturas(data);
+          filtrarPorDiaActual(data); // Filtrar las ventas del día actual
+        } else {
+          console.error('Data no es un array');
+        }
+      })
+      .catch(error => {
+        console.error('Error al obtener las ventas:', error);
+      });
+  };
 
   const filtrar = () => {
     setIsFilterVisible(!isFilterVisible);
   };
 
-  useEffect(() => {
-    getAllVentas().then(data => {
-      if (data && Array.isArray(data)) {
-        setFacturas(data);
-        setResults(data); // Inicialmente muestra todas las ventas
-      } else {
-        console.error('Data no es un array');
-      }
-    }).catch(error => {
-      console.error('Error al obtener las ventas:', error);
-    });
-  }, []);
-
   const buscador = (e) => {
-    setBuscarDec(e.target.value);
+    setBuscarDesc(e.target.value);
   };
 
   const filtrarPorFecha = () => {
@@ -42,13 +45,33 @@ const Ventas = () => {
     const fecha_1 = new Date(fechaInicio);
     const fecha_2 = new Date(fechaFin);
     const filteredResults = facturas.filter(venta => {
-        const fechaVenta = new Date(venta.fecha);
-        return fechaVenta >= fecha_1 && fechaVenta <= fecha_2;
+      const fechaVenta = new Date(venta.fecha);
+      return fechaVenta >= fecha_1 && fechaVenta <= fecha_2;
     });
     setResults(filteredResults);
     setFechaFin('');
     setFechaInicio('');
   };
+
+  const filtrarPorDiaActual = (data) => {
+    const fechaActual = new Date();
+    const fechaActualLocal = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate());
+    const fechaFormato = fechaActualLocal.toISOString().slice(0, 10);
+    const filteredResults = data.filter(venta => {
+      const fechaVentaFormato = new Date(venta.fecha).toISOString().slice(0, 10);
+      return fechaVentaFormato === fechaFormato;
+    });
+    if (filteredResults.length > 0) {
+      setResults(filteredResults);
+    } else {
+      toast.info('No se han registrado ventas hoy');
+      setResults([]);
+    }
+  };
+
+  useEffect(() => {
+    obtenerFacturas();
+  }, []);
 
   let displayedResults = results;
   if (buscarDesc) {
