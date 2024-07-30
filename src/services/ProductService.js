@@ -29,6 +29,33 @@ export async function getProduct(id) {
     }
 }
 
+export async function getProductSuggest(id) {
+    try {
+        const response = await axios.get(`${API_URL}/products/suggest/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching product suggestions:", error);
+        // Retorna un array vacío o un objeto de error dependiendo de tu necesidad
+        return [];
+    }
+}
+export async function getProductName(id) {
+    try {
+        const result = await axios.get(`${API_URL}/products/search/` + id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'aplication/json'
+            }
+        });
+        const data = await result.data;
+        console.log(data)
+        return data
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    }
+}
+
 export async function crearProduct(){
     try{
         const result = await axios.post(`${API_URL}/products/`, {

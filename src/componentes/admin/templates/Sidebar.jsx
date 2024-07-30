@@ -80,10 +80,10 @@ export default function SideBar() {
                                 <Link className="flex flex-row items-center" to="/ver_categorias"><IoIosArrowForward className="mr-4 text-xl" />Categorías</Link>
                             </li >
                             <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
-                                <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl" />Proveedores</Link>
+                                <Link className="flex flex-row items-center" to="/listar_proveedores"><IoIosArrowForward className="mr-4 text-xl" />Proveedores</Link>
                             </li>
                             <li className="py-[10px] px-[20px] flex flex-row hover:bg-[#6aa7e038] transition-colors duration-300">
-                                <Link className="flex flex-row items-center" to=""><IoIosArrowForward className="mr-4 text-xl" />Productos</Link>
+                                <Link className="flex flex-row items-center" to="/listar_productos"><IoIosArrowForward className="mr-4 text-xl" />Productos</Link>
                             </li>
                         </ul>
                     </li> 

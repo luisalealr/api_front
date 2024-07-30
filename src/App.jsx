@@ -16,6 +16,7 @@ import Inicio from './componentes/admin/Inicio';
 import VerVentasVen from './componentes/vendedor/ventas/VerVentas';
 import ListarProveedores from './componentes/admin/proveedores/ListarProve';
 import TablaProve from './componentes/admin/proveedores/TablaProve';
+import ListarProductos from './componentes/admin/productos/ListarProductos';
 
 function App() {
   return (
@@ -40,7 +41,7 @@ function App() {
           <Route path='/ver_ventas_ven' element={<VerVentasVen />} />
           <Route path='/listar_proveedores' element={<ListarProveedores />} />
           <Route path='/tabla_proveedores' element={<TablaProve />} />
-
+          <Route path='/listar_productos' element={<ListarProductos />} />
         </Routes>
       </div>
     </Router>
