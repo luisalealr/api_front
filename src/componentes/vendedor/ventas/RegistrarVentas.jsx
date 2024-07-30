@@ -9,7 +9,7 @@ import { crearVenta } from "../../../services/VentasService";
 
 const RegistrarVentas = () => {
   const [products, setProducts] = useState([]);
-  const [buscarId, setBuscarId] = useState('');
+  const [buscar, setBuscar] = useState('');
   const [cantidad, setCantidad] = useState(1); 
   const [precioTotal, setPrecioTotal] = useState(''); 
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -25,7 +25,7 @@ const RegistrarVentas = () => {
 
   //funcion de busqueds  
   const agregarProducto = async () => {
-    const producto = await getProduct(buscarId);
+    const producto = await getProduct(buscar);
     if (producto) {
       if(producto.cantidad > 0){
         let existe = false;
@@ -37,7 +37,7 @@ const RegistrarVentas = () => {
             if(canti <= producto.cantidad){
               p.cantidad = canti;
               p.precioT = (p.cantidad*p.precio_unitario);
-              setBuscarId('');
+              setBuscar('');
               calcularValorTotal();
               setCantidad(1);
             }else{
@@ -50,7 +50,7 @@ const RegistrarVentas = () => {
             const precioT = (cantidad*producto.precio_unitario);
             const productoConCantidad = { ...producto, cantidad, precioT }; 
             setProducts([...products, productoConCantidad]);
-            setBuscarId('');
+            setBuscar('');
             setCantidad(1);
           }else{
             toast.warn('No hay suficientes existencias de este producto');
@@ -113,7 +113,7 @@ const RegistrarVentas = () => {
       return;
     }
     setProducts(aux);
-    setBuscarId('');
+    setBuscar('');
     calcularValorTotal();
     setCantidad(1);
     setSelectedProductId(null);
@@ -131,8 +131,12 @@ const RegistrarVentas = () => {
         isValid = false;
     }
     return isValid;
-};
+ };
 
+  // const buscarProducto = () =>{
+  //   if()
+  // }
+ 
   const registrarCompra =  (event) => {
     event.preventDefault();
     if (validarFormulario()) {
@@ -170,8 +174,8 @@ const RegistrarVentas = () => {
                   <div className="w-[60%] shadow-sm border border-[#999999] rounded-md flex flex-row items-center">
                     <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1"/>
                     <input 
-                      value={buscarId} 
-                      onChange={(e) => setBuscarId(e.target.value)} 
+                      value={buscar} 
+                      onChange={(e) => setBuscar(e.target.value)} 
                       type="text" placeholder="Buscar producto" 
                       className="w-full text-sm h-8 border-none rounded-md"
                     /> 
@@ -237,7 +241,7 @@ const RegistrarVentas = () => {
                 <button onClick={registrarCompra} className="w-32 py-1 h-fit rounded-md shadow hover:bg-[#b0d144] bg-[#8DB600]">Cobrar</button>
                 <div className="w-64 bg-[#D9D9D9] p-4 text-3xl">${precioTotal}</div>
               </div>
-            </div>
+            </div> 
           </div>
           {productoEliminar && (
             <div className="fixed inset-0 z-50 flex items-center justify-center ">

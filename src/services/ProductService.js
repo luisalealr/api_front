@@ -63,3 +63,20 @@ export async function getProductosPorCategoria() {
         throw error;
     }
 }
+
+export async function getProductByName(nombre) {
+    try {
+        const result = await axios.get(`${API_URL}/products/search/` + nombre, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'aplication/json'
+            }
+        });
+        const data = await result.data;
+        console.log(data)
+        return data
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    }
+}
