@@ -57,7 +57,7 @@ const RegistrarVentas = () => {
     let sumita = 0; 
     for (const product of products) {
       sumita+=product.precioT;
-    }
+    } 
     setPrecioTotal(sumita);
   }
 
