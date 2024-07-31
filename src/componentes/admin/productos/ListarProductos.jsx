@@ -101,8 +101,8 @@ const ListarProductos = () => {
         </button>
       </div>
       <div className="bg-[#D0F25E] h-6 w-full"></div>
-      {/* <div className="flex-grow overflow-hidden relative">
-        <div className="w-full h-full overflow-x-auto absolute bottom-0"> */}
+      <div className="flex-grow overflow-hidden relative">
+        <div className="w-full h-full overflow-x-auto absolute bottom-0">
           <table className="">
             <thead className="bg-[#95A09D] text-left">
               <tr>
@@ -134,8 +134,8 @@ const ListarProductos = () => {
               ))}
             </tbody>
           </table>
-        {/* </div>
-      </div> */}
+        </div>
+      </div>
     </div>
     </TemplateAdmin>
   );
