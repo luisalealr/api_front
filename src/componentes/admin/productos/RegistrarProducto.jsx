@@ -24,7 +24,7 @@ const RegistrarProducto = () => {
                 const [categoriasRes, proveedoresRes, productosRes] = await Promise.all([
                     axios.get(`${API_URL}/categories`),
                     axios.get(`${API_URL}/provider`),
-                    axios.get(`${API_URL}/products`),
+                    axios.get(`${API_URL}/productsall`),
                 ]);
 
                 setCategorias(categoriasRes.data);
@@ -42,29 +42,24 @@ const RegistrarProducto = () => {
         e.preventDefault();
         const trimmedNombre = nombre.trim();
         const parsedPeso = parseFloat(peso);
-
         // Validar campos obligatorios
         if (!nombre || !precioUnitario || !cantidad || !peso || !categoria || !proveedor) {
             toast.error('Todos los campos son obligatorios', { autoClose: 1500 });
             return;
         }
-
         // Validar tipos de datos
         if (isNaN(precioUnitario) || isNaN(cantidad) || isNaN(peso) || isNaN(proveedor)) {
             toast.error('Precio unitario, cantidad, peso y proveedor deben ser números', { autoClose: 1500 });
             return;
         }
-
         // Validar existencia de producto
         const productoExistente = productos.find(producto =>
             producto.nombre.toLowerCase() === trimmedNombre.toLowerCase() && producto.peso === parsedPeso
         );
-
         if (productoExistente) {
             toast.error('El producto ya registrado con este peso', { autoClose: 1500 });
             return;
         }
-
         const producto = {
             nombre: trimmedNombre,
             precio_unitario: parseFloat(precioUnitario),
@@ -74,9 +69,7 @@ const RegistrarProducto = () => {
             proveedor: parseInt(proveedor, 10),
             isActive: 1,
         };
-
         console.log('Datos enviados:', producto);
-
         try {
             const response = await axios.post(`${API_URL}/products`, producto);
             console.log('Respuesta del servidor:', response);

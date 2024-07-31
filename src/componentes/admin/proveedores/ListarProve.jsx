@@ -63,7 +63,7 @@ const ListarProveedores = () => {
             setProveedores(proveedores.filter(proveedor => proveedor.id_proveedor !== id_proveedor));
         } catch (error) {
             console.error('Error al deshabilitar el proveedor:', error);
-            toast.error('Error al deshabilitar el proveedor', { autoClose: 1500 });
+            toast.error('Hay productos activos con este proveedor', { autoClose: 1500 });
         }
     };
 

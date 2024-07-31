@@ -62,8 +62,8 @@ const ListarCategorias = () => {
       toast.success('Categoría deshabilitada con éxito', { autoClose: 1500 });
       setCategorias(categorias.filter(categoria => categoria.id_categoria !== id_categoria));
     } catch (error) {
-      console.error('Error al deshabilitar la categoría:', error);
-      toast.error('Error al deshabilitar la categoría', { autoClose: 1500 });
+      console.error('Error al deshabilitar la categoría', error);
+      toast.error('Hay productos activos con esta categoría', { autoClose: 1500 });
     }
   };
 
@@ -78,7 +78,7 @@ const ListarCategorias = () => {
         console.error('Error al habilitar la categoría:', error);
         toast.error('Error al habilitar la categoría', { autoClose: 1500 });
     }
-};
+  };
 
   return (
     <TemplateAdmin>
@@ -102,7 +102,7 @@ const ListarCategorias = () => {
         <div className="bg-[#D0F25E] h-6 w-full"></div>
         <table className=" text-sm">
           <thead className="bg-[#95A09D] text-left">
-            <tr>
+            <tr> 
               <th className="pl-5">N° de la categoría</th>
               <th>Descripcion</th>
               <th>Acciones</th>
