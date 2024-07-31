@@ -1,4 +1,4 @@
-import { PiEyeSlash } from "react-icons/pi";
+import { PiEyeSlash, PiEye } from "react-icons/pi";
 import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
@@ -41,7 +41,7 @@ const TablaProveedores = ({ proveedorId, nombre, telefono, onDisable, onEnable, 
                             className='flex flex-row items-center cursor-pointer hover:bg-[#63d137] w-fit m-[1px] px-[3px] rounded-sm'
                             onClick={() => onEnable(proveedorId)}
                         >
-                            <PiEyeSlash size={16} className='mr-2' />Habilitar
+                            <PiEye size={16} className='mr-2' />Habilitar
                         </div>
                     </td>
                 )}

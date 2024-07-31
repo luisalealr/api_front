@@ -16,7 +16,8 @@ const ListarProveedores = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const message = location.state?.message;
-
+    let results = []
+    
     const crearProveedor = () => {
         navigate('/crear_proveedor');
     };
@@ -38,13 +39,13 @@ const ListarProveedores = () => {
         }).catch(error => {
             console.error('Error al obtener los proveedores:', error);
         });
-    }, [message]);
+    }, [message, results]);
 
     const buscador = (e) => {
         setBuscarDesc(e.target.value);
     }
 
-    let results = []
+    
     if (!buscarDesc) {
         results = proveedores;
     } else {
