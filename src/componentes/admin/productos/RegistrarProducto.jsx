@@ -24,7 +24,7 @@ const RegistrarProducto = () => {
                 const [categoriasRes, proveedoresRes, productosRes] = await Promise.all([
                     axios.get(`${API_URL}/categories`),
                     axios.get(`${API_URL}/provider`),
-                    axios.get(`${API_URL}/products`),
+                    axios.get(`${API_URL}/productsall`),
                 ]);
 
                 setCategorias(categoriasRes.data);
@@ -38,11 +38,11 @@ const RegistrarProducto = () => {
         fetchInitialData();
     }, []);
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const trimmedNombre = nombre.trim();
-        const parsedPeso = parseFloat(peso);
-
+        const parsedPeso = parseFloat(peso).toFixed(2);
         // Validar campos obligatorios
         if (!nombre || !precioUnitario || !cantidad || !peso || !categoria || !proveedor) {
             toast.error('Todos los campos son obligatorios', { autoClose: 1500 });
@@ -54,14 +54,31 @@ const RegistrarProducto = () => {
             toast.error('Precio unitario, cantidad, peso y proveedor deben ser números', { autoClose: 1500 });
             return;
         }
-
+        console.log('nombre', trimmedNombre)
+        console.log('peso', parsedPeso)
+        for (const p of productos) {
+            console.log(p.nombre)
+            console.log(p.peso)
+        }
         // Validar existencia de producto
         const productoExistente = productos.find(producto =>
-            producto.nombre.toLowerCase() === trimmedNombre.toLowerCase() && producto.peso === parsedPeso
+            producto.nombre.toLowerCase().trim() === trimmedNombre.toLowerCase() && producto.peso === parsedPeso
         );
+        console.log('SI EXSISTE EL PRO', productoExistente)
 
         if (productoExistente) {
-            toast.error('El producto ya registrado con este peso', { autoClose: 1500 });
+            toast.error('El producto ya registrado con este peso', { autoClose: 3000 });
+
+            // Limpiar los campos después de registrar
+            setNombre('');
+            setPrecioUnitario('');
+            setCantidad('');
+            setPeso('');
+            setCategoria('');
+            setProveedor('');
+
+            // Redirigir a la página de listar productos
+            navigate('/listar_productos');
             return;
         }
 

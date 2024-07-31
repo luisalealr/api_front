@@ -4,23 +4,23 @@ import axios from "axios";
 export async function getProducts() {
     try {
         const result = await axios.get(`${API_URL}/products/`);
-        console.log(result.data)
+        //console.log(result.data)
         return result.data;
     } catch (error) {
         console.error('Error:', error);
         return null
-    } 
+    }
 }
 
 export async function getAllProducts() {
     try {
         const result = await axios.get(`${API_URL}/productsall/`);
-        console.log(result.data)
+        //console.log(result.data)
         return result.data;
     } catch (error) {
         console.error('Error:', error);
         return null
-    } 
+    }
 }
 
 export async function getProduct(id) {
@@ -68,15 +68,15 @@ export async function getProductName(id) {
     }
 }
 
-export async function crearProduct(){
-    try{
+export async function crearProduct() {
+    try {
         const result = await axios.post(`${API_URL}/products/`, {
             method: 'POST',
             body: data,
         });
-    const data = await result.data;
-    console.log(data)
-    return data
+        const data = await result.data;
+        console.log(data)
+        return data
     } catch (error) {
         console.error('Error:', error);
         return null
