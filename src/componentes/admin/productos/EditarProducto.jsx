@@ -23,7 +23,7 @@ const EditarProducto = () => {
                 const producto = response.data;
                 setNombre(producto.nombre);
                 setPrecioUnitario(producto.precio_unitario);
-                setCantidad(producto.cantidad);
+                setCantidad(1);
                 setPeso(producto.peso);
                 setCategoria(producto.categoria.id_categoria);
                 setNombreCategoria(producto.categoria.descripcion);
@@ -61,7 +61,7 @@ const EditarProducto = () => {
             }
         }
     };
-
+ 
 
     const handleCancel = () => {
         navigate('/listar_productos');
