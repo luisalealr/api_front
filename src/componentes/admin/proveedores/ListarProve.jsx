@@ -16,7 +16,7 @@ const ListarProveedores = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const message = location.state?.message;
-    let results = []
+    let results = [] 
     
     const crearProveedor = () => {
         navigate('/crear_proveedor');

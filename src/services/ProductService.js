@@ -12,6 +12,17 @@ export async function getProducts() {
     } 
 }
 
+export async function getAllProducts() {
+    try {
+        const result = await axios.get(`${API_URL}/productsall/`);
+        console.log(result.data)
+        return result.data;
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    } 
+}
+
 export async function getProduct(id) {
     try {
         const result = await axios.get(`${API_URL}/products/product/` + id, {

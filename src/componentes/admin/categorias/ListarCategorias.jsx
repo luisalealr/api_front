@@ -11,10 +11,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ListarCategorias = () => {
   const [categorias, setCategorias] = useState([]);
+  const [categoriasNoActivas, setCategoriasNoActivas] = useState([]);
   const [buscarDesc, setBuscarDec] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const message = location.state?.message;
+  let results = [] 
 
   const crearCategoria = () => {
     navigate('/registrar_categoria');
@@ -28,6 +30,7 @@ const ListarCategorias = () => {
 
     getAllCategorias().then(data => {
       if (data && Array.isArray(data)) {
+        setCategoriasNoActivas(data);
         const filteredData = data.filter(categoria => categoria.isActive == 1);
         setCategorias(filteredData);
       } else {
@@ -36,17 +39,17 @@ const ListarCategorias = () => {
     }).catch(error => {
       console.error('Error al obtener las categorías:', error);
     });
-  }, [message]);
+  }, [message, results]);
 
   const buscador = (e) => {
     setBuscarDec(e.target.value);
   }
 
-  let results = []
+ 
   if (!buscarDesc) {
     results = categorias;
   } else {
-    results = categorias.filter((dato) =>
+    results = categoriasNoActivas.filter((dato) =>
       dato.descripcion.toLowerCase().includes(buscarDesc.toLocaleLowerCase())
     )
   }
@@ -55,7 +58,7 @@ const ListarCategorias = () => {
     try {
       await axios.put(`${API_URL}/categories/${id_categoria}`, {
         isActive: 0
-      });
+      }); 
       toast.success('Categoría deshabilitada con éxito', { autoClose: 1500 });
       setCategorias(categorias.filter(categoria => categoria.id_categoria !== id_categoria));
     } catch (error) {
@@ -63,6 +66,19 @@ const ListarCategorias = () => {
       toast.error('Error al deshabilitar la categoría', { autoClose: 1500 });
     }
   };
+
+  const handleEnable = async (id_categoria) => {
+    try {
+        await axios.put(`${API_URL}/categories/${id_categoria}`, {
+            isActive: 1
+        });
+        toast.success('Categoría habilitada con éxito', { autoClose: 1500 });
+        setCategorias(categorias.filter(categoria => categoria.id_categoria !== id_categoria));
+    } catch (error) {
+        console.error('Error al habilitar la categoría:', error);
+        toast.error('Error al habilitar la categoría', { autoClose: 1500 });
+    }
+};
 
   return (
     <TemplateAdmin>
@@ -98,7 +114,9 @@ const ListarCategorias = () => {
                 key={index}
                 categoriaId={categoria.id_categoria}
                 descripcion={categoria.descripcion}
-                onDisable={handleDisable} // Pasa la función al componente TablaCategorias
+                onDisable={handleDisable} 
+                onEnable={handleEnable}
+                active={categoria.isActive}
               />
             ))}
           </tbody>
