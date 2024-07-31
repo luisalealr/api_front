@@ -6,18 +6,19 @@ import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from "../../../config"; // Ajusta la ruta según tu estructura de archivos
 import 'react-toastify/dist/ReactToastify.css';
-import { getProducts } from "../../../services/ProductService";
+import { getProductosAsc, getProductosDesc } from "../../../services/ProductService";
 import { getAllProducts } from "../../../services/ProductService";
 import TablaProductos from "./TablaProductos";
 
 const ListarProductos = () => {
   const [productos, setProductos] = useState([]);
   const [productosNoActivos, setProductosNoActivos] = useState([]);
+  const [productosOrdenados, setProductosOrdenados] = useState([]);
   const [buscarDesc, setBuscarDec] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const message = location.state?.message;
-  let results = []
+  let results = [];
 
   const crearProducto = () => {
     navigate('/registrar_producto');
@@ -33,25 +34,27 @@ const ListarProductos = () => {
         setProductosNoActivos(data);
         const filteredData = data.filter(producto => producto.isActive == 1);
         setProductos(filteredData);
+        if (productosOrdenados.length === 0) {
+          setProductosOrdenados(filteredData); // Solo inicializa productosOrdenados si está vacío
+        }
       } else {
         console.error('Data no es un array');
       }
     }).catch(error => {
       console.error('Error al obtener los productos:', error);
     });
-  }, [message, results]);
+  }, [message, results, productosOrdenados]);
 
   const buscador = (e) => {
     setBuscarDec(e.target.value);
   }
 
-
   if (!buscarDesc) {
-    results = productos;
+    results = productosOrdenados.length > 0 ? productosOrdenados : productos;
   } else {
     results = productosNoActivos.filter((dato) =>
       dato.nombre.toLowerCase().includes(buscarDesc.toLocaleLowerCase())
-    )
+    );
   }
 
   const handleDisable = async (id_producto) => {
@@ -59,12 +62,12 @@ const ListarProductos = () => {
       await axios.put(`${API_URL}/products/isactive/${id_producto}`, {
         isActive: 0
       });
-      toast.success('Producto deshabilitada con éxito', { autoClose: 3000 });
+      toast.success('Producto deshabilitado con éxito', { autoClose: 3000 });
       setProductos(productos.filter(producto => producto.id_producto !== id_producto));
+      setProductosOrdenados(productosOrdenados.filter(producto => producto.id_producto !== id_producto));
     } catch (error) {
       console.error('Error al deshabilitar el producto:', error);
       toast.error('Error al deshabilitar el producto', { autoClose: 3000 });
-
     }
   };
 
@@ -75,11 +78,23 @@ const ListarProductos = () => {
       });
       toast.success('Producto habilitado con éxito', { autoClose: 3000 });
       setProductos(productos.filter(producto => producto.id_producto !== id_producto));
+      setProductosOrdenados(productosOrdenados.filter(producto => producto.id_producto !== id_producto));
     } catch (error) {
       console.error('Error al habilitar el producto:', error);
       toast.error('Error al habilitar el producto', { autoClose: 3000 });
     }
   };
+
+  const listarAscendente = async () => {
+    const productosAscendente = await getProductosAsc();
+    setProductosOrdenados(productosAscendente);
+  };
+
+  const listarDescendente = async () => {
+    const productosDescendente = await getProductosDesc();
+    setProductosOrdenados(productosDescendente);
+  };
+
   return (
     <TemplateAdmin>
       <ToastContainer />
@@ -98,6 +113,8 @@ const ListarProductos = () => {
               className="w-full text-sm h-8 border-none rounded-md"
             />
           </div>
+          <button onClick={listarAscendente}>Ascendente</button>
+          <button onClick={listarDescendente}>Descendente</button>
           <button onClick={crearProducto} className="mr-6 py-1 rounded-md px-6 shadow hover:bg-[#b0d144] bg-[#8DB600]">
             Registrar Producto
           </button>

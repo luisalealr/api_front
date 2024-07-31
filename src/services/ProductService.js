@@ -119,3 +119,23 @@ export async function getProductByName(nombre) {
         return null
     }
 }
+
+export async function getProductosAsc() {
+    try {
+        const response = await axios.get(`${API_URL}/products/asc`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener los productos por categorías:', error);
+        throw error;
+    }
+}
+
+export async function getProductosDesc() {
+    try {
+        const response = await axios.get(`${API_URL}/products/desc`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener los productos por categorías:', error);
+        throw error;
+    }
+}
