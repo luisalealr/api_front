@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import TablaVentas from "./admin/ventas/TablaVentas";
 import { HiFilter } from "react-icons/hi";
 import { IoSearch } from "react-icons/io5";
-import { getAllVentas } from "../services/VentasService";
+import { getAllVentas, getVentasDelDia } from "../services/VentasService";
 import { toast } from "react-toastify";
+import { DateTime } from "luxon";
 
 const Ventas = () => {
   const [facturas, setFacturas] = useState([]);
@@ -18,7 +19,7 @@ const Ventas = () => {
       .then(data => {
         if (data && Array.isArray(data)) {
           setFacturas(data);
-          filtrarPorDiaActual(data); // Filtrar las ventas del día actual
+          //filtrarPorDiaActual(data); // Filtrar las ventas del día actual
         } else {
           console.error('Data no es un array');
         }
@@ -36,33 +37,33 @@ const Ventas = () => {
     setBuscarDesc(e.target.value);
   };
 
-  const filtrarPorFecha = () => {
+  const filtrarPorFecha = async () => {
     setIsFilterVisible(!isFilterVisible);
+    const dateInBogota = DateTime.now().setZone('America/Bogota');
+    const fecha = dateInBogota.toFormat('yyyy-MM-dd');
+    const ventasActuales = await getVentasDelDia(fecha,fecha);
     if (!fechaInicio || !fechaFin) {
-      setResults(facturas);
+      toast.error('Debe llenar ambos campos para realizar la búsqueda');
+      setResults(ventasActuales);
       return;
     }
-    const fecha_1 = new Date(fechaInicio);
-    const fecha_2 = new Date(fechaFin);
-    const filteredResults = facturas.filter(venta => {
-      const fechaVenta = new Date(venta.fecha);
-      return fechaVenta >= fecha_1 && fechaVenta <= fecha_2;
-    });
-    setResults(filteredResults);
+    const ventasFiltradas = await getVentasDelDia(fechaInicio,fechaFin);
+    if(ventasFiltradas){
+      setResults(ventasFiltradas);
+    } else {
+      toast.info('No hay ventas en ese rango de tiempo');
+      setResults([]);
+    }
     setFechaFin('');
     setFechaInicio('');
   };
 
-  const filtrarPorDiaActual = (data) => {
-    const fechaActual = new Date();
-    const fechaActualLocal = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate());
-    const fechaFormato = fechaActualLocal.toISOString().slice(0, 10);
-    const filteredResults = data.filter(venta => {
-      const fechaVentaFormato = new Date(venta.fecha).toISOString().slice(0, 10);
-      return fechaVentaFormato === fechaFormato;
-    });
-    if (filteredResults.length > 0) {
-      setResults(filteredResults);
+  const filtrarPorDiaActual = async () => {
+    const dateInBogota = DateTime.now().setZone('America/Bogota');
+    const fecha = dateInBogota.toFormat('yyyy-MM-dd');
+    const ventasActuales = await getVentasDelDia(fecha,fecha);
+    if(ventasActuales){
+      setResults(ventasActuales);
     } else {
       toast.info('No se han registrado ventas hoy');
       setResults([]);
@@ -70,7 +71,7 @@ const Ventas = () => {
   };
 
   useEffect(() => {
-    obtenerFacturas();
+    filtrarPorDiaActual();
   }, []);
 
   let displayedResults = results;
@@ -125,7 +126,7 @@ const Ventas = () => {
               className="h-8 border-none rounded-md" 
             />
           </div>
-        </div>
+        </div> 
         <div className="bg-[#D0F25E] h-6 w-full"></div>
         <table className="text-sm">
           <thead className="bg-[#95A09D] text-left">

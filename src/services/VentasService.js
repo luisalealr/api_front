@@ -40,3 +40,19 @@ export async function getAllVentas(){
         return null
     }    
 }
+
+export async function getVentasDelDia(fechaInicio, fechaFin){
+    try {
+        const result = await axios.get(`${API_URL}/buys/${fechaInicio}/${fechaFin}` , {
+            headers: {
+                'Content-Type': 'aplication/json'
+            }
+        });
+        const data = await result.data;
+        console.log(data)
+        return data
+    } catch (error) {
+        console.error('Error:', error);
+        return null
+    }    
+}
