@@ -6,6 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { API_URL } from "../../../config"; // Ajusta la ruta según tu estructura de archivos
 import 'react-toastify/dist/ReactToastify.css';
+import { getProducts } from "../../../services/ProductService";
 import { getAllProducts } from "../../../services/ProductService";
 import TablaProductos from "./TablaProductos";
 
@@ -44,6 +45,7 @@ const ListarProductos = () => {
     setBuscarDec(e.target.value);
   }
 
+
   if (!buscarDesc) {
     results = productos;
   } else {
@@ -62,6 +64,7 @@ const ListarProductos = () => {
     } catch (error) {
       console.error('Error al deshabilitar el producto:', error);
       toast.error('Error al deshabilitar el producto', { autoClose: 3000 });
+
     }
   };
 
@@ -77,66 +80,65 @@ const ListarProductos = () => {
       toast.error('Error al habilitar el producto', { autoClose: 3000 });
     }
   };
-
   return (
     <TemplateAdmin>
       <ToastContainer />
       <div className="flex flex-col h-screen">
-      <div className="bg-[#D0F25E]">
-        <h2 className="py-2 px-6 font-semibold text-xl">Productos</h2>
-      </div>
-      <div className="w-full h-16 flex items-center justify-between">
-        <div className="w-[30%] shadow-sm border border-[#999999] rounded-md flex flex-row items-center ml-6">
-          <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1" />
-          <input
-            value={buscarDesc}
-            onChange={buscador}
-            type="text"
-            placeholder="Buscar producto"
-            className="w-full text-sm h-8 border-none rounded-md"
-          />
+        <div className="bg-[#D0F25E]">
+          <h2 className="py-2 px-6 font-semibold text-xl">Productos</h2>
         </div>
-        <button onClick={crearProducto} className="mr-6 py-1 rounded-md px-6 shadow hover:bg-[#b0d144] bg-[#8DB600]">
-          Registrar Producto
-        </button>
-      </div>
-      <div className="bg-[#D0F25E] h-6 w-full"></div>
-      <div className="flex-grow overflow-hidden relative">
-        <div className="w-full h-full overflow-x-auto absolute bottom-0">
-          <table className="text-sm min-w-full">
-            <thead className="bg-[#95A09D] text-left">
-              <tr>
-                <th className="pl-5">N° del producto</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Proveedor</th>
-                <th>Peso</th>
-                <th className="pl-5">Precio</th>
-                <th>Cantidad en Stock</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody className="">
-              {results.map((producto, index) => (
-                <TablaProductos
-                  key={index}
-                  productoId={producto.id_producto}
-                  nombre={producto.nombre}
-                  categoria={producto.categoria.descripcion}
-                  proveedor={producto.proveedor.nombre}
-                  peso={producto.peso}
-                  precio={producto.precio_unitario}
-                  cantidad={producto.cantidad}
-                  active={producto.isActive}
-                  onDisable={handleDisable}
-                  onEnable={handleEnable}
-                />
-              ))}
-            </tbody>
-          </table>
+        <div className="w-full h-16 flex items-center justify-between">
+          <div className="w-[30%] shadow-sm border border-[#999999] rounded-md flex flex-row items-center ml-6">
+            <IoSearch color="rgba(141, 182, 0, 0.79)" fontSize={25} className="m-1" />
+            <input
+              value={buscarDesc}
+              onChange={buscador}
+              type="text"
+              placeholder="Buscar producto"
+              className="w-full text-sm h-8 border-none rounded-md"
+            />
+          </div>
+          <button onClick={crearProducto} className="mr-6 py-1 rounded-md px-6 shadow hover:bg-[#b0d144] bg-[#8DB600]">
+            Registrar Producto
+          </button>
+        </div>
+        <div className="bg-[#D0F25E] h-6 w-full"></div>
+        <div className="flex-grow overflow-hidden relative">
+          <div className="w-full h-full overflow-x-auto absolute bottom-0">
+            <table className="text-sm min-w-full">
+              <thead className="bg-[#95A09D] text-left">
+                <tr>
+                  <th className="pl-5">N° del producto</th>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Proveedor</th>
+                  <th>Peso</th>
+                  <th className="pl-5">Precio</th>
+                  <th>Cantidad en Stock</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="">
+                {results.map((producto, index) => (
+                  <TablaProductos
+                    key={index}
+                    productoId={producto.id_producto}
+                    nombre={producto.nombre}
+                    categoria={producto.categoria.descripcion}
+                    proveedor={producto.proveedor.nombre}
+                    peso={producto.peso}
+                    precio={producto.precio_unitario}
+                    cantidad={producto.cantidad}
+                    active={producto.isActive}
+                    onDisable={handleDisable}
+                    onEnable={handleEnable}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
     </TemplateAdmin>
   );
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -6,10 +7,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { API_URL } from "../../../config";
 
 const RegistrarProducto = () => {
+    const navigate = useNavigate();
     const [nombre, setNombre] = useState('');
     const [precioUnitario, setPrecioUnitario] = useState('');
     const [cantidad, setCantidad] = useState('');
-    const [fechaVencimiento, setFechaVencimiento] = useState('');
+    const [peso, setPeso] = useState('');
     const [categoria, setCategoria] = useState('');
     const [proveedor, setProveedor] = useState('');
     const [categorias, setCategorias] = useState([]);
@@ -39,21 +41,27 @@ const RegistrarProducto = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const trimmedNombre = nombre.trim();
+        const parsedPeso = parseFloat(peso);
 
-        const productoExists = productos.some(producto => producto.nombre.toLowerCase() === trimmedNombre.toLowerCase());
-
-        if (productoExists) {
-            toast.error('El producto ya existe', { autoClose: 1500 });
-            return;
-        }
-
-        if (!nombre || !precioUnitario || !cantidad || !fechaVencimiento || !categoria || !proveedor) {
+        // Validar campos obligatorios
+        if (!nombre || !precioUnitario || !cantidad || !peso || !categoria || !proveedor) {
             toast.error('Todos los campos son obligatorios', { autoClose: 1500 });
             return;
         }
 
-        if (isNaN(precioUnitario) || isNaN(cantidad) || isNaN(categoria) || isNaN(proveedor)) {
-            toast.error('Precio unitario, cantidad, categoría y proveedor deben ser números', { autoClose: 1500 });
+        // Validar tipos de datos
+        if (isNaN(precioUnitario) || isNaN(cantidad) || isNaN(peso) || isNaN(proveedor)) {
+            toast.error('Precio unitario, cantidad, peso y proveedor deben ser números', { autoClose: 1500 });
+            return;
+        }
+
+        // Validar existencia de producto
+        const productoExistente = productos.find(producto =>
+            producto.nombre.toLowerCase() === trimmedNombre.toLowerCase() && producto.peso === parsedPeso
+        );
+
+        if (productoExistente) {
+            toast.error('El producto ya registrado con este peso', { autoClose: 1500 });
             return;
         }
 
@@ -61,7 +69,7 @@ const RegistrarProducto = () => {
             nombre: trimmedNombre,
             precio_unitario: parseFloat(precioUnitario),
             cantidad: parseInt(cantidad, 10),
-            fecha_vencimiento: fechaVencimiento,
+            peso: parsedPeso,
             categoria: parseInt(categoria, 10),
             proveedor: parseInt(proveedor, 10),
             isActive: 1,
@@ -74,12 +82,16 @@ const RegistrarProducto = () => {
             console.log('Respuesta del servidor:', response);
             toast.success('Producto guardado correctamente', { autoClose: 1500 });
 
+            // Limpiar los campos después de registrar
             setNombre('');
             setPrecioUnitario('');
             setCantidad('');
-            setFechaVencimiento('');
+            setPeso('');
             setCategoria('');
             setProveedor('');
+
+            // Redirigir a la página de listar productos
+            navigate('/listar_productos');
         } catch (error) {
             console.error('Error al guardar el producto:', error.response || error.message);
             toast.error('Error al guardar el producto: ' + (error.response?.data?.message || error.message), { autoClose: 1500 });
@@ -87,12 +99,7 @@ const RegistrarProducto = () => {
     };
 
     const handleCancel = () => {
-        setNombre('');
-        setPrecioUnitario('');
-        setCantidad('');
-        setFechaVencimiento('');
-        setCategoria('');
-        setProveedor('');
+        navigate('/listar_productos');
     };
 
     return (
@@ -145,15 +152,15 @@ const RegistrarProducto = () => {
                             />
                         </div>
                         <div className="mb-4 flex flex-col w-1/2 px-2">
-                            <label htmlFor="fechaVencimiento" className="font-bold">
-                                Fecha de vencimiento:
+                            <label htmlFor="peso" className="font-bold">
+                                Peso:
                             </label>
                             <input
-                                id="fechaVencimiento"
-                                type="date"
-                                value={fechaVencimiento}
-                                onChange={(e) => setFechaVencimiento(e.target.value)}
-                                placeholder="Seleccione la fecha de vencimiento"
+                                id="peso"
+                                type="text"
+                                value={peso}
+                                onChange={(e) => setPeso(e.target.value)}
+                                placeholder="Escribe el peso"
                                 className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
                         </div>
