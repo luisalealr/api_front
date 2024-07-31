@@ -103,7 +103,7 @@ const ListarProductos = () => {
       <div className="bg-[#D0F25E] h-6 w-full"></div>
       <div className="flex-grow overflow-hidden relative">
         <div className="w-full h-full overflow-x-auto absolute bottom-0">
-          <table className="">
+          <table className="text-sm min-w-full">
             <thead className="bg-[#95A09D] text-left">
               <tr>
                 <th className="pl-5">N° del producto</th>
@@ -111,12 +111,12 @@ const ListarProductos = () => {
                 <th>Categoría</th>
                 <th>Proveedor</th>
                 <th>Peso</th>
-                <th>Precio</th>
+                <th className="pl-5">Precio</th>
                 <th>Cantidad en Stock</th>
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {results.map((producto, index) => (
                 <TablaProductos
                   key={index}

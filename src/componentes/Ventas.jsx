@@ -127,7 +127,7 @@ const Ventas = () => {
           </div>
         </div>
         <div className="bg-[#D0F25E] h-6 w-full"></div>
-        <table>
+        <table className="text-sm">
           <thead className="bg-[#95A09D] text-left">
             <tr >
               <th></th>

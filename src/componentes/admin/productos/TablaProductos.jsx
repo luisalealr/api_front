@@ -23,8 +23,8 @@ const TablaProductos = ({ productoId, nombre, categoria, proveedor, peso, precio
                 <td>{categoria}</td>
                 <td>{proveedor}</td>
                 <td>{peso}</td>
-                <td>{precio}</td>
-                <td>{cantidad}</td>
+                <td className="pl-5">{precio}</td>
+                <td >{cantidad}</td>
                 {estaActivo && (
                     <td className="flex flex-row">
                         <div className='flex flex-row items-center cursor-pointer hover:bg-[#f1d167] w-fit m-[1px] px-[3px] rounded-sm mr-4'

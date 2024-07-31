@@ -100,8 +100,8 @@ const ListarCategorias = () => {
           <button onClick={crearCategoria} className="mr-6 py-1 rounded-md px-6 shadow hover:bg-[#b0d144] bg-[#8DB600]">Registrar Categoría</button>
         </div>
         <div className="bg-[#D0F25E] h-6 w-full"></div>
-        <table>
-          <thead className="bg-[#95A09D] text-left ">
+        <table className=" text-sm">
+          <thead className="bg-[#95A09D] text-left">
             <tr>
               <th className="pl-5">N° de la categoría</th>
               <th>Descripcion</th>
