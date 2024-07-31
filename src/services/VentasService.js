@@ -9,7 +9,6 @@ export async function crearVenta(data) {
             }
         });
         const dataVenta = response.data;
-        console.log('Datos de la venta guardada:', dataVenta);
         return dataVenta;
     } catch (error) {
         if (error.response) {
@@ -33,7 +32,6 @@ export async function getAllVentas(){
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);
@@ -49,7 +47,6 @@ export async function getVentasDelDia(fechaInicio, fechaFin){
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);

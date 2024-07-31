@@ -38,7 +38,6 @@ const EditarCategoria = () => {
 
         try {
             await axios.put(`https://backendfarmacia-production.up.railway.app/api/categories/description/${id}`, { descripcion: categoryName });
-            console.log('Categoría actualizada');
             navigate('/ver_categorias', { state: { message: 'Categoría actualizada correctamente' } }); // Redirigir y mostrar mensaje
         } catch (error) {
             console.error('Error al actualizar la categoría:', error);

@@ -58,7 +58,6 @@ export default function Inicio() {
         } else {
             setVentas(0);
         }
-        console.log('Cantidad de Ventas:', canti);
     };
 
     const productoPorCategoria = async () => {

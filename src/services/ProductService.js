@@ -4,7 +4,6 @@ import axios from "axios";
 export async function getProducts() {
     try {
         const result = await axios.get(`${API_URL}/products/`);
-        //console.log(result.data)
         return result.data;
     } catch (error) {
         console.error('Error:', error);
@@ -15,7 +14,6 @@ export async function getProducts() {
 export async function getAllProducts() {
     try {
         const result = await axios.get(`${API_URL}/productsall/`);
-        //console.log(result.data)
         return result.data;
     } catch (error) {
         console.error('Error:', error);
@@ -32,7 +30,6 @@ export async function getProduct(id) {
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);
@@ -60,7 +57,6 @@ export async function getProductName(id) {
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);
@@ -75,7 +71,6 @@ export async function crearProduct() {
             body: data,
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);
@@ -112,7 +107,6 @@ export async function getProductByName(nombre) {
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);

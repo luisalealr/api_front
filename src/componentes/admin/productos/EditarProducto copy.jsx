@@ -43,7 +43,6 @@ const EditarProducto = () => {
                 isActive: 1,
             };
             await axios.post(`https://backendfarmacia-production.up.railway.app/api/products/product/${id}`, producto);
-            console.log('Producto actualizado');
         } catch (error) {
             console.error('Error al actualizar el producto:', error);
         }

@@ -12,7 +12,6 @@ const InicioSesion = () => {
 
     const cambiarRol = (e) => {
         setUsuario(e.target.value);
-        console.log(e.target.value);
     };
 
     const handleSubmit = async (event) => {

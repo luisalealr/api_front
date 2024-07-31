@@ -10,7 +10,6 @@ export async function getAllCategorias() {
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);

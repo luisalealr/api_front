@@ -9,7 +9,6 @@ export async function getAllProveedores() {
             }
         });
         const data = await result.data;
-        console.log(data)
         return data
     } catch (error) {
         console.error('Error:', error);
