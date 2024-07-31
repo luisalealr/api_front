@@ -6,11 +6,12 @@ import { HiMiniArrowPathRoundedSquare } from "react-icons/hi2";
 import { LiaUserTieSolid } from "react-icons/lia";
 import { IoIosArrowForward } from "react-icons/io";
 import { useEffect, useState } from "react";
-import { logout } from "../../../services/UsuarioService";
+import { logoutApi } from "../../../services/UsuarioService";
 import { toast } from "react-toastify";
 import Alerta from "../../Alerta";
 import { getProducts } from "../../../services/ProductService";
 import TablaAlerta from "../../TablaAlerta";
+import { useAuth } from "../../AuthProvider";
 
 export default function SideBar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,10 +19,12 @@ export default function SideBar() {
     const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
     const [productosOpen, setProductosOpen] = useState(false);
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        logout();
+        logoutApi();
         toast.success('Sesión cerrada exitosamente');
+        logout(); // Usa el contexto de autenticación
         window.history.replaceState(null, '', '/nueva_esperanza/');
         navigate('/login');
     };

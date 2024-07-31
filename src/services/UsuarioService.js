@@ -22,6 +22,6 @@ export async function login(nombre, password) {
     }
 }
 
-export function logout() {
+export function logoutApi() {
     localStorage.removeItem('authToken');
 }

@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { login } from "../services/UsuarioService";
+import { login as loginService } from "../services/UsuarioService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 
 const InicioSesion = () => {
     const [usuario, setUsuario] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const cambiarRol = (e) => {
         setUsuario(e.target.value);
@@ -20,17 +22,16 @@ const InicioSesion = () => {
             return;
         }
         try {
-            const response = await login(usuario, password);
+            const response = await loginService(usuario, password);
             if (response && response.token) {
-                localStorage.setItem('authToken', response.token);
-                localStorage.setItem('userRole', usuario); // Guarda el rol del usuario
+                login(response.token, usuario); // Usa el contexto de autenticación
                 toast.success('Inicio de sesión exitoso');
                 // Redirige según el rol
-                if (usuario == 'Administrador') {
+                if (usuario === 'Administrador') {
                     navigate('/inicio');
-                } else if (usuario == 'Vendedor') {
+                } else if (usuario === 'Vendedor') {
                     navigate('/inicio_vendedor');
-                }            
+                }
             } else {
                 throw new Error('Invalid credentials');
             }
