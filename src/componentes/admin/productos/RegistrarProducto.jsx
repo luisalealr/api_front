@@ -41,21 +41,27 @@ const RegistrarProducto = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const trimmedNombre = nombre.trim();
+        const parsedPeso = parseFloat(peso);
 
-        const productoExistente = productos.find(producto => producto.nombre.toLowerCase() === trimmedNombre.toLowerCase() && producto.peso === parseFloat(peso));
-
-        if (productoExistente) {
-            toast.error('El producto ya registrado con este peso', { autoClose: 1500 });
-            return;
-        }
-
+        // Validar campos obligatorios
         if (!nombre || !precioUnitario || !cantidad || !peso || !categoria || !proveedor) {
             toast.error('Todos los campos son obligatorios', { autoClose: 1500 });
             return;
         }
 
+        // Validar tipos de datos
         if (isNaN(precioUnitario) || isNaN(cantidad) || isNaN(peso) || isNaN(proveedor)) {
             toast.error('Precio unitario, cantidad, peso y proveedor deben ser números', { autoClose: 1500 });
+            return;
+        }
+
+        // Validar existencia de producto
+        const productoExistente = productos.find(producto =>
+            producto.nombre.toLowerCase() === trimmedNombre.toLowerCase() && producto.peso === parsedPeso
+        );
+
+        if (productoExistente) {
+            toast.error('El producto ya registrado con este peso', { autoClose: 1500 });
             return;
         }
 
@@ -63,7 +69,7 @@ const RegistrarProducto = () => {
             nombre: trimmedNombre,
             precio_unitario: parseFloat(precioUnitario),
             cantidad: parseInt(cantidad, 10),
-            peso: parseInt(peso),
+            peso: parsedPeso,
             categoria: parseInt(categoria, 10),
             proveedor: parseInt(proveedor, 10),
             isActive: 1,
@@ -95,7 +101,6 @@ const RegistrarProducto = () => {
     const handleCancel = () => {
         navigate('/listar_productos');
     };
-
 
     return (
         <TemplateAdmin>
@@ -151,7 +156,7 @@ const RegistrarProducto = () => {
                                 Peso:
                             </label>
                             <input
-                                id="Peso"
+                                id="peso"
                                 type="text"
                                 value={peso}
                                 onChange={(e) => setPeso(e.target.value)}
