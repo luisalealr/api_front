@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ListarProveedores = () => {
     const [proveedores, setProveedores] = useState([]);
+    const [proveedoresNoActivos, setProveedoresNoActivos] = useState([]);
     const [buscarDesc, setBuscarDesc] = useState('');
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,6 +29,7 @@ const ListarProveedores = () => {
 
         getAllProveedores().then(data => {
             if (data && Array.isArray(data)) {
+                setProveedoresNoActivos(data);
                 const filteredData = data.filter(proveedor => proveedor.isActive === 1);
                 setProveedores(filteredData);
             } else {
@@ -46,7 +48,7 @@ const ListarProveedores = () => {
     if (!buscarDesc) {
         results = proveedores;
     } else {
-        results = proveedores.filter((dato) =>
+        results = proveedoresNoActivos.filter((dato) =>
             dato.nombre.toLowerCase().includes(buscarDesc.toLowerCase())
         );
     }
@@ -61,6 +63,19 @@ const ListarProveedores = () => {
         } catch (error) {
             console.error('Error al deshabilitar el proveedor:', error);
             toast.error('Error al deshabilitar el proveedor', { autoClose: 1500 });
+        }
+    };
+
+    const handleEnable = async (id_proveedor) => {
+        try {
+            await axios.put(`${API_URL}/provider/isActive/${id_proveedor}`, {
+                isActive: 1
+            });
+            toast.success('Proveedor habilitado con éxito', { autoClose: 1500 });
+            setProveedores(proveedores.filter(proveedor => proveedor.id_proveedor !== id_proveedor));
+        } catch (error) {
+            console.error('Error al habilitar al proveedor:', error);
+            toast.error('Error al habilitar al proveedor', { autoClose: 1500 });
         }
     };
 
@@ -100,6 +115,8 @@ const ListarProveedores = () => {
                                 proveedorId={proveedor.id_proveedor}
                                 nombre={proveedor.nombre}
                                 telefono={proveedor.telefono}
+                                activo={proveedor.isActive}
+                                onEnable={handleEnable}
                                 onDisable={handleDisable}
                             />
                         ))}

@@ -22,8 +22,8 @@ export default function SideBar() {
     const handleLogout = () => {
         logout();
         toast.success('Sesión cerrada exitosamente');
-        window.history.replaceState(null, '', '/login');
-        navigate('/login'); 
+        window.history.replaceState(null, '', '/nueva_esperanza/');
+        navigate('/login');
     };
 
     const mostrarProductosFaltantes = () => {

@@ -19,7 +19,7 @@ export default function SideBarVendedor(){
     const handleLogout = () => {
         logout();
         toast.success('Sesión cerrada exitosamente');
-        window.history.replaceState(null, '', '/login');
+        window.history.replaceState(null, '', '/nueva_esperanza/');
         navigate('/login');
     };
 

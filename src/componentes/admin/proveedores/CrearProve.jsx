@@ -24,7 +24,6 @@ const CrearProveedor = () => {
               setProveedores(result); // Asigna directamente los datos devueltos
             }
           };
-      
           fetchProveedores();
     }, []);
 
