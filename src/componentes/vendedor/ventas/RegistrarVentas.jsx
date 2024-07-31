@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { getProduct, getProductName, getProductSuggest } from "../../../services/ProductService";
 import 'react-toastify/dist/ReactToastify.css';
 import { crearVenta } from "../../../services/VentasService";
+import { DateTime } from 'luxon';
 
 const RegistrarVentas = () => {
   const [products, setProducts] = useState([]);
@@ -152,7 +153,8 @@ const RegistrarVentas = () => {
   const registrarCompra = (event) => {
     event.preventDefault();
     if (validarFormulario()) {
-      const fecha = new Date().toISOString().split('T')[0];
+      const dateInBogota = DateTime.now().setZone('America/Bogota');
+      const fecha = dateInBogota.toFormat('yyyy-MM-dd');
       const data = {
         nombre_cliente: nombreCliente,
         fecha: fecha,

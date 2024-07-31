@@ -68,7 +68,7 @@ const ListarProductos = () => {
       <ToastContainer />
       <div className="flex flex-col">
         <div className="bg-[#D0F25E]">
-          <h2 className="py-2 px-6 font-semibold text-xl">Categorías</h2>
+          <h2 className="py-2 px-6 font-semibold text-xl">Productos</h2>
         </div>
         <div className="w-full h-16 flex items-center justify-between">
           <div className="w-[30%] shadow-sm border border-[#999999] rounded-md flex flex-row items-center ml-6">
