@@ -39,7 +39,7 @@ function App() {
             <Route path="/ver_ventas" element={<VerVentas />} />
             <Route path="/crear_proveedor" element={<CrearProve />} />
             <Route path="/editar_proveedor/:id" element={<EditarProve />} />
-            <Route path="/editar_producto" element={<EditarProducto />} />
+            <Route path="/editar_producto/:id" element={<EditarProducto />} />
             <Route path="/registrar_producto" element={<RegistrarProducto />} />
             <Route path="/ver_categorias" element={<ListarCategorias />} />
             <Route path="/editar_categoria/:id" element={<EditarCategoria />} />

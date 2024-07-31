@@ -7,14 +7,17 @@ const TablaProductos = ({ productoId, nombre, categoria, proveedor, peso, precio
     const navigate = useNavigate();
 
     let estaActivo = false;
-    if(active == 1){
+    if (active == 1) {
         estaActivo = true;
     }
 
     const handleEdit = () => {
-        navigate(`/editar_categoria/${productoId}`);
-    }; 
- 
+        if (active == 1) {
+            navigate(`/editar_producto/${productoId}`);
+            estaActivo = true;
+        }
+    };
+
     return (
         <>
             <tr className='text-left h-8 align-middle'>

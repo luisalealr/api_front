@@ -1,20 +1,16 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import TemplateAdmin from "../templates/TemplateAdmin";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
 
 const EditarProducto = () => {
     const { id } = useParams(); // Obtener el ID del producto de la URL
-    const navigate = useNavigate();
     const [nombre, setNombre] = useState('');
     const [precioUnitario, setPrecioUnitario] = useState('');
     const [cantidad, setCantidad] = useState('');
     const [peso, setPeso] = useState('');
     const [categoria, setCategoria] = useState('');
-    const [nombreCategoria, setNombreCategoria] = useState('');
     const [proveedor, setProveedor] = useState('');
-    const [nombreProveedor, setNombreProveedor] = useState('');
 
     useEffect(() => {
         const fetchProducto = async () => {
@@ -22,16 +18,13 @@ const EditarProducto = () => {
                 const response = await axios.get(`https://backendfarmacia-production.up.railway.app/api/products/product/${id}`);
                 const producto = response.data;
                 setNombre(producto.nombre);
-                setPrecioUnitario(producto.precio_unitario);
+                setPrecioUnitario(producto.precio);
                 setCantidad(producto.cantidad);
                 setPeso(producto.peso);
                 setCategoria(producto.categoria.id_categoria);
-                setNombreCategoria(producto.categoria.descripcion);
                 setProveedor(producto.proveedor.id_proveedor);
-                setNombreProveedor(producto.proveedor.nombre);
             } catch (error) {
                 console.error('Error al cargar el producto:', error);
-                toast.error(`Error al obtener el producto: ${error.message}`, { autoClose: 1500 });
             }
         };
         fetchProducto();
@@ -40,36 +33,33 @@ const EditarProducto = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Actualizar el precio unitario y la cantidad
-            const response = await axios.put(`https://backendfarmacia-production.up.railway.app/api/products/price/${id}`, {
+            const producto = {
+                nombre,
                 precio_unitario: precioUnitario,
-                cantidad: cantidad
-            });
-
-            if (response.status === 200) {
-                toast.success('Producto actualizado correctamente');
-                navigate('/listar_productos'); // Cambia esto a la ruta correcta
-            } else {
-                throw new Error('Error en la actualización');
-            }
+                cantidad,
+                peso,
+                categoria,
+                proveedor,
+                isActive: 1,
+            };
+            await axios.post(`https://backendfarmacia-production.up.railway.app/api/products/product/${id}`, producto);
+            console.log('Producto actualizado');
         } catch (error) {
             console.error('Error al actualizar el producto:', error);
-            if (error.response && error.response.status === 401) {
-                navigate('/listar_productos'); // Redirige al login si hay un error de autenticación
-            } else {
-                toast.error('Error al actualizar el producto');
-            }
         }
     };
 
-
     const handleCancel = () => {
-        navigate('/listar_productos');
+        setNombre('');
+        setPrecioUnitario('');
+        setCantidad('');
+        setPeso('');
+        setCategoria('');
+        setProveedor('');
     };
 
     return (
         <TemplateAdmin>
-            <ToastContainer />
             <div className="bg-[#D0F25E]">
                 <h1 className="ml-5 py-3 font-bold text-black text-xl w-full">
                     Editar producto
@@ -86,8 +76,9 @@ const EditarProducto = () => {
                                 id="nombre"
                                 type="text"
                                 value={nombre}
-                                readOnly
-                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)] bg-gray-200 cursor-not-allowed"
+                                onChange={(e) => setNombre(e.target.value)}
+                                placeholder="Escriba el nombre del nuevo producto"
+                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
                         </div>
                         <div className="mb-4 flex flex-col w-1/2 px-2">
@@ -105,7 +96,7 @@ const EditarProducto = () => {
                         </div>
                         <div className="mb-4 flex flex-col w-1/2 px-2">
                             <label htmlFor="cantidad" className="font-bold">
-                                Cantidad a añadir:
+                                Cantidad:
                             </label>
                             <input
                                 id="cantidad"
@@ -124,8 +115,9 @@ const EditarProducto = () => {
                                 id="peso"
                                 type="text"
                                 value={peso}
-                                readOnly
-                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)] bg-gray-200 cursor-not-allowed"
+                                onChange={(e) => setPeso(e.target.value)}
+                                placeholder="Escriba el peso del producto"
+                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
                         </div>
                         <div className="mb-4 flex flex-col w-1/2 px-2">
@@ -135,9 +127,10 @@ const EditarProducto = () => {
                             <input
                                 id="categoria"
                                 type="text"
-                                value={nombreCategoria}
-                                readOnly
-                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)] bg-gray-200 cursor-not-allowed"
+                                value={categoria}
+                                onChange={(e) => setCategoria(e.target.value)}
+                                placeholder="Escriba el ID de la categoría"
+                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
                         </div>
                         <div className="mb-4 flex flex-col w-1/2 px-2">
@@ -147,9 +140,10 @@ const EditarProducto = () => {
                             <input
                                 id="proveedor"
                                 type="text"
-                                value={nombreProveedor}
-                                readOnly
-                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)] bg-gray-200 cursor-not-allowed"
+                                value={proveedor}
+                                onChange={(e) => setProveedor(e.target.value)}
+                                placeholder="Escriba el ID del proveedor"
+                                className="border border-gray-300 p-2 rounded-md w-[calc(100%-80px)]"
                             />
                         </div>
                     </div>
