@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import TemplateAdmin from "./templates/TemplateAdmin";
 import { getCountProducts, getProductosPorCategoria } from "../../services/ProductService";
-import { getAllVentas } from "../../services/VentasService";
+import { getAllVentas, getVentasDelDia } from "../../services/VentasService";
 import ProductoPorCategoria from "./productos/ProductoPorCategoria";
+import { DateTime } from "luxon";
 
 export default function Inicio() {
     const [productos, setProductos] = useState('');
@@ -16,6 +17,8 @@ export default function Inicio() {
 
     useEffect(() => {
         cantidadVentasDelDia();
+        productoPorCategoria();
+        cantidadProductos();
     }, [facturas]);
 
     const obtenerDatosIniciales = async () => {
@@ -26,8 +29,6 @@ export default function Inicio() {
             } else {
                 console.error('Data no es un array');
             }
-            await cantidadProductos();
-            await productoPorCategoria();
         } catch (error) {
             console.error('Error al obtener los datos iniciales:', error);
         }
@@ -46,19 +47,13 @@ export default function Inicio() {
         }
     };
 
-    const cantidadVentasDelDia = () => {
+    const cantidadVentasDelDia = async () => {
         let canti = 0;
-        if (facturas && facturas.length > 0) {
-            const fechaActual = new Date();
-            const fechaActualLocal = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), fechaActual.getDate()); 
-            const fechaFormato = fechaActualLocal.toISOString().slice(0, 10); 
-            console.log(fechaFormato)   
-            const filteredResults = facturas.filter(venta => {
-                const fechaVentaFormato = new Date(venta.fecha).toISOString().slice(0, 10);
-                console.log(fechaVentaFormato)
-                return fechaFormato === fechaVentaFormato;
-            });
-            canti = filteredResults.length;
+        const dateInBogota = DateTime.now().setZone('America/Bogota');
+        const fecha = dateInBogota.toFormat('yyyy-MM-dd');
+        const ventasActuales = await getVentasDelDia(fecha,fecha);
+        if(ventasActuales){
+            canti = ventasActuales.length;
             setVentas(canti);
         } else {
             setVentas(0);

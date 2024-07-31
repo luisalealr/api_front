@@ -27,7 +27,7 @@ const Ventas = () => {
       .catch(error => {
         console.error('Error al obtener las ventas:', error);
       });
-  };
+  }; 
 
   const filtrar = () => {
     setIsFilterVisible(!isFilterVisible);
