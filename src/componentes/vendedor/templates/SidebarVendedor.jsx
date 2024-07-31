@@ -3,10 +3,11 @@ import {FaRegEdit} from "react-icons/fa";
 import {TbReceiptDollar} from "react-icons/tb";
 import {HiMiniArrowPathRoundedSquare} from "react-icons/hi2";
 import {LiaUserAltSolid} from "react-icons/lia";
-import { logout } from "../../../services/UsuarioService";
+import { logoutApi } from "../../../services/UsuarioService";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../../services/ProductService";
+import { useAuth } from "../../AuthProvider";
 import Alerta from "../../Alerta";
 import TablaAlerta from "../../TablaAlerta";
  
@@ -15,10 +16,12 @@ export default function SideBarVendedor(){
     const navigate = useNavigate();
     const [productos, setProductos] = useState([]);
     const [productosOpen, setProductosOpen] = useState(false);
+    const { logout } = useAuth();
 
     const handleLogout = () => {
-        logout();
+        logoutApi();
         toast.success('Sesión cerrada exitosamente');
+        logout(); // Usa el contexto de autenticación
         window.history.replaceState(null, '', '/nueva_esperanza/');
         navigate('/login');
     };
